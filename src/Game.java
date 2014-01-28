@@ -36,7 +36,7 @@ public class Game extends BasicGame
      {
     	 
          // parser
-  		File file = new File("/Users/yifanz/Desktop/CS 113/CS 113/Input.txt");
+  		File file = new File("resources/Input.txt");
   		FileReader fr = new FileReader(file);
   		Scanner scanner = new Scanner(fr);
   		
