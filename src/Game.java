@@ -25,7 +25,7 @@ public class Game extends BasicGame
      {
          super("Taste The Rainbow");
      }
- 
+ //comment
      public static void main(String [] arguments)
      {
          try
