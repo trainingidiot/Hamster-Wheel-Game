@@ -1,5 +1,11 @@
 
  
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import org.newdawn.slick.Animation; 
 import org.newdawn.slick.AppGameContainer; 
 import org.newdawn.slick.BasicGame; 
@@ -26,8 +32,50 @@ public class Game extends BasicGame
          super("Taste The Rainbow");
      }
  //comment
-     public static void main(String [] arguments)
+     public static void main(String [] arguments) throws FileNotFoundException
      {
+    	 
+         // parser
+  		File file = new File("/Users/yifanz/Desktop/CS 113/CS 113/Input.txt");
+  		FileReader fr = new FileReader(file);
+  		Scanner scanner = new Scanner(fr);
+  		
+  		ListStorage storage = new ListStorage();
+  		String left = scanner.next();
+  		
+  		while(!left.equals("Right"))
+  		{
+  			storage.addToLeftList(left);
+  			left = scanner.next();
+  		}
+  		
+  		while(scanner.hasNext())
+  		{
+  			storage.addToRightList(scanner.next());
+  		}
+  		
+  		scanner.close();
+  		
+  		//parser test
+  		System.out.println("Beginning of parser test");
+  		ArrayList<String> leftListTest = storage.getCurrentLeftList();
+ 		ArrayList<String> rightListTest = storage.getCurrentRightList();
+ 		System.out.print("Left list: ");
+ 		for(int i = 0; i < leftListTest.size(); i++)
+ 		{
+ 			System.out.print(leftListTest.get(i)+" ");
+ 		}
+ 		System.out.println();
+ 		System.out.print("Right list: ");
+ 		for(int i = 0; i < rightListTest.size(); i++)
+ 		{
+ 			System.out.print(rightListTest.get(i)+" ");
+ 		}
+ 		System.out.println();
+ 		System.out.println("End of parser test");
+ 		System.out.println();
+ 		System.out.println();
+ 		
          try
          {
              AppGameContainer app = new AppGameContainer(new Game());
