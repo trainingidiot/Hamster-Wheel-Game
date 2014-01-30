@@ -26,17 +26,19 @@ public class Game extends StateBasedGame
 
 	public static final int menu = 0;
 	public static final int gameLevel = 1;
-	
+	public static final int levelSelector = 2;
      public Game()
      {
          super("Taste The Rainbow");
          this.addState(new Menu(menu));
          this.addState(new GameLevel(gameLevel));
+         this.addState(new LevelSelector(levelSelector));
      }
 
  	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(menu).init(gc, this);
 		this.getState(gameLevel).init(gc, this);
+		this.getState(levelSelector).init(gc, this);
 		this.enterState(menu); //first screen is menu
 	}
  	

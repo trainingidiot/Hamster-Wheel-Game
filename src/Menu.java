@@ -5,18 +5,22 @@ import org.lwjgl.input.Mouse;
 public class Menu extends BasicGameState{
 	
 	private String mouse ="";
+	private int state;
+	
 	public Menu(int state) {
-		
+		this.state = state;
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		
+		gc.setShowFPS(false);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		g.drawString(mouse, 50, 50);
 		Image startBttn = new Image("images/start-button.png");
+		Image lvlsBttn = new Image("images/level-button.png");
 		g.drawImage(startBttn, 100, 650);
+		g.drawImage(lvlsBttn, 220, 665);
 	}
 
 	@Override
@@ -33,12 +37,20 @@ public class Menu extends BasicGameState{
 			}
 		}
 		
+		
+		if((xpos>220 && xpos<291) && (ypos>62   && ypos<133 ))
+		{
+			if(input.isMouseButtonDown(0)){
+				sbg.enterState(2); //enters level selector screen
+			}
+		}
+		
 	}
 
 	@Override
 	public int getID() {
 		
-		return 0;
+		return state;
 	}
 
 }
