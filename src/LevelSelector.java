@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -29,7 +30,7 @@ public class LevelSelector extends BasicGameState {
 		Image backBttn = new Image("images/back-button.png");
 		g.drawImage(backBttn, 20, 30);
 		
-		
+		g.setBackground(Color.lightGray);
 	}
 
 	@Override

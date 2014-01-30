@@ -21,6 +21,7 @@ public class Menu extends BasicGameState{
 		Image lvlsBttn = new Image("images/level-button.png");
 		g.drawImage(startBttn, 100, 650);
 		g.drawImage(lvlsBttn, 220, 665);
+		g.setBackground(Color.lightGray);
 	}
 
 	@Override

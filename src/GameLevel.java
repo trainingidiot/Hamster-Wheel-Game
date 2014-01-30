@@ -57,7 +57,10 @@ public class GameLevel extends BasicGameState {
          {
         	 wheel.setRotation(wheel.getRotation()-1);
          }
-		
+         if(input.isKeyDown(Input.KEY_ESCAPE)==true)
+         {
+        	 sbg.enterState(0); //return to menu for now
+         }
 	}
 
 	public int getID() {
