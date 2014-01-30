@@ -30,7 +30,7 @@ public class GameLevel extends BasicGameState {
         //int [] duration = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};  
         //int [] durationStill = {200, 200, 200, 200};
         board = new Image("images/background/TasteTheRainbow_Board.png");
-        wheel = new Image("images/background/TasteTheRainbow_Wheel.png");
+        wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
       
         //left = new Animation(movementLeft, duration, true);
         //right = new Animation(movementRight, duration, true);
