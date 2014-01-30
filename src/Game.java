@@ -15,24 +15,32 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image; 
 import org.newdawn.slick.Input; 
 import org.newdawn.slick.SlickException; 
+import org.newdawn.slick.state.StateBasedGame;
  
 /**  
 *  
 * @author panos  
 */
-public class Game extends BasicGame
+public class Game extends StateBasedGame
 {
-  
-	Animation sprite, left, right, leftStill, rightStill;
-	Image board, wheel;
 
+	public static final int menu = 0;
+	public static final int gameLevel = 1;
 	
      public Game()
      {
          super("Taste The Rainbow");
+         this.addState(new Menu(menu));
+         this.addState(new GameLevel(gameLevel));
      }
- //comment
-     public static void main(String [] arguments) throws FileNotFoundException
+
+ 	public void initStatesList(GameContainer gc) throws SlickException {
+		this.getState(menu).init(gc, this);
+		this.getState(gameLevel).init(gc, this);
+		this.enterState(menu); //first screen is menu
+	}
+ 	
+     public static void main(String[] args) throws FileNotFoundException
      {
     	 
          // parser
@@ -87,55 +95,6 @@ public class Game extends BasicGame
              e.printStackTrace();
          }
      }
- 
-     @Override
-     public void init(GameContainer container) throws SlickException
-     {
-         //Image [] movementLeft =  {new Image("images/Biped/drag_wr_0.png"), new Image("images/Biped/drag_wr_1.png"), new Image("images/Biped/drag_wr_2.png"), new Image("images/Biped/drag_wr_3.png"),new Image("images/Biped/drag_wr_4.png"), new Image("images/Biped/drag_wr_5.png"), new Image("images/Biped/drag_wr_6.png"), new Image("images/Biped/drag_wr_7.png"),new Image("images/Biped/drag_wr_8.png"), new Image("images/Biped/drag_wr_9.png"), new Image("images/Biped/drag_wr_10.png"), new Image("images/Biped/drag_wr_11.png")} ;
-         //Image [] movementRight =  {new Image("images/Biped/drag_wl_0.png"), new Image("images/Biped/drag_wl_1.png"), new Image("images/Biped/drag_wl_2.png"), new Image("images/Biped/drag_wl_3.png"),new Image("images/Biped/drag_wl_4.png"), new Image("images/Biped/drag_wl_5.png"), new Image("images/Biped/drag_wl_6.png"), new Image("images/Biped/drag_wl_7.png"),new Image("images/Biped/drag_wl_8.png"), new Image("images/Biped/drag_wl_9.png"), new Image("images/Biped/drag_wl_10.png"), new Image("images/Biped/drag_wl_11.png")} ;
-         //Image [] movementLeftStill =  {new Image("images/Biped/drag_bl_0.png"), new Image("images/Biped/drag_bl_1.png"), new Image("images/Biped/drag_bl_2.png"), new Image("images/Biped/drag_bl_3.png")} ;
-         //Image [] movementRightStill =  {new Image("images/Biped/drag_br_0.png"), new Image("images/Biped/drag_br_1.png"), new Image("images/Biped/drag_br_2.png"), new Image("images/Biped/drag_br_3.png")} ;
-         //int [] duration = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};  
-         //int [] durationStill = {200, 200, 200, 200};
-         board = new Image("images/background/TasteTheRainbow_Board.png");
-         wheel = new Image("images/background/TasteTheRainbow_Wheel.png");
-       
-         //left = new Animation(movementLeft, duration, true);
-         //right = new Animation(movementRight, duration, true);
-         //leftStill = new Animation(movementLeftStill, durationStill, true);
-         //rightStill = new Animation(movementRightStill, durationStill, true);
-         
- 
-         
-         
-         
-         
-     }
- 
-     @Override
-     public void update(GameContainer container, int delta) throws SlickException
-     {
-         Input input = container.getInput();
-
-         if (input.isKeyDown(Input.KEY_LEFT)==false)
-         {
-        	 wheel.setRotation(wheel.getRotation()+1);
-         }
-         if (input.isKeyDown(Input.KEY_RIGHT)==false)
-         {
-        	 wheel.setRotation(wheel.getRotation()-1);
-         }
-         
-     }
- 
-     public void render(GameContainer container, Graphics g) throws SlickException
-     {
-    	 g.setBackground(Color.white);
-         board.draw(-1, -1);
-         wheel.draw(-1,400);
-         
-     }
-     
-   
+  
 
  }
