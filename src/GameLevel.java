@@ -32,6 +32,7 @@ public class GameLevel extends BasicGameState {
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
+    Body wheelArmB;
 
 
 	
@@ -64,14 +65,14 @@ public class GameLevel extends BasicGameState {
         pixelsPerMeter = 30.f;
         
         {
-            BodyDef dground = new BodyDef();
-            dground.active = true;
-            dground.position = new Vec2(0.f, 0.f);
-            dground.type = BodyType.STATIC;
-            Body bground = world.createBody(dground);
-            PolygonShape sground = new PolygonShape();
-            sground.setAsBox(20f, 0.5f);
-            bground.createFixture(sground, 1000.f);
+            BodyDef wheelArm = new BodyDef();
+            wheelArm.active = true;
+            wheelArm.position = new Vec2(0.f, -6.7f);
+            wheelArm.type = BodyType.STATIC;
+            wheelArmB = world.createBody(wheelArm);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(6.6f, 0.1f);
+            wheelArmB.createFixture(bar, 1000.f);
         }
         {
             BodyDef dbox = new BodyDef();
@@ -155,13 +156,15 @@ public class GameLevel extends BasicGameState {
 		
 		Input input = container.getInput();
 
-         if (input.isKeyDown(Input.KEY_LEFT)==false)
-         {
-        	 wheel.setRotation(wheel.getRotation()+1);
-         }
-         if (input.isKeyDown(Input.KEY_RIGHT)==false)
+         if (input.isKeyDown(Input.KEY_LEFT)==true)
          {
         	 wheel.setRotation(wheel.getRotation()-1);
+        	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
+         }
+         if (input.isKeyDown(Input.KEY_RIGHT)==true)
+         {
+        	 wheel.setRotation(wheel.getRotation()+1);
+        	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
          }
          if(input.isKeyDown(Input.KEY_ESCAPE)==true)
          {
