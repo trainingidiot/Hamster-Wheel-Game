@@ -27,7 +27,9 @@ import org.newdawn.slick.geom.Transform;
 public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
-	Image board, wheel;
+	Image board, wheel, pauseBg, resumeBttn, menuBttn;
+	String mouse;
+	
     private static final World world = new World(new Vec2(0, -9.8f));
     int velocityIterations;
     int positionIterations;
@@ -96,13 +98,22 @@ public class GameLevel extends BasicGameState {
             bbox.setAngularVelocity(10.f);
         }
         
+        pauseBg = new Image("images/pauseScreen.png");
+        pauseBg.setAlpha(0);
+        
+        //Start icon and level icon are just place holder art for now
+        resumeBttn = new Image("images/start-button.png");
+        resumeBttn.setAlpha(0);
+        menuBttn = new Image("images/level-button.png");
+        menuBttn.setAlpha(0);
+        
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		 //g.setBackground(Color.white);
          board.draw(-1, -1);
          wheel.draw(-1,400);
-         
+         g.drawString(mouse, 10, 10);
          
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
@@ -147,6 +158,10 @@ public class GameLevel extends BasicGameState {
              g.popTransform();
              current = current.getNext();
          }
+         
+         g.drawImage(pauseBg,1,1);
+         g.drawImage(resumeBttn, 150, 300);
+         g.drawImage(menuBttn, 168, 410);
  
 	}
 
@@ -156,19 +171,45 @@ public class GameLevel extends BasicGameState {
 		
 		Input input = container.getInput();
 
-         if (input.isKeyDown(Input.KEY_LEFT)==true)
+         if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()-1);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
          }
-         if (input.isKeyDown(Input.KEY_RIGHT)==true)
+         if (input.isKeyDown(Input.KEY_RIGHT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()+1);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
          }
          if(input.isKeyDown(Input.KEY_ESCAPE)==true)
          {
-        	 sbg.enterState(0); //return to menu for now
+        	 pauseBg.setAlpha(20);
+        	 resumeBttn.setAlpha(100);
+        	 menuBttn.setAlpha(100);
+        	 container.pause();
+         }
+         
+         int xpos = input.getMouseX();
+         int ypos = input.getMouseY();
+         mouse = "Mouse Position x: " + xpos + "  y: " + ypos;
+         
+         //Resume button
+         if((container.isPaused() == true) && (xpos>165 && xpos<240) && (ypos>316 && ypos<390)){
+        	 if(input.isMouseButtonDown(0)){
+        		 pauseBg.setAlpha(0);
+        		 resumeBttn.setAlpha(0);
+        		 menuBttn.setAlpha(0);
+        		 container.resume();
+        	 }
+         }
+         //Menu button
+         if((container.isPaused() == true) && (xpos>169 && xpos<239) && (ypos>414 && ypos<484)){
+        	 if(input.isMouseButtonDown(0)){
+        		 
+        		 container.resume();
+        		 container.reinit();
+        		 sbg.enterState(0); //enter menu screen
+        	 }
          }
          
 	}

@@ -6,6 +6,7 @@ public class Menu extends BasicGameState{
 	
 	private String mouse ="";
 	private int state;
+	private boolean isMouseOverStartBttn;
 	
 	public Menu(int state) {
 		this.state = state;
@@ -19,7 +20,13 @@ public class Menu extends BasicGameState{
 		g.drawString(mouse, 50, 50);
 		Image startBttn = new Image("images/start-button.png");
 		Image lvlsBttn = new Image("images/level-button.png");
-		g.drawImage(startBttn, 100, 650);
+		Image startBttnHover = new Image("images/Windows-Start-Button.png");
+		
+		if(isMouseOverStartBttn == false)
+			g.drawImage(startBttn, 100, 650);
+		else
+			g.drawImage(startBttnHover, 105,660);
+		
 		g.drawImage(lvlsBttn, 220, 665);
 		g.setBackground(Color.lightGray);
 	}
@@ -32,13 +39,19 @@ public class Menu extends BasicGameState{
 		
 		mouse = "Mouse Position x: " + xpos + "   y: " + ypos;
 		
-		if((xpos>115 && xpos <190) && (ypos>60 && ypos<134)){
+		//Start button
+		if((xpos>115 && xpos <190) && (ypos>60 && ypos<134))
+		{
+			isMouseOverStartBttn = true;
 			if(input.isMouseButtonDown(0)){ //0 means left click, 1 means right click
-				sbg.enterState(1); //enters state with id 1 which is gameLevel
-			}
+						sbg.enterState(1); //enters state with id 1 which is gameLevel
+				}
 		}
+		else{
+				isMouseOverStartBttn = false;
+			}
 		
-		
+		//Levels button
 		if((xpos>220 && xpos<291) && (ypos>62   && ypos<133 ))
 		{
 			if(input.isMouseButtonDown(0)){
