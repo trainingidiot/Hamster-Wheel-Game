@@ -6,7 +6,7 @@ public class Menu extends BasicGameState{
 	
 	private String mouse ="";
 	private int state;
-	private boolean isMouseOverStartBttn;
+	private boolean isMouseOverStartBttn,isMouseOverLvls;
 	
 	public Menu(int state) {
 		this.state = state;
@@ -18,16 +18,23 @@ public class Menu extends BasicGameState{
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		g.drawString(mouse, 50, 50);
-		Image startBttn = new Image("images/start-button.png");
-		Image lvlsBttn = new Image("images/level-button.png");
-		Image startBttnHover = new Image("images/Windows-Start-Button.png");
 		
-		if(isMouseOverStartBttn == false)
-			g.drawImage(startBttn, 100, 650);
+		//Buttons
+		Image startBttn = new Image("images/buttons/Button_Play_Neutral.png");
+		Image startBttnHover = new Image("images/buttons/Button_Play_Selected.png");
+		Image lvlsBttn = new Image("images/buttons/Button_Levels_Neutral.png");
+		Image lvlsBttnHover = new Image("images/buttons/Button_Levels_Selected.png");
+		
+		if(isMouseOverStartBttn)
+			g.drawImage(startBttnHover, 100, 650);
 		else
-			g.drawImage(startBttnHover, 105,660);
+			g.drawImage(startBttn, 100,650);
 		
-		g.drawImage(lvlsBttn, 220, 665);
+		if(isMouseOverLvls)
+			g.drawImage(lvlsBttnHover, 220, 650);
+		else
+			g.drawImage(lvlsBttn, 220, 650);
+		
 		g.setBackground(Color.lightGray);
 	}
 
@@ -54,9 +61,14 @@ public class Menu extends BasicGameState{
 		//Levels button
 		if((xpos>220 && xpos<291) && (ypos>62   && ypos<133 ))
 		{
+			isMouseOverLvls = true;
+			
 			if(input.isMouseButtonDown(0)){
 				sbg.enterState(2); //enters level selector screen
 			}
+			
+		} else{
+			isMouseOverLvls = false;
 		}
 		
 	}
