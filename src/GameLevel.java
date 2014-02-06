@@ -45,6 +45,39 @@ public class GameLevel extends BasicGameState {
 		this.state = state;
 	}
 	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
+        
+        {
+        BodyDef dbox = new BodyDef();
+        dbox.active = true;
+        dbox.position = new Vec2(0.f, 10.f);
+        dbox.angle = MathUtils.PI / 3.f;
+        dbox.type = BodyType.DYNAMIC;
+        Body bbox = world.createBody(dbox);
+        PolygonShape sbox = new PolygonShape();
+        Vec2[] data = 
+        {
+            new Vec2(-0.3f, -0.7f),
+            new Vec2(0.0f, -1.0f),
+            new Vec2(0.3f, -0.7f),
+            new Vec2(0.5f, 0.5f),
+            new Vec2(-0.5f, 0.5f)
+        };
+        sbox.set(data, 4);
+        sbox.setAsBox(0.5f, 0.5f);
+        bbox.createFixture(sbox, 1.f);
+        bbox.setAngularVelocity(10.f);
+		}
+        
+        
+	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
+        pauseBg.setAlpha(0);
+        resumeBttn.setAlpha(0);
+        menuBttn.setAlpha(0);
+	        
+	}
+	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
 
@@ -77,38 +110,15 @@ public class GameLevel extends BasicGameState {
             bar.setAsBox(6.6f, 0.1f);
             wheelArmB.createFixture(bar, 1000.f);
         }
-        {
-            BodyDef dbox = new BodyDef();
-            dbox.active = true;
-            dbox.position = new Vec2(0.f, 10.f);
-            dbox.angle = MathUtils.PI / 3.f;
-            dbox.type = BodyType.DYNAMIC;
-            Body bbox = world.createBody(dbox);
-            PolygonShape sbox = new PolygonShape();
-            Vec2[] data = 
-            {
-                new Vec2(-0.3f, -0.7f),
-                new Vec2(0.0f, -1.0f),
-                new Vec2(0.3f, -0.7f),
-                new Vec2(0.5f, 0.5f),
-                new Vec2(-0.5f, 0.5f)
-            };
-            sbox.set(data, 4);
-            sbox.setAsBox(0.5f, 0.5f);
-            bbox.createFixture(sbox, 1.f);
-            bbox.setAngularVelocity(10.f);
-        }
         
         pauseBg = new Image("images/pauseScreen.png");
-        pauseBg.setAlpha(0);
-        
+       
         //Play and level select buttons
         resumeBttn = new Image("images/buttons/Button_Play_Neutral.png");
         resumeBttnSelect = new Image("images/buttons/Button_Play_Selected.png");
-        resumeBttn.setAlpha(0);
         menuBttn = new Image("images/buttons/Button_Levels_Neutral.png"); //place holder art for now
         menuBttnSelect = new Image("images/buttons/Button_Levels_Selected.png");
-        menuBttn.setAlpha(0);
+       
         
 	}
 	
@@ -227,7 +237,6 @@ public class GameLevel extends BasicGameState {
         	 if(input.isMouseButtonDown(0)){
         		 
         		 container.resume();
-        		 container.reinit();
         		 sbg.enterState(0); //enter menu screen
         	 }
         	 isMouseOverMenu = true;
