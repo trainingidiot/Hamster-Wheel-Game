@@ -91,7 +91,7 @@ public class GameLevel extends BasicGameState {
             
 
                 
-        
+		wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
         pauseBg.setAlpha(0);
@@ -111,7 +111,7 @@ public class GameLevel extends BasicGameState {
         //int [] duration = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};  
         //int [] durationStill = {200, 200, 200, 200};
         board = new Image("images/background/TasteTheRainbow_Board.png");
-        wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
+       
       
         //left = new Animation(movementLeft, duration, true);
         //right = new Animation(movementRight, duration, true);
@@ -257,7 +257,8 @@ public class GameLevel extends BasicGameState {
          //Menu button
          if((container.isPaused() == true) && (xpos>169 && xpos<239) && (ypos>414 && ypos<484)){
         	 if(input.isMouseButtonDown(0)){
-        		 
+        		 world.destroyBody(wheelArmA);
+        		 world.destroyBody(wheelArmB);
         		 container.resume();
         		 sbg.enterState(0); //enter menu screen
         	 }
