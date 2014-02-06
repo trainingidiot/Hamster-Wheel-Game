@@ -1,5 +1,6 @@
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.collision.shapes.ShapeType;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
@@ -15,6 +16,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -35,7 +37,7 @@ public class GameLevel extends BasicGameState {
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
-    Body wheelArmB;
+    Body wheelArmA, wheelArmB;
 
 
 	
@@ -48,27 +50,47 @@ public class GameLevel extends BasicGameState {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
         
+		{
+            BodyDef wheelArm1 = new BodyDef();
+            wheelArm1.active = true;
+            wheelArm1.position = new Vec2(0.f, -6.7f);
+            wheelArm1.type = BodyType.STATIC;
+            wheelArmA = world.createBody(wheelArm1);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(6.6f, 0.1f);
+            wheelArmA.createFixture(bar, 0);
+        }
+		
+		{
+            BodyDef wheelArm2 = new BodyDef();
+            wheelArm2.active = true;
+            wheelArm2.position = new Vec2(0.f, -6.7f);
+            wheelArm2.type = BodyType.STATIC;
+            wheelArmB = world.createBody(wheelArm2);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.1f, 6.6f);
+            wheelArmB.createFixture(bar, 0);
+        }
+		
+		
+		for (int i = 0; i < 100; i++)
         {
-        BodyDef dbox = new BodyDef();
-        dbox.active = true;
-        dbox.position = new Vec2(0.f, 10.f);
-        dbox.angle = MathUtils.PI / 3.f;
-        dbox.type = BodyType.DYNAMIC;
-        Body bbox = world.createBody(dbox);
-        PolygonShape sbox = new PolygonShape();
-        Vec2[] data = 
-        {
-            new Vec2(-0.3f, -0.7f),
-            new Vec2(0.0f, -1.0f),
-            new Vec2(0.3f, -0.7f),
-            new Vec2(0.5f, 0.5f),
-            new Vec2(-0.5f, 0.5f)
-        };
-        sbox.set(data, 4);
-        sbox.setAsBox(0.5f, 0.5f);
-        bbox.createFixture(sbox, 1.f);
-        bbox.setAngularVelocity(10.f);
-		}
+        
+        	BodyDef bd = new BodyDef();
+            bd.position = new Vec2(0.f, 10f);
+            bd.type = BodyType.DYNAMIC;
+            Body body = world.createBody(bd);
+            System.out.println(body);
+            body.setAngularVelocity(0.1f);
+            body.setLinearVelocity(new Vec2( 0, -5 ));
+            CircleShape sd = new CircleShape();
+            sd.m_radius = (.333f);
+            
+            body.createFixture(sd, 0);
+        }
+            
+
+                
         
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
@@ -100,16 +122,7 @@ public class GameLevel extends BasicGameState {
         positionIterations = 10;
         pixelsPerMeter = 30.f;
         
-        {
-            BodyDef wheelArm = new BodyDef();
-            wheelArm.active = true;
-            wheelArm.position = new Vec2(0.f, -6.7f);
-            wheelArm.type = BodyType.STATIC;
-            wheelArmB = world.createBody(wheelArm);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(6.6f, 0.1f);
-            wheelArmB.createFixture(bar, 1000.f);
-        }
+        
         
         pauseBg = new Image("images/pauseScreen.png");
        
@@ -134,7 +147,7 @@ public class GameLevel extends BasicGameState {
          {
              Vec2 pos = current.getPosition();
              g.pushTransform();
-             g.translate(pos.x * pixelsPerMeter + (0.5f * gc.getWidth()), 
+             g.translate(-pos.x * pixelsPerMeter + (0.5f * gc.getWidth()), 
                         -pos.y * pixelsPerMeter + (0.5f * gc.getHeight()));
              Fixture f = current.getFixtureList();
              while(f != null)
@@ -162,6 +175,13 @@ public class GameLevel extends BasicGameState {
                      case CIRCLE:
                      {
                          CircleShape shape = (CircleShape)f.getShape();
+                         Circle p = new Circle(10,10,10);
+                         
+                         p.setCenterX(center.x);
+                         p.setCenterY(center.y);
+                         g.draw(p);
+                         break;
+                         
                      }
                      default:
                  }
@@ -198,11 +218,13 @@ public class GameLevel extends BasicGameState {
          if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()-1);
+        	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
          }
          if (input.isKeyDown(Input.KEY_RIGHT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()+1);
+        	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
          }
          //Pause the game
