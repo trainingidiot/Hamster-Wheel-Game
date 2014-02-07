@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class ListStorage {
 	
-	ArrayList<String> leftList;
-	ArrayList<String> rightList;
+	public ArrayList<String> leftList;
+	public ArrayList<String> rightList;
+	public int levelIndex;
 	
 	public ListStorage()
 	{
@@ -23,22 +24,24 @@ public class ListStorage {
 		rightList.add(rstringToAdd);
 	}
 	
-	public String popLeft()
+	public void addLevelInfo(int index)
 	{
-		if(leftList.isEmpty()==false)
-		{
-			return null;
-		}
-		return leftList.remove(0);
+		levelIndex = index;
 	}
 	
-	public String popRight()
+	public int getLevelInfo()
 	{
-		if(rightList.isEmpty())
-		{
-			return null;
-		}
-		return rightList.remove(0);
+		return levelIndex;
+	}
+	
+	public int leftListSize()
+	{
+		return leftList.size();
+	}
+	
+	public int rightListSize()
+	{
+		return rightList.size();
 	}
 	
 	public ArrayList<String> getCurrentLeftList()
