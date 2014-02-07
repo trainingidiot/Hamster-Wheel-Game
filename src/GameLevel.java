@@ -29,7 +29,7 @@ import org.newdawn.slick.geom.Transform;
 public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
-	Image board, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect;
+	Image board, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, green;
 	String mouse;
 	private boolean isMouseOverPlay, isMouseOverMenu;
 	
@@ -73,7 +73,7 @@ public class GameLevel extends BasicGameState {
         }
 		
 		
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 200; i++)
         {
         
         	BodyDef bd = new BodyDef();
@@ -84,7 +84,7 @@ public class GameLevel extends BasicGameState {
             body.setAngularVelocity(0.1f);
             body.setLinearVelocity(new Vec2( 0, -5 ));
             CircleShape sd = new CircleShape();
-            sd.m_radius = (.333f);
+            sd.m_radius = (.2f);
             
             body.createFixture(sd, 0);
         }
@@ -112,7 +112,7 @@ public class GameLevel extends BasicGameState {
         //int [] durationStill = {200, 200, 200, 200};
         board = new Image("images/background/TasteTheRainbow_Board.png");
         wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
-      
+        green = new Image("images/droplets/TasteTheRainbow_Droplet_Green.png");
         //left = new Animation(movementLeft, duration, true);
         //right = new Animation(movementRight, duration, true);
         //leftStill = new Animation(movementLeftStill, durationStill, true);
@@ -175,11 +175,10 @@ public class GameLevel extends BasicGameState {
                      case CIRCLE:
                      {
                          CircleShape shape = (CircleShape)f.getShape();
-                         Circle p = new Circle(10,10,10);
                          
-                         p.setCenterX(center.x);
-                         p.setCenterY(center.y);
-                         g.draw(p);
+                         g.setColor(Color.blue);
+                         g.fillOval(-10,-10,20,20);
+                         //g.drawImage(green, -10, -10);
                          break;
                          
                      }
