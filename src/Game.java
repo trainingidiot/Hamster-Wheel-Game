@@ -44,47 +44,9 @@ public class Game extends StateBasedGame
  	
      public static void main(String[] args) throws FileNotFoundException
      {
-    	 
-         // parser
-  		File file = new File("resources/Input.txt");
-  		FileReader fr = new FileReader(file);
-  		Scanner scanner = new Scanner(fr);
-  		
-  		ListStorage storage = new ListStorage();
-  		String left = scanner.next();
-  		
-  		while(!left.equals("Right"))
-  		{
-  			storage.addToLeftList(left);
-  			left = scanner.next();
-  		}
-  		
-  		while(scanner.hasNext())
-  		{
-  			storage.addToRightList(scanner.next());
-  		}
-  		
-  		scanner.close();
-  		
-  		//parser test
-  		System.out.println("Beginning of parser test");
-  		ArrayList<String> leftListTest = storage.getCurrentLeftList();
- 		ArrayList<String> rightListTest = storage.getCurrentRightList();
- 		System.out.print("Left list: ");
- 		for(int i = 0; i < leftListTest.size(); i++)
- 		{
- 			System.out.print(leftListTest.get(i)+" ");
- 		}
- 		System.out.println();
- 		System.out.print("Right list: ");
- 		for(int i = 0; i < rightListTest.size(); i++)
- 		{
- 			System.out.print(rightListTest.get(i)+" ");
- 		}
- 		System.out.println();
- 		System.out.println("End of parser test");
- 		System.out.println();
- 		System.out.println();
+    	 // call parser
+    	Parser parse = new Parser();
+    	parse.callParser();
  		
          try
          {
