@@ -47,8 +47,10 @@ public class Game extends StateBasedGame
      public static void main(String[] args) throws FileNotFoundException
      {
     	 // call parser
-    	Parser parse = new Parser();
-    	parse.callParser();
+    	 
+    	 
+    	//Parser parse = new Parser();
+    	//parse.callParser();
  		
          try
          {
