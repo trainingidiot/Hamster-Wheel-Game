@@ -37,7 +37,7 @@ public class GameLevel extends BasicGameState {
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
-    Body wheelArmA, wheelArmB;
+    Body wheelArmA, wheelArmB, groundB;
 
 
 	
@@ -50,6 +50,8 @@ public class GameLevel extends BasicGameState {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
         
+		
+		//arms
 		{
             BodyDef wheelArm1 = new BodyDef();
             wheelArm1.active = true;
@@ -60,7 +62,6 @@ public class GameLevel extends BasicGameState {
             bar.setAsBox(6.6f, 0.1f);
             wheelArmA.createFixture(bar, 0);
         }
-		
 		{
             BodyDef wheelArm2 = new BodyDef();
             wheelArm2.active = true;
@@ -72,26 +73,83 @@ public class GameLevel extends BasicGameState {
             wheelArmB.createFixture(bar, 0);
         }
 		
-		
-		for (int i = 0; i < 200; i++)
-        {
-        
-        	BodyDef bd = new BodyDef();
-            bd.position = new Vec2(0.f, 10f);
-            bd.type = BodyType.DYNAMIC;
-            Body body = world.createBody(bd);
-            System.out.println(body);
-            body.setAngularVelocity(0.1f);
-            body.setLinearVelocity(new Vec2( 0, -5 ));
-            CircleShape sd = new CircleShape();
-            sd.m_radius = (.2f);
-            
-            body.createFixture(sd, 0);
+		//ground
+		{
+            BodyDef ground = new BodyDef();
+            ground.active = true;
+            ground.position = new Vec2(0.f, -13.4f);
+            ground.type = BodyType.STATIC;
+            groundB = world.createBody(ground);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(6.6f, .1f);
+            groundB.createFixture(bar, 0);
         }
-            
+		//Walls
+		{
+            BodyDef ground = new BodyDef();
+            ground.active = true;
+            ground.position = new Vec2(-6.7f, -6.7f);
+            ground.type = BodyType.STATIC;
+            groundB = world.createBody(ground);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.1f, 6.6f);
+            groundB.createFixture(bar, 0);
+        }
+		{
+            BodyDef ground = new BodyDef();
+            ground.active = true;
+            ground.position = new Vec2(6.7f, -6.7f);
+            ground.type = BodyType.STATIC;
+            groundB = world.createBody(ground);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.1f, 6.6f);
+            groundB.createFixture(bar, 0);
+        }
+		
+		/*
+		{
+            BodyDef ground = new BodyDef();
+            ground.active = true;
+            ground.position = new Vec2(3.35f, -12.5f);
+            ground.type = BodyType.STATIC;
+            groundB = world.createBody(ground);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.1f, 6.6f);
+            groundB.createFixture(bar, 0);
+            groundB.setTransform(groundB.getPosition(), 2.35619449f);
+        }
+		
+		{
+            BodyDef ground = new BodyDef();
+            ground.active = true;
+            ground.position = new Vec2(-3.35f, -10.05f);
+            ground.type = BodyType.STATIC;
+            groundB = world.createBody(ground);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.1f, 6.6f);
+            groundB.createFixture(bar, 0);
+            groundB.setTransform(groundB.getPosition(), 0.785398163f);
+        }
+        */
+		
+		
+		
+		
+		//Inside of wheel collision circle
+		{
+			BodyDef bd = new BodyDef();
+	        bd.position = new Vec2(0.f, -6.7f);
+	        bd.type = BodyType.STATIC;
+	        Body body = world.createBody(bd);
+	        System.out.println(body);
+	        CircleShape sd = new CircleShape();
+	        sd.m_radius = (2f);
+	        
+	        body.createFixture(sd, 0);
+		}
 
                 
-		wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
+		wheel = new Image("images/background/Wheel.png");
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
         pauseBg.setAlpha(0);
@@ -139,7 +197,7 @@ public class GameLevel extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		 //g.setBackground(Color.white);
          board.draw(-1, -1);
-         wheel.draw(-1,400);
+         
          g.drawString(mouse, 10, 10);
          
          Body current = world.getBodyList();
@@ -178,7 +236,7 @@ public class GameLevel extends BasicGameState {
                          CircleShape shape = (CircleShape)f.getShape();
                          
                          g.setColor(Color.blue);
-                         g.fillOval(-10,-10,20,20);
+                         g.fillOval(-7,-7,15,15);
                          //g.drawImage(green, -10, -10);
                          break;
                          
@@ -191,6 +249,8 @@ public class GameLevel extends BasicGameState {
              g.popTransform();
              current = current.getNext();
          }
+         
+         wheel.draw(-1,400);
          
          //Pause screen
          g.drawImage(pauseBg,1,1);
@@ -207,7 +267,12 @@ public class GameLevel extends BasicGameState {
          } else{
         	 g.drawImage(menuBttn, 150, 410);
          }
+         
+         
+         
 	}
+	
+	
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
         world.step((float)delta / 1000.f, velocityIterations, positionIterations);
@@ -227,6 +292,17 @@ public class GameLevel extends BasicGameState {
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
          }
+         
+         if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
+         {
+        	 drawDropletLeft();
+         }
+         if (input.isKeyDown(Input.KEY_S)==true && container.isPaused() == false)
+         {
+        	 drawDropletRight();
+         }
+         
+         
          //Pause the game
          if(input.isKeyDown(Input.KEY_ESCAPE)==true)
          {
@@ -273,6 +349,42 @@ public class GameLevel extends BasicGameState {
 	public int getID() {
 		
 		return state;
+	}
+	
+	private void drawDropletLeft()
+	{
+		//Droplet collision
+		
+        	BodyDef bd = new BodyDef();
+            bd.position = new Vec2(.8f, 8.7f);
+            bd.type = BodyType.DYNAMIC;
+            Body body = world.createBody(bd);
+            System.out.println(body);
+            body.setAngularVelocity(0.1f);
+            body.setLinearVelocity(new Vec2( 0, -5 ));
+            CircleShape sd = new CircleShape();
+            sd.m_radius = (.15f);
+            
+            body.createFixture(sd, 0);
+        
+	}
+	
+	private void drawDropletRight()
+	{
+		//Droplet collision
+		
+        	BodyDef bd = new BodyDef();
+            bd.position = new Vec2(-.8f, 8.7f);
+            bd.type = BodyType.DYNAMIC;
+            Body body = world.createBody(bd);
+            System.out.println(body);
+            body.setAngularVelocity(0.1f);
+            body.setLinearVelocity(new Vec2( 0, -5 ));
+            CircleShape sd = new CircleShape();
+            sd.m_radius = (.15f);
+            
+            body.createFixture(sd, 0);
+        
 	}
 	
 
