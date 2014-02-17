@@ -30,8 +30,9 @@ public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
 	Image board, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, green;
-	String mouse;
-	private boolean isMouseOverPlay, isMouseOverMenu;
+	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
+	String mouse, level;
+	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail;;
 	
     private static final World world = new World(new Vec2(0, -9.8f));
     int velocityIterations;
@@ -45,6 +46,7 @@ public class GameLevel extends BasicGameState {
 	
 	public GameLevel(int state) {
 		this.state = state;
+		level = "Level " + state;
 	}
 	
 	@Override
@@ -156,6 +158,8 @@ public class GameLevel extends BasicGameState {
         resumeBttn.setAlpha(0);
         menuBttn.setAlpha(0);
 	        
+        isVictory = false;
+        isFail = false;
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
@@ -182,8 +186,12 @@ public class GameLevel extends BasicGameState {
         pixelsPerMeter = 30.f;
         
         
-        
+        //background for pause screen
         pauseBg = new Image("images/pauseScreen.png");
+        
+        //Background for victory and failure screens
+        victoryScreen = new Image("images/background/Victory.png");
+        failureScreen = new Image("images/background/Failure.png");
        
         //Play and level select buttons
         resumeBttn = new Image("images/buttons/Button_Play_Neutral.png");
@@ -191,6 +199,15 @@ public class GameLevel extends BasicGameState {
         menuBttn = new Image("images/buttons/Button_Levels_Neutral.png"); //place holder art for now
         menuBttnSelect = new Image("images/buttons/Button_Levels_Selected.png");
        
+        //Victory and Fail screens
+        nextBttn = new Image("images/buttons/Button_Play_Neutral.png"); //use play button image for now
+        nextBttnSelect = new Image("images/buttons/Button_Play_Selected.png");
+        levelBttn = new Image("images/buttons/Button_Levels_Neutral.png");
+        levelBttnSelect = new Image("images/buttons/Button_Levels_Selected.png");
+        replayBttn = new Image("images/buttons/Button_Restart_Neutral.png");
+        replayBttnSelect = new Image("images/buttons/Button_Restart_Depressed.png");
+        menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
+        menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
         
 	}
 	
@@ -198,7 +215,9 @@ public class GameLevel extends BasicGameState {
 		 //g.setBackground(Color.white);
          board.draw(-1, -1);
          
-         g.drawString(mouse, 10, 10);
+//         g.drawString(mouse, 10, 10);
+         g.drawString(level, 10, 8);
+         
          
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
@@ -269,6 +288,20 @@ public class GameLevel extends BasicGameState {
          }
          
          
+         //Victory/Fail screens
+         if(isVictory){
+        	 g.drawImage(victoryScreen,0,220);
+        	 g.drawImage(nextBttn,25,396);
+        	 g.drawImage(levelBttn,160,396);
+        	 g.drawImage(replayBttn,294,396);
+         }
+         
+         if(isFail){
+        	 g.drawImage(failureScreen, 0,220);
+        	 g.drawImage(menuBttn2,25,396);
+        	 g.drawImage(levelBttn,160,396);
+        	 g.drawImage(replayBttn,294,396);
+         }
          
 	}
 	
@@ -304,7 +337,7 @@ public class GameLevel extends BasicGameState {
          
          
          //Pause the game
-         if(input.isKeyDown(Input.KEY_ESCAPE)==true)
+         if(input.isKeyDown(Input.KEY_ESCAPE)==true && (!isVictory || !isFail))
          {
         	 pauseBg.setAlpha(20);
         	 resumeBttn.setAlpha(100);
@@ -343,6 +376,58 @@ public class GameLevel extends BasicGameState {
          } else{
         	 isMouseOverMenu = false;
          }
+         
+         
+         //Victory
+ 		if(input.isKeyPressed(Input.KEY_V)){
+ 			isVictory = true;
+ 			isFail = false;
+ 			victoryScreen.setAlpha(100);
+ 		}
+ 		//next button, from victory screen
+ 		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
+ 			if(input.isMousePressed(0)){
+ 				if(this.getID() < sbg.getStateCount()-2){
+ 					world.destroyBody(wheelArmA);
+ 					world.destroyBody(wheelArmB);
+ 					sbg.enterState(this.getID() + 1); //enter level selection screen
+ 				}
+ 			}
+ 		}
+ 		
+
+ 		//levels button from victory/fail screen
+ 		if((xpos>161 && xpos<240) && (ypos>400  && ypos<478) && (isVictory || isFail)){
+ 			if(input.isMousePressed(0)){
+ 				world.destroyBody(wheelArmA);
+ 				world.destroyBody(wheelArmB);
+ 				sbg.enterState(-1); //enter level selection screen
+ 			}
+ 		}
+ 		//replay button from victory/fail screen
+ 		if((xpos>295 && xpos<374) && (ypos>400  && ypos<478) && (isVictory || isFail)){
+ 			if(input.isMousePressed(0)){
+ 				world.destroyBody(wheelArmA);
+ 				world.destroyBody(wheelArmB);
+ 				sbg.enterState(this.getID()); //enter level selection screen
+ 			}
+ 		}
+ 		
+ 		
+ 		//Fail
+ 		if(input.isKeyPressed(Input.KEY_F)){
+ 			isFail = true;
+ 			isVictory = false;
+ 			failureScreen.setAlpha(100);
+ 		}
+ 		//menu button from fail screen
+ 		if(isFail && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
+ 			if(input.isMousePressed(0)){	
+ 				world.destroyBody(wheelArmA);
+ 				world.destroyBody(wheelArmB);
+ 				sbg.enterState(0); //enter menu screen				
+ 			}
+ 		}
          
 	}
 
