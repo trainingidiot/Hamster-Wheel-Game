@@ -31,8 +31,9 @@ import org.newdawn.slick.geom.Transform;
 public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
-	Image board, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, green;
+	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, green;
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
+	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail;;
 	
@@ -234,6 +235,8 @@ public class GameLevel extends BasicGameState {
 
                 
 		wheel = new Image("images/background/Wheel.png");
+		wheelPanel = new Image("images/background/Game_wheelbackpanel.png");
+        
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
         pauseBg.setAlpha(0);
@@ -246,7 +249,7 @@ public class GameLevel extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
-
+		backgroundImage = new Image("images/background/game_background.png");
 		
 		//Image [] movementLeft =  {new Image("images/Biped/drag_wr_0.png"), new Image("images/Biped/drag_wr_1.png"), new Image("images/Biped/drag_wr_2.png"), new Image("images/Biped/drag_wr_3.png"),new Image("images/Biped/drag_wr_4.png"), new Image("images/Biped/drag_wr_5.png"), new Image("images/Biped/drag_wr_6.png"), new Image("images/Biped/drag_wr_7.png"),new Image("images/Biped/drag_wr_8.png"), new Image("images/Biped/drag_wr_9.png"), new Image("images/Biped/drag_wr_10.png"), new Image("images/Biped/drag_wr_11.png")} ;
         //Image [] movementRight =  {new Image("images/Biped/drag_wl_0.png"), new Image("images/Biped/drag_wl_1.png"), new Image("images/Biped/drag_wl_2.png"), new Image("images/Biped/drag_wl_3.png"),new Image("images/Biped/drag_wl_4.png"), new Image("images/Biped/drag_wl_5.png"), new Image("images/Biped/drag_wl_6.png"), new Image("images/Biped/drag_wl_7.png"),new Image("images/Biped/drag_wl_8.png"), new Image("images/Biped/drag_wl_9.png"), new Image("images/Biped/drag_wl_10.png"), new Image("images/Biped/drag_wl_11.png")} ;
@@ -254,9 +257,10 @@ public class GameLevel extends BasicGameState {
         //Image [] movementRightStill =  {new Image("images/Biped/drag_br_0.png"), new Image("images/Biped/drag_br_1.png"), new Image("images/Biped/drag_br_2.png"), new Image("images/Biped/drag_br_3.png")} ;
         //int [] duration = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};  
         //int [] durationStill = {200, 200, 200, 200};
-        board = new Image("images/background/TasteTheRainbow_Board.png");
-        wheel = new Image("images/background/TasteTheRainbow_Wheel_Frame.png");
-        green = new Image("images/droplets/TasteTheRainbow_Droplet_Green.png");
+		 boardTop = new Image("images/background/game_toppanel.png");
+	     spigots = new Image("images/background/game_spigots.png");
+	     bottomBlock = new Image("images/background/game_bottomblock.png");
+         green = new Image("images/droplets/TasteTheRainbow_Droplet_Green.png");
 
         //left = new Animation(movementLeft, duration, true);
         //right = new Animation(movementRight, duration, true);
@@ -295,7 +299,11 @@ public class GameLevel extends BasicGameState {
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		 //g.setBackground(Color.white);
-         board.draw(-1, -1);
+		backgroundImage.draw(0,53); 
+		boardTop.draw(0, 0);
+		spigots.draw(161,27);
+		wheelPanel.draw(0,400);
+     	bottomBlock.draw(0,400);
          
 //         g.drawString(mouse, 10, 10);
          g.drawString(level, 10, 8);
@@ -398,12 +406,14 @@ public class GameLevel extends BasicGameState {
          if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()-1);
+        	 wheelPanel.setRotation(wheelPanel.getRotation()-1);
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
          }
          if (input.isKeyDown(Input.KEY_RIGHT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()+1);
+        	 wheelPanel.setRotation(wheelPanel.getRotation()+1);
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
          }
