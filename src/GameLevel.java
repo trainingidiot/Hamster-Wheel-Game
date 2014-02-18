@@ -303,7 +303,7 @@ public class GameLevel extends BasicGameState {
 		boardTop.draw(0, 0);
 		spigots.draw(161,27);
 		wheelPanel.draw(0,400);
-     	bottomBlock.draw(0,400);
+     	
          
 //         g.drawString(mouse, 10, 10);
          g.drawString(level, 10, 8);
@@ -360,6 +360,7 @@ public class GameLevel extends BasicGameState {
          }
          
          wheel.draw(-1,400);
+         bottomBlock.draw(0,400);
          
          //Pause screen
          g.drawImage(pauseBg,1,1);
