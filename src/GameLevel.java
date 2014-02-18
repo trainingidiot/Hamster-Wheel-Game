@@ -1,4 +1,5 @@
 
+import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.collision.shapes.ShapeType;
@@ -8,6 +9,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -34,11 +36,11 @@ public class GameLevel extends BasicGameState {
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail;;
 	
-    private static final World world = new World(new Vec2(0, -9.8f));
+    private static final World world = new World(new Vec2(0, -20f));
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
-    Body wheelArmA, wheelArmB, groundB;
+    Body wheelArmA, wheelArmB, groundB, polygonGround;
 
 
 	
@@ -108,44 +110,124 @@ public class GameLevel extends BasicGameState {
             groundB.createFixture(bar, 0);
         }
 		
-		/*
+		
+		//Circle on bottom
 		{
-            BodyDef ground = new BodyDef();
-            ground.active = true;
-            ground.position = new Vec2(3.35f, -12.5f);
-            ground.type = BodyType.STATIC;
-            groundB = world.createBody(ground);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(.1f, 6.6f);
-            groundB.createFixture(bar, 0);
-            groundB.setTransform(groundB.getPosition(), 2.35619449f);
-        }
+            BodyDef polygon = new BodyDef();
+
+			Vec2[] vertices = {
+	                new Vec2(-6.7f, -6.7f),
+	                new Vec2(-6.6926f, -7f),
+	                new Vec2(-6.5889f, -7.9091f),
+	                new Vec2(-6.2876f, -9.0166f),
+	                new Vec2(-5.7837f, -10.0820f),
+	                new Vec2(-5.0911f, -11.0554f),
+	                new Vec2(-4.0633f, -12f),
+	                new Vec2(-3f, -12.699f),
+	                new Vec2(-2f, -13.0895f),
+	                new Vec2(-1f, -13.3256f),
+	                new Vec2(0f, -13.4f),
+	                new Vec2(1f, -13.3256f),
+	                new Vec2(2f, -13.0895f),
+	                new Vec2(3f, -12.699f),
+	                new Vec2(4.0633f, -12f),
+	                new Vec2(5.0911f, -11.0554f),
+	                new Vec2(5.7837f, -10.0820f),
+	                new Vec2(6.2876f, -9.0166f),
+	                new Vec2(6.5889f, -7.9091f),
+	                new Vec2(6.6926f, -7f),
+	                new Vec2(6.7f, -6.7f),
+	                new Vec2(6.7f, -13.4f),
+	                new Vec2(-6.7f, -13.4f)
+	        };
+
+			ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        //shape.m_centroid.set(polygon.position);
+
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 0.5f;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+
+	        polygonGround = world.createBody(polygon);
+	        polygonGround.createFixture(fixtureDef);
+		}
+		
+		
+		//Catcher / No overflow body
+		{
+            BodyDef polygon = new BodyDef();
+
+			Vec2[] vertices = {
+	                new Vec2(-6.7f, -6.7f),
+	                new Vec2(-4.9764f, -2.2140f),
+	                new Vec2(-3.7395f, -1.1408f),
+	                new Vec2(-2.5824f, -0.5177f),
+	                new Vec2(-6.7f, 10f)
+	                
+	        };
+
+			ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        //shape.m_centroid.set(polygon.position);
+
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 0.5f;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+
+	        polygonGround = world.createBody(polygon);
+	        polygonGround.createFixture(fixtureDef);
+		}
 		
 		{
-            BodyDef ground = new BodyDef();
-            ground.active = true;
-            ground.position = new Vec2(-3.35f, -10.05f);
-            ground.type = BodyType.STATIC;
-            groundB = world.createBody(ground);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(.1f, 6.6f);
-            groundB.createFixture(bar, 0);
-            groundB.setTransform(groundB.getPosition(), 0.785398163f);
-        }
-        */
+            BodyDef polygon = new BodyDef();
+
+			Vec2[] vertices = {
+	                new Vec2(6.7f, -6.7f),
+	                new Vec2(4.9764f, -2.2140f),
+	                new Vec2(3.7395f, -1.1408f),
+	                new Vec2(2.5824f, -0.5177f),
+	                new Vec2(6.7f, 10f)
+	                
+	        };
+
+			ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        //shape.m_centroid.set(polygon.position);
+
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 0.5f;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+
+	        polygonGround = world.createBody(polygon);
+	        polygonGround.createFixture(fixtureDef);
+		}
 		
 		
 		
-		
-		//Inside of wheel collision circle
+		// Droplets
 		{
 			BodyDef bd = new BodyDef();
 	        bd.position = new Vec2(0.f, -6.7f);
 	        bd.type = BodyType.STATIC;
 	        Body body = world.createBody(bd);
-	        System.out.println(body);
+	        //System.out.println(body);
 	        CircleShape sd = new CircleShape();
 	        sd.m_radius = (2f);
+	        
+	        FixtureDef fd = new FixtureDef();
+	        fd.shape = sd;
+	        fd.density = 0.5f;
+	        fd.friction = 0.99f;        
+	        fd.restitution = 0.5f;
+
+
 	        
 	        body.createFixture(sd, 0);
 		}
