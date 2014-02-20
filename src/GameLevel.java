@@ -31,7 +31,7 @@ import org.newdawn.slick.geom.Transform;
 public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
-	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, green;
+	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
 	Image backgroundImage;
 	String mouse, level;
@@ -78,38 +78,6 @@ public class GameLevel extends BasicGameState {
             wheelArmB.createFixture(bar, 0);
         }
 		
-		//ground
-		{
-            BodyDef ground = new BodyDef();
-            ground.active = true;
-            ground.position = new Vec2(0.f, -13.4f);
-            ground.type = BodyType.STATIC;
-            groundB = world.createBody(ground);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(6.6f, .1f);
-            groundB.createFixture(bar, 0);
-        }
-		//Walls
-		{
-            BodyDef ground = new BodyDef();
-            ground.active = true;
-            ground.position = new Vec2(-6.7f, -6.7f);
-            ground.type = BodyType.STATIC;
-            groundB = world.createBody(ground);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(.1f, 6.6f);
-            groundB.createFixture(bar, 0);
-        }
-		{
-            BodyDef ground = new BodyDef();
-            ground.active = true;
-            ground.position = new Vec2(6.7f, -6.7f);
-            ground.type = BodyType.STATIC;
-            groundB = world.createBody(ground);
-            PolygonShape bar = new PolygonShape();
-            bar.setAsBox(.1f, 6.6f);
-            groundB.createFixture(bar, 0);
-        }
 		
 		
 		//Circle on bottom
@@ -172,7 +140,6 @@ public class GameLevel extends BasicGameState {
 
 			ChainShape shape = new ChainShape();
 	        shape.createLoop(vertices, vertices.length);
-	        //shape.m_centroid.set(polygon.position);
 
 	        FixtureDef fixtureDef = new FixtureDef();
 	        fixtureDef.shape = shape;
@@ -198,7 +165,6 @@ public class GameLevel extends BasicGameState {
 
 			ChainShape shape = new ChainShape();
 	        shape.createLoop(vertices, vertices.length);
-	        //shape.m_centroid.set(polygon.position);
 
 	        FixtureDef fixtureDef = new FixtureDef();
 	        fixtureDef.shape = shape;
@@ -228,8 +194,6 @@ public class GameLevel extends BasicGameState {
 	        fd.friction = 0.99f;        
 	        fd.restitution = 0.5f;
 
-
-	        
 	        body.createFixture(sd, 0);
 		}
 
@@ -260,7 +224,14 @@ public class GameLevel extends BasicGameState {
 		 boardTop = new Image("images/background/game_toppanel.png");
 	     spigots = new Image("images/background/game_spigots.png");
 	     bottomBlock = new Image("images/background/game_bottomblock.png");
-         green = new Image("images/droplets/TasteTheRainbow_Droplet_Green.png");
+         green = new Image("images/droplets/Droplet_green.png");
+         black = new Image("images/droplets/Droplet_black.png");
+         blue = new Image("images/droplets/Droplet_blue.png");
+         orange = new Image("images/droplets/Droplet_orange.png");
+         purple = new Image("images/droplets/Droplet_purple.png");
+         red = new Image("images/droplets/Droplet_red.png");
+         white = new Image("images/droplets/Droplet_white.png");
+         yellow = new Image("images/droplets/Droplet_yellow.png");
 
         //left = new Animation(movementLeft, duration, true);
         //right = new Animation(movementRight, duration, true);
@@ -344,9 +315,9 @@ public class GameLevel extends BasicGameState {
                      {
                          CircleShape shape = (CircleShape)f.getShape();
                          
-                         g.setColor(Color.blue);
-                         g.fillOval(-7,-7,15,15);
-                         //g.drawImage(green, -10, -10);
+                         //g.setColor(Color.blue);
+                         //g.fillOval(-7,-7,15,15);
+                         g.drawImage(blue, -5, -5);
                          break;
                          
                      }
@@ -543,7 +514,13 @@ public class GameLevel extends BasicGameState {
             CircleShape sd = new CircleShape();
             sd.m_radius = (.15f);
             
-            body.createFixture(sd, 0);
+            FixtureDef fd = new FixtureDef();
+	        fd.shape = sd;
+	        fd.density = 500;
+	        fd.friction = 1;        
+	        fd.restitution = 0;
+            
+            body.createFixture(fd);
         
 	}
 	
@@ -561,7 +538,13 @@ public class GameLevel extends BasicGameState {
             CircleShape sd = new CircleShape();
             sd.m_radius = (.15f);
             
-            body.createFixture(sd, 0);
+            FixtureDef fd = new FixtureDef();
+	        fd.shape = sd;
+	        fd.density = 500;
+	        fd.friction = 1;        
+	        fd.restitution = 0;
+            
+            body.createFixture(fd);
         
 	}
 	
