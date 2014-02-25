@@ -448,11 +448,15 @@ public class GameLevel extends BasicGameState {
          
          if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
          {
-        	 drawDropletLeft();
+        	 drawDropletLeft(501);
          }
          if (input.isKeyDown(Input.KEY_S)==true && container.isPaused() == false)
          {
-        	 drawDropletRight();
+        	 drawDropletRight(505);
+         }
+         if (input.isKeyDown(Input.KEY_D)==true && container.isPaused() == false)
+         {
+        	 drawDropletRight(507);
          }
          
          
@@ -556,14 +560,14 @@ public class GameLevel extends BasicGameState {
 		return state;
 	}
 	
-	private void drawDropletLeft()
+	private void drawDropletLeft(int num)
 	{
-        new Droplet (world, "left", 501);  	   
+        new Droplet (world, "left", num);  	   
 	}
 	
-	private void drawDropletRight()
+	private void drawDropletRight(int num)
 	{
-        new Droplet (world, "right", 505);  	        
+        new Droplet (world, "right", num);  	        
 	}
 	
 	private void checkContacts()
@@ -579,6 +583,7 @@ public class GameLevel extends BasicGameState {
 				if(f1.m_density != f2.m_density)
 				{
 					changeColors(f1, f2);
+					changeColors(f2, f1);
 				}
 			}
 			
@@ -589,35 +594,60 @@ public class GameLevel extends BasicGameState {
 	
 	private void changeColors(Fixture f1, Fixture f2)
 	{
+		
+		// blue and red
 		if (f1.m_density == 501 && f2.m_density==505)
 		{
 			f1.m_density = 504;
 			f2.m_density = 504;
 		}
-		if (f1.m_density == 505 && f2.m_density==501)
-		{
-			f1.m_density = 504;
-			f2.m_density = 504;
-		}
+		// purple and blue
 		if (f1.m_density == 504 && f2.m_density==501)
 		{
 			f1.m_density = 504;
 			f2.m_density = 504;
 		}
+		//red and purple
 		if (f1.m_density == 505 && f2.m_density==504)
 		{
 			f1.m_density = 504;
 			f2.m_density = 504;
 		}
-		if (f1.m_density == 504 && f2.m_density==505)
+		// blue and yellow
+		if (f1.m_density == 501 && f2.m_density==507)
 		{
-			f1.m_density = 504;
-			f2.m_density = 504;
+			f1.m_density = 502;
+			f2.m_density = 502;
 		}
-		if (f1.m_density == 501 && f2.m_density==504)
+		// green and blue
+		if (f1.m_density == 502 && f2.m_density==501)
 		{
-			f1.m_density = 504;
-			f2.m_density = 504;
+			f1.m_density = 502;
+			f2.m_density = 502;
+		}
+		// yellow and green
+		if (f1.m_density == 507 && f2.m_density==502)
+		{
+			f1.m_density = 502;
+			f2.m_density = 502;
+		}
+		// yellow and red
+		if (f1.m_density == 507 && f2.m_density==505)
+		{
+			f1.m_density = 503;
+			f2.m_density = 503;
+		}
+		// orange and red
+		if (f1.m_density == 503 && f2.m_density==505)
+		{
+			f1.m_density = 503;
+			f2.m_density = 503;
+		}
+		// orange and yellow
+		if (f1.m_density == 503 && f2.m_density==507)
+		{
+			f1.m_density = 503;
+			f2.m_density = 503;
 		}
 	}
 
