@@ -264,7 +264,7 @@ public class GameLevel extends BasicGameState {
         
         
         //background for pause screen
-        pauseBg = new Image("images/pauseScreen.png");
+        pauseBg = new Image("images/background/Paused.png");
         
         //Background for victory and failure screens
         victoryScreen = new Image("images/background/Victory.png");
@@ -273,8 +273,8 @@ public class GameLevel extends BasicGameState {
         //Play and level select buttons
         resumeBttn = new Image("images/buttons/Button_Play_Neutral.png");
         resumeBttnSelect = new Image("images/buttons/Button_Play_Selected.png");
-        menuBttn = new Image("images/buttons/Button_Levels_Neutral.png"); //place holder art for now
-        menuBttnSelect = new Image("images/buttons/Button_Levels_Selected.png");
+        menuBttn = new Image("images/buttons/Button_Menu_Neutral.png"); 
+        menuBttnSelect = new Image("images/buttons/Button_Menu_Depressed.png");
        
         //Victory and Fail screens
         nextBttn = new Image("images/buttons/Button_Play_Neutral.png"); //use play button image for now
@@ -393,19 +393,18 @@ public class GameLevel extends BasicGameState {
          bottomBlock.draw(0,400);
          
          //Pause screen
-         g.drawImage(pauseBg,1,1);
+         g.drawImage(pauseBg,0,220);
          if(isMouseOverPlay)
          {
-        	 g.drawImage(resumeBttnSelect, 150, 300);
+        	 g.drawImage(resumeBttnSelect, 25, 396);
         	 
          } else{
-        	 g.drawImage(resumeBttn, 150, 300);
+        	 g.drawImage(resumeBttn, 25, 396);
          }
-         
          if(isMouseOverMenu){
-        	 g.drawImage(menuBttnSelect, 150,410);
+        	 g.drawImage(menuBttnSelect, 160,396);
          } else{
-        	 g.drawImage(menuBttn, 150, 410);
+        	 g.drawImage(menuBttn, 160, 396);
          }
          
          
@@ -431,8 +430,10 @@ public class GameLevel extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
         world.step((float)delta / 1000.f, velocityIterations, positionIterations);
 
-		
 		Input input = container.getInput();
+		int xpos = input.getMouseX();
+	    int ypos = input.getMouseY();
+	    mouse = "Mouse Position x: " + xpos + "  y: " + ypos;
 
          if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
@@ -467,21 +468,16 @@ public class GameLevel extends BasicGameState {
          }
          
          
-         //Pause the game
-         if(input.isKeyDown(Input.KEY_ESCAPE)==true && (!isVictory || !isFail))
+       //Pause the game
+         if(input.isKeyDown(Input.KEY_ESCAPE)==true && isVictory==false && isFail==false)
          {
         	 pauseBg.setAlpha(20);
         	 resumeBttn.setAlpha(100);
         	 menuBttn.setAlpha(100);
         	 container.pause();
          }
-         
-         int xpos = input.getMouseX();
-         int ypos = input.getMouseY();
-         mouse = "Mouse Position x: " + xpos + "  y: " + ypos;
-         
          //Resume button
-         if((container.isPaused() == true) && (xpos>165 && xpos<240) && (ypos>316 && ypos<390)){
+         if((container.isPaused() == true) && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
         	 if(input.isMouseButtonDown(0)){
         		 pauseBg.setAlpha(0);
         		 resumeBttn.setAlpha(0);
@@ -493,7 +489,6 @@ public class GameLevel extends BasicGameState {
          else{
         	 isMouseOverPlay = false;
          }
-         
          //Menu button
          if((container.isPaused() == true) && (xpos>169 && xpos<239) && (ypos>414 && ypos<484)){
         	 if(input.isMouseButtonDown(0)){
