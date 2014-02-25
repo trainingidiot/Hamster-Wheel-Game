@@ -232,12 +232,19 @@ public class GameLevel extends BasicGameState {
 		gc.setShowFPS(false);
 		backgroundImage = new Image("images/background/game_background.png");
 		
-		//Image [] movementLeft =  {new Image("images/Biped/drag_wr_0.png"), new Image("images/Biped/drag_wr_1.png"), new Image("images/Biped/drag_wr_2.png"), new Image("images/Biped/drag_wr_3.png"),new Image("images/Biped/drag_wr_4.png"), new Image("images/Biped/drag_wr_5.png"), new Image("images/Biped/drag_wr_6.png"), new Image("images/Biped/drag_wr_7.png"),new Image("images/Biped/drag_wr_8.png"), new Image("images/Biped/drag_wr_9.png"), new Image("images/Biped/drag_wr_10.png"), new Image("images/Biped/drag_wr_11.png")} ;
-        //Image [] movementRight =  {new Image("images/Biped/drag_wl_0.png"), new Image("images/Biped/drag_wl_1.png"), new Image("images/Biped/drag_wl_2.png"), new Image("images/Biped/drag_wl_3.png"),new Image("images/Biped/drag_wl_4.png"), new Image("images/Biped/drag_wl_5.png"), new Image("images/Biped/drag_wl_6.png"), new Image("images/Biped/drag_wl_7.png"),new Image("images/Biped/drag_wl_8.png"), new Image("images/Biped/drag_wl_9.png"), new Image("images/Biped/drag_wl_10.png"), new Image("images/Biped/drag_wl_11.png")} ;
-        //Image [] movementLeftStill =  {new Image("images/Biped/drag_bl_0.png"), new Image("images/Biped/drag_bl_1.png"), new Image("images/Biped/drag_bl_2.png"), new Image("images/Biped/drag_bl_3.png")} ;
-        //Image [] movementRightStill =  {new Image("images/Biped/drag_br_0.png"), new Image("images/Biped/drag_br_1.png"), new Image("images/Biped/drag_br_2.png"), new Image("images/Biped/drag_br_3.png")} ;
-        //int [] duration = {50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};  
-        //int [] durationStill = {200, 200, 200, 200};
+		//Hamster Animation
+		Image [] movementLeft =  {new Image("images/hamster/Run_Left_1.png"), new Image("images/hamster/Run_Left_2.png"), new Image("images/hamster/Run_Left_3.png"), new Image("images/hamster/Run_Left_4.png"),new Image("images/hamster/Run_Left_5.png"), new Image("images/hamster/Run_Left_6.png"), new Image("images/hamster/Run_Left_7.png"), new Image("images/hamster/Run_Left_8.png")} ;
+        Image [] movementRight =  {new Image("images/hamster/Run_1.png"), new Image("images/hamster/Run_2.png"), new Image("images/hamster/Run_3.png"), new Image("images/hamster/Run_4.png"),new Image("images/hamster/Run_5.png"), new Image("images/hamster/Run_6.png"), new Image("images/hamster/Run_7.png"), new Image("images/hamster/Run_8.png")} ;
+        Image [] movementLeftStill =  {new Image("images/hamster/Idle_Left_1.png"), new Image("images/hamster/Idle_Left_2.png"),new Image("images/hamster/Idle_Left_3.png"), new Image("images/hamster/Idle_Left_4.png")};
+        Image [] movementRightStill =  {new Image("images/hamster/Idle_1.png"), new Image("images/hamster/Idle_2.png"),new Image("images/hamster/Idle_3.png"), new Image("images/hamster/Idle_4.png")};
+        int [] duration = {50, 50, 50, 50, 50, 50, 50, 50};  
+        int [] durationStill = {200, 200, 200, 200};
+        left = new Animation(movementLeft, duration, true);
+        right = new Animation(movementRight, duration, true);
+        leftStill = new Animation(movementLeftStill, durationStill, true);
+        rightStill = new Animation(movementRightStill, durationStill, true);
+        sprite = rightStill;
+        
 		 boardTop = new Image("images/background/game_toppanel.png");
 	     spigots = new Image("images/background/game_spigots.png");
 	     bottomBlock = new Image("images/background/game_bottomblock.png");
@@ -250,10 +257,6 @@ public class GameLevel extends BasicGameState {
          white = new Image("images/droplets/Droplet_white.png");
          yellow = new Image("images/droplets/Droplet_yellow.png");
 
-        //left = new Animation(movementLeft, duration, true);
-        //right = new Animation(movementRight, duration, true);
-        //leftStill = new Animation(movementLeftStill, durationStill, true);
-        //rightStill = new Animation(movementRightStill, durationStill, true);
         
         velocityIterations = 10;
         positionIterations = 10;
@@ -290,7 +293,7 @@ public class GameLevel extends BasicGameState {
 		boardTop.draw(0, 0);
 		spigots.draw(161,27);
 		wheelPanel.draw(0,400);
-     	
+		sprite.draw(0,400);
          
          g.drawString(level, 10, 8);
          
@@ -437,6 +440,10 @@ public class GameLevel extends BasicGameState {
         	 wheelPanel.setRotation(wheelPanel.getRotation()-1);
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
+        	 sprite = left;
+         }
+         if(sprite == left && input.isKeyDown(Input.KEY_LEFT)==false){
+        	 sprite = leftStill;
          }
          if (input.isKeyDown(Input.KEY_RIGHT)==true && container.isPaused() == false)
          {
@@ -444,6 +451,10 @@ public class GameLevel extends BasicGameState {
         	 wheelPanel.setRotation(wheelPanel.getRotation()+1);
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
+        	 sprite = right;
+         }
+         if(sprite == right && input.isKeyDown(Input.KEY_RIGHT)==false){
+        	 sprite = rightStill;
          }
          
          if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
