@@ -44,12 +44,31 @@ public class GameLevel extends BasicGameState {
     Body wheelArmA, wheelArmB, groundB, polygonGround;
 
 
-	
+    private LevelListStorage dropletList;
 	private int state;
 	
 	public GameLevel(int state) {
 		this.state = state;
 		level = "Level " + state;
+	}
+	
+	public GameLevel(int state, LevelListStorage list) {
+		this.state = state;
+		level = "Level " + state;
+		dropletList = list;
+		testList();
+	}
+	
+	public void testList(){
+		System.out.println("Level: " + dropletList.getList(state).getLevelInfo());
+		for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++){
+			System.out.print(dropletList.getList(state).getCurrentLeftList().get(i) + " ");
+		}
+		System.out.println();
+		for(int i = 0; i < dropletList.getList(state).getCurrentRightList().size(); i++){
+			System.out.print(dropletList.getList(state).getCurrentRightList().get(i) + " ");
+		}
+		System.out.println();
 	}
 	
 	@Override
