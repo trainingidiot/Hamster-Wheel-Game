@@ -11,6 +11,8 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
+import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -44,12 +46,28 @@ public class GameLevel extends BasicGameState {
     Body wheelArmA, wheelArmB, groundB, polygonGround;
 
 
-	
+    private LevelListStorage dropletList;
 	private int state;
 	
 	public GameLevel(int state) {
 		this.state = state;
 		level = "Level " + state;
+	}
+	
+	public GameLevel(int state, LevelListStorage list) {
+		this.state = state;
+		level = "Level " + state;
+		dropletList = list;
+		testList();
+	}
+	
+	public void testList(){
+		for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++){
+			System.out.print(dropletList.getList(state).getCurrentLeftList().get(i) + " ");
+		}
+		for(int i = 0; i < dropletList.getList(state).getCurrentRightList().size(); i++){
+			System.out.print(dropletList.getList(state).getCurrentRightList().get(i) + " ");
+		}
 	}
 	
 	@Override
@@ -169,7 +187,7 @@ public class GameLevel extends BasicGameState {
 	        FixtureDef fixtureDef = new FixtureDef();
 	        fixtureDef.shape = shape;
 	        fixtureDef.density = 0.5f;
-	        fixtureDef.friction = 0.3f;
+	        fixtureDef.friction = 0.99f;
 	        fixtureDef.restitution = 0.5f;
 
 	        polygonGround = world.createBody(polygon);
@@ -184,7 +202,6 @@ public class GameLevel extends BasicGameState {
 	        bd.position = new Vec2(0.f, -6.7f);
 	        bd.type = BodyType.STATIC;
 	        Body body = world.createBody(bd);
-	        //System.out.println(body);
 	        CircleShape sd = new CircleShape();
 	        sd.m_radius = (2f);
 	        
@@ -269,14 +286,12 @@ public class GameLevel extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
-		 //g.setBackground(Color.white);
 		backgroundImage.draw(0,53); 
 		boardTop.draw(0, 0);
 		spigots.draw(161,27);
 		wheelPanel.draw(0,400);
      	
          
-//         g.drawString(mouse, 10, 10);
          g.drawString(level, 10, 8);
          
          
@@ -313,16 +328,57 @@ public class GameLevel extends BasicGameState {
                      }
                      case CIRCLE:
                      {
-                         CircleShape shape = (CircleShape)f.getShape();
+                    	 switch ((int)f.m_density)
+                    	 {
+	                    	 case 500:
+	                    	 {
+	                    		 g.drawImage(black, -10, -10);
+	                             break; 
+	                    	 }
+	                    	 case 501:
+	                    	 {
+	                    		 g.drawImage(blue, -10, -10);
+	                             break;  
+	                    	 }
+	                    	 case 502:
+	                    	 {
+	                    		 g.drawImage(green, -10, -10);
+	                             break; 
+	                    	 }
+	                    	 case 503:
+	                    	 {
+	                    		 g.drawImage(orange, -10, -10);
+	                             break;  
+	                    	 }
+	                    	 case 504:
+	                    	 {
+	                    		 g.drawImage(purple, -10, -10);
+	                             break; 
+	                    	 }
+	                    	 case 505:
+	                    	 {
+	                    		 g.drawImage(red, -10, -10);
+	                             break;  
+	                    	 }
+	                    	 case 506:
+	                    	 {
+	                    		 g.drawImage(white, -10, -10);
+	                             break; 
+	                    	 }
+	                    	 case 507:
+	                    	 {
+	                    		 g.drawImage(yellow, -10, -10);
+	                             break;  
+	                    	 }
+                    	 }
                          
-                         //g.setColor(Color.blue);
-                         //g.fillOval(-7,-7,15,15);
-                         g.drawImage(blue, -5, -5);
-                         break;
                          
                      }
                      default:
                  }
+                 
+                 
+                 checkContacts();
 
                  f = f.getNext();
              }
@@ -495,60 +551,74 @@ public class GameLevel extends BasicGameState {
          
 	}
 
-	public int getID() {
-		
+	public int getID() 
+	{	
 		return state;
 	}
 	
 	private void drawDropletLeft()
 	{
-		//Droplet collision
-		
-        	BodyDef bd = new BodyDef();
-            bd.position = new Vec2(.8f, 8.7f);
-            bd.type = BodyType.DYNAMIC;
-            Body body = world.createBody(bd);
-            System.out.println(body);
-            body.setAngularVelocity(0.1f);
-            body.setLinearVelocity(new Vec2( 0, -5 ));
-            CircleShape sd = new CircleShape();
-            sd.m_radius = (.15f);
-            
-            FixtureDef fd = new FixtureDef();
-	        fd.shape = sd;
-	        fd.density = 500;
-	        fd.friction = 1;        
-	        fd.restitution = 0;
-            
-            body.createFixture(fd);
-        
+        new Droplet (world, "left", 501);  	   
 	}
 	
 	private void drawDropletRight()
 	{
-		//Droplet collision
-		
-        	BodyDef bd = new BodyDef();
-            bd.position = new Vec2(-.8f, 8.7f);
-            bd.type = BodyType.DYNAMIC;
-            Body body = world.createBody(bd);
-            System.out.println(body);
-            body.setAngularVelocity(0.1f);
-            body.setLinearVelocity(new Vec2( 0, -5 ));
-            CircleShape sd = new CircleShape();
-            sd.m_radius = (.15f);
-            
-            FixtureDef fd = new FixtureDef();
-	        fd.shape = sd;
-	        fd.density = 500;
-	        fd.friction = 1;        
-	        fd.restitution = 0;
-            
-            body.createFixture(fd);
-        
+        new Droplet (world, "right", 505);  	        
 	}
 	
+	private void checkContacts()
+	{
+		Contact edge = world.getContactList();
+		while (edge != null)
+		{
 
-
+			Fixture f1 = edge.getFixtureA();
+			Fixture f2 = edge.getFixtureB();
+			if(f1.m_density>=500 && f2.m_density >= 500)
+			{
+				if(f1.m_density != f2.m_density)
+				{
+					changeColors(f1, f2);
+				}
+			}
+			
+		edge = edge.getNext();
+		}
+		
+	}
+	
+	private void changeColors(Fixture f1, Fixture f2)
+	{
+		if (f1.m_density == 501 && f2.m_density==505)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+		if (f1.m_density == 505 && f2.m_density==501)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+		if (f1.m_density == 504 && f2.m_density==501)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+		if (f1.m_density == 505 && f2.m_density==504)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+		if (f1.m_density == 504 && f2.m_density==505)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+		if (f1.m_density == 501 && f2.m_density==504)
+		{
+			f1.m_density = 504;
+			f2.m_density = 504;
+		}
+	}
 
 }
