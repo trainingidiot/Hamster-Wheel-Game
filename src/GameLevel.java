@@ -326,7 +326,7 @@ public class GameLevel extends BasicGameState {
                          p.setCenterY(center.y);
                          p = (Polygon)p.transform(Transform.createRotateTransform(current.getAngle() + MathUtils.PI, center.x, center.y));
                          p = (Polygon)p.transform(Transform.createScaleTransform(pixelsPerMeter, pixelsPerMeter));
-                         g.draw(p);
+                         //g.draw(p);
                          break;
                      }
                      case CIRCLE:
