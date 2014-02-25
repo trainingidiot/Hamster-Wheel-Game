@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 
 public class Parser {
-	
-	private LevelListStorage levelStorage;
 
 	public void callParser() throws FileNotFoundException
 	{
@@ -15,7 +13,7 @@ public class Parser {
   		FileReader fr = new FileReader(file);
   		Scanner scanner = new Scanner(fr);
   		
-  		levelStorage = new LevelListStorage();
+  		LevelListStorage levelStorage = new LevelListStorage();
   		while(scanner.hasNext())
   		{
   	  		ListStorage storage = new ListStorage();
@@ -64,10 +62,6 @@ public class Parser {
  		System.out.println();
  		System.out.println();
  		
-	}
-	
-	public LevelListStorage getList(){
-		return levelStorage;
 	}
 
 }

@@ -64,7 +64,7 @@ public class Menu extends BasicGameState{
 			isMouseOverLvls = true;
 			
 			if(input.isMouseButtonDown(0)){
-				sbg.enterState(-1); //enters level selector screen
+				sbg.enterState(2); //enters level selector screen
 			}
 			
 		} else{

@@ -12,8 +12,6 @@ public class LevelSelector extends BasicGameState {
 
 	String mouse;
 	private int state;
-	private Image lvl1, lvl1Select;
-	private boolean isMouseOver_lvl1;
 	
 	LevelSelector(int state){
 		this.state = state;
@@ -23,9 +21,6 @@ public class LevelSelector extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		gc.setShowFPS(false);
-		
-		lvl1 = new Image("images/buttons/BUtton_Level_Neutral.png");
-		lvl1Select = new Image("images/buttons/BUtton_Level_Selected.png");
 	}
 
 	@Override
@@ -36,11 +31,6 @@ public class LevelSelector extends BasicGameState {
 		g.drawImage(backBttn, 20, 30);
 		
 		g.setBackground(Color.lightGray);
-		
-		g.drawImage(lvl1,30, 121);
-		if(isMouseOver_lvl1){
-			g.drawImage(lvl1Select,30,121);
-		}
 	}
 
 	@Override
@@ -57,17 +47,6 @@ public class LevelSelector extends BasicGameState {
 			if(input.isMouseButtonDown(0)){
 				sbg.enterState(0); //return to menu screen
 			}
-		}
-		
-		//Level1
-		if((xpos>30 && xpos<110) && (ypos>124 && ypos<203)){
-			isMouseOver_lvl1 = true;
-			if(input.isMousePressed(0)){
-				sbg.enterState(2); //enter level 2 just for testing purposes
-			}
-		}
-		else{
-			isMouseOver_lvl1 = false;
 		}
 		
 	}
