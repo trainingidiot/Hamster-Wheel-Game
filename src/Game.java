@@ -28,21 +28,29 @@ public class Game extends StateBasedGame
 
 	public static final int menu = 0;
 	public static final int levelSelector = -1;
+	public static final int music = -2;
      public Game()
      {
          super("Taste The Rainbow");
+        
          this.addState(new Menu(menu));
          this.addState(new GameLevel(1));
          this.addState(new LevelSelector(levelSelector));
          this.addState(new GameLevel(2));
+         this.addState(new MusicAndSoundEffects(music));
+         this.addState(new GameLevel(3));
+         
      }
 
  	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(menu).init(gc, this);
+
 //		this.getState(gameLevel).init(gc, this);
 		this.getState(levelSelector).init(gc, this);
+		this.getState(music).init(gc, this);
+		
 		this.enterState(menu); //first screen is menu
-	}
+ 	}
  	
      public static void main(String[] args) throws FileNotFoundException
      {
