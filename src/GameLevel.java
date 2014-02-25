@@ -317,7 +317,7 @@ public class GameLevel extends BasicGameState {
                          
                          //g.setColor(Color.blue);
                          //g.fillOval(-7,-7,15,15);
-                         g.drawImage(blue, -5, -5);
+                         g.drawImage(blue, -10, -10);
                          break;
                          
                      }
