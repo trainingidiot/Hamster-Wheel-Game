@@ -37,7 +37,7 @@ public class GameLevel extends BasicGameState {
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
 	Image backgroundImage;
 	String mouse, level;
-	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail;;
+	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
 	
     private static final World world = new World(new Vec2(0, -20f));
     int velocityIterations;
@@ -46,7 +46,7 @@ public class GameLevel extends BasicGameState {
     Body wheelArmA, wheelArmB, groundB, polygonGround;
 
 
-    private LevelListStorage dropletList;
+    private LevelListStorage dropletList; //holds the list of what droplets each level has
 	private int state;
 	
 	public GameLevel(int state) {
@@ -58,16 +58,19 @@ public class GameLevel extends BasicGameState {
 		this.state = state;
 		level = "Level " + state;
 		dropletList = list;
-		testList();
+//		testList();
 	}
 	
 	public void testList(){
+		System.out.println("Level: " + dropletList.getList(state).getLevelInfo());
 		for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++){
 			System.out.print(dropletList.getList(state).getCurrentLeftList().get(i) + " ");
 		}
+		System.out.println();
 		for(int i = 0; i < dropletList.getList(state).getCurrentRightList().size(); i++){
 			System.out.print(dropletList.getList(state).getCurrentRightList().get(i) + " ");
 		}
+		System.out.println();
 	}
 	
 	@Override
@@ -272,15 +275,15 @@ public class GameLevel extends BasicGameState {
        
         //Play and level select buttons
         resumeBttn = new Image("images/buttons/Button_Play_Neutral.png");
-        resumeBttnSelect = new Image("images/buttons/Button_Play_Selected.png");
+        resumeBttnSelect = new Image("images/buttons/Button_Play_Depressed.png");
         menuBttn = new Image("images/buttons/Button_Menu_Neutral.png"); 
         menuBttnSelect = new Image("images/buttons/Button_Menu_Depressed.png");
        
         //Victory and Fail screens
         nextBttn = new Image("images/buttons/Button_Play_Neutral.png"); //use play button image for now
-        nextBttnSelect = new Image("images/buttons/Button_Play_Selected.png");
+        nextBttnSelect = new Image("images/buttons/Button_Play_Depressed.png");
         levelBttn = new Image("images/buttons/Button_Levels_Neutral.png");
-        levelBttnSelect = new Image("images/buttons/Button_Levels_Selected.png");
+        levelBttnSelect = new Image("images/buttons/Button_Levels_Depressed.png");
         replayBttn = new Image("images/buttons/Button_Restart_Neutral.png");
         replayBttnSelect = new Image("images/buttons/Button_Restart_Depressed.png");
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
@@ -406,21 +409,50 @@ public class GameLevel extends BasicGameState {
          } else{
         	 g.drawImage(menuBttn, 160, 396);
          }
+         if(gc.isPaused()){
+        	 if(isMouseOverReplay){
+        		 g.drawImage(replayBttnSelect, 294,396);
+        	 }
+        	 else
+        		 g.drawImage(replayBttn,294,396);
+         }
          
          
          //Victory/Fail screens
          if(isVictory){
         	 g.drawImage(victoryScreen,0,220);
-        	 g.drawImage(nextBttn,25,396);
-        	 g.drawImage(levelBttn,160,396);
-        	 g.drawImage(replayBttn,294,396);
+        	 if(isMouseOverNext)
+        		 g.drawImage(nextBttnSelect, 25,396);
+        	 else
+        		 g.drawImage(nextBttn,25,396);
+        	 
+        	 if(isMouseOverLevels)
+        		 g.drawImage(levelBttnSelect,160,396);
+        	 else
+        		 g.drawImage(levelBttn,160,396);
+        	 
+        	 if(isMouseOverReplay)
+        		 g.drawImage(replayBttnSelect, 294,396);
+        	 else
+        		 g.drawImage(replayBttn,294,396);
          }
          
          if(isFail){
         	 g.drawImage(failureScreen, 0,220);
-        	 g.drawImage(menuBttn2,25,396);
-        	 g.drawImage(levelBttn,160,396);
-        	 g.drawImage(replayBttn,294,396);
+        	 if(isMouseOverMenu)
+        		 g.drawImage(menuBttn2Select,25,396);
+        	 else
+        		 g.drawImage(menuBttn2,25,396);
+        	 
+        	 if(isMouseOverLevels)
+        		 g.drawImage(levelBttnSelect,160,396);
+        	 else
+        		 g.drawImage(levelBttn,160,396);
+        	 
+        	 if(isMouseOverReplay)
+        		 g.drawImage(replayBttnSelect, 294,396);
+        	 else
+        		 g.drawImage(replayBttn,294,396);
          }
          
 	}
@@ -481,7 +513,7 @@ public class GameLevel extends BasicGameState {
         	 container.pause();
          }
          //Resume button
-         if((container.isPaused() == true) && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
+         if(container.isPaused() && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
         	 if(input.isMouseButtonDown(0)){
         		 pauseBg.setAlpha(0);
         		 resumeBttn.setAlpha(0);
@@ -494,7 +526,7 @@ public class GameLevel extends BasicGameState {
         	 isMouseOverPlay = false;
          }
          //Menu button
-         if((container.isPaused() == true) && (xpos>169 && xpos<239) && (ypos>414 && ypos<484)){
+         if(container.isPaused() && (xpos>169 && xpos<239) && (ypos>414 && ypos<484)){
         	 if(input.isMouseButtonDown(0)){
         		 world.destroyBody(wheelArmA);
         		 world.destroyBody(wheelArmB);
@@ -506,7 +538,18 @@ public class GameLevel extends BasicGameState {
          } else{
         	 isMouseOverMenu = false;
          }
-         
+         //replay
+         if((xpos>295 && xpos<374) && (ypos>400  && ypos<478) && container.isPaused()){
+  			isMouseOverReplay = true;
+        	 if(input.isMousePressed(0)){
+  				world.destroyBody(wheelArmA);
+  				world.destroyBody(wheelArmB);
+  				container.resume();
+  				sbg.enterState(this.getID()); //enter level selection screen
+  			}
+  		}else{
+  			isMouseOverReplay = false;
+  		}
          
          //Victory
  		if(input.isKeyPressed(Input.KEY_V)){
@@ -517,12 +560,15 @@ public class GameLevel extends BasicGameState {
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
- 				if(this.getID() < sbg.getStateCount()-2){
+ 				if(this.getID() < sbg.getStateCount()-3){
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
- 					sbg.enterState(this.getID() + 1); //enter level selection screen
+ 					sbg.enterState(this.getID() + 1); //enter next level
  				}
  			}
+ 			isMouseOverNext = true;
+ 		} else{
+ 			isMouseOverNext = false;
  		}
  		
 
@@ -533,14 +579,18 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmB);
  				sbg.enterState(-1); //enter level selection screen
  			}
+ 			isMouseOverLevels = true;
+ 		} else{
+ 			isMouseOverLevels = false;
  		}
  		//replay button from victory/fail screen
  		if((xpos>295 && xpos<374) && (ypos>400  && ypos<478) && (isVictory || isFail)){
  			if(input.isMousePressed(0)){
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
- 				sbg.enterState(this.getID()); //enter level selection screen
+ 				sbg.enterState(this.getID()); //re-enter game level state
  			}
+ 			isMouseOverReplay = true;
  		}
  		
  		
@@ -557,6 +607,7 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmB);
  				sbg.enterState(0); //enter menu screen				
  			}
+ 			isMouseOverMenu = true;
  		}
          
 	}
