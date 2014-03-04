@@ -76,7 +76,24 @@ public class GameLevel extends BasicGameState {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
         
-		
+		//need to destory previous droplets whenever we enter the game level
+		Body current = world.getBodyList();
+			while(current != null){
+				Fixture f = current.getFixtureList();
+				while(f !=null){
+					ShapeType type = f.getType();
+					switch(type){
+						case CIRCLE:
+							{
+								world.destroyBody(current);
+							break;}
+						default:
+							break;
+					}
+					f = f.getNext();
+				}
+				current = current.getNext();
+			}
 		//arms
 		{
             BodyDef wheelArm1 = new BodyDef();
