@@ -26,7 +26,6 @@ public class Game extends StateBasedGame
 
 	public static final int menu = 0;
 	public static final int levelSelector = -1;
-	public static final int music = -2;
 	private static LevelListStorage dropletList;
 	
      public Game()
@@ -36,17 +35,12 @@ public class Game extends StateBasedGame
          this.addState(new GameLevel(1, dropletList));
          this.addState(new LevelSelector(levelSelector));
          this.addState(new GameLevel(2, dropletList));
-         this.addState(new MusicSF(music));
-         this.addState(new GameLevel(3, dropletList));
      }
 
  	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(menu).init(gc, this);
 //		this.getState(gameLevel).insit(gc, this);
-		this.getState(levelSelector).init(gc, this);
-
-		this.getState(music).init(gc, this);
-		
+		this.getState(levelSelector).init(gc, this);	
 		this.enterState(menu); //first screen is menu
 	}
  	
