@@ -39,7 +39,7 @@ public class Droplet {
         body.setAngularVelocity(0.1f);
         body.setLinearVelocity(new Vec2( 0, -5 ));
         CircleShape sd = new CircleShape();
-        sd.m_radius = (.17f);
+        sd.m_radius = (.18f);
         
         FixtureDef fd = new FixtureDef();
         fd.shape = sd;

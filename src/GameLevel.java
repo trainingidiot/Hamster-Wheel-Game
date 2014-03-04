@@ -39,7 +39,7 @@ public class GameLevel extends BasicGameState {
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
 	
-    private static final World world = new World(new Vec2(0, -20f));
+    private static final World world = new World(new Vec2(0, -200f));
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
@@ -85,7 +85,7 @@ public class GameLevel extends BasicGameState {
             wheelArm1.type = BodyType.STATIC;
             wheelArmA = world.createBody(wheelArm1);
             PolygonShape bar = new PolygonShape();
-            bar.setAsBox(6.6f, 0.1f);
+            bar.setAsBox(7f, 0.2f);
             wheelArmA.createFixture(bar, 0);
         }
 		{
@@ -95,7 +95,7 @@ public class GameLevel extends BasicGameState {
             wheelArm2.type = BodyType.STATIC;
             wheelArmB = world.createBody(wheelArm2);
             PolygonShape bar = new PolygonShape();
-            bar.setAsBox(.1f, 6.6f);
+            bar.setAsBox(.2f, 7f);
             wheelArmB.createFixture(bar, 0);
         }
 		
@@ -460,7 +460,9 @@ public class GameLevel extends BasicGameState {
 	
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
-        world.step((float)delta / 1000.f, velocityIterations, positionIterations);
+       
+		world.step((float)delta/5000f, velocityIterations, positionIterations);
+		
 
 		Input input = container.getInput();
 		int xpos = input.getMouseX();
@@ -635,7 +637,7 @@ public class GameLevel extends BasicGameState {
 
 			Fixture f1 = edge.getFixtureA();
 			Fixture f2 = edge.getFixtureB();
-			if(f1.m_density>=500 && f2.m_density >= 500)
+			if(f1.m_density >= 500 && f2.m_density >= 500)
 			{
 				if(f1.m_density != f2.m_density)
 				{
@@ -654,58 +656,100 @@ public class GameLevel extends BasicGameState {
 		
 		// blue and red
 		if (f1.m_density == 501 && f2.m_density==505)
-		{
-			f1.m_density = 504;
-			f2.m_density = 504;
-		}
-		// purple and blue
+		{f1.m_density = 504;f2.m_density = 504;}
+		// blue and purple
 		if (f1.m_density == 504 && f2.m_density==501)
-		{
-			f1.m_density = 504;
-			f2.m_density = 504;
-		}
-		//red and purple
-		if (f1.m_density == 505 && f2.m_density==504)
-		{
-			f1.m_density = 504;
-			f2.m_density = 504;
-		}
+		{f1.m_density = 504;f2.m_density = 504;}
 		// blue and yellow
 		if (f1.m_density == 501 && f2.m_density==507)
-		{
-			f1.m_density = 502;
-			f2.m_density = 502;
-		}
-		// green and blue
+		{f1.m_density = 502;f2.m_density = 502;}
+		// blue and green
 		if (f1.m_density == 502 && f2.m_density==501)
-		{
-			f1.m_density = 502;
-			f2.m_density = 502;
-		}
+		{f1.m_density = 502;f2.m_density = 502;}
+		// blue and orange
+		if (f1.m_density == 503 && f2.m_density==501)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// blue and black
+		if (f1.m_density == 500 && f2.m_density==501)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// blue and white
+		if (f1.m_density == 506 && f2.m_density==501)
+		{f1.m_density = 501;f2.m_density = 501;}
+		
+		
+		//red and purple
+		if (f1.m_density == 505 && f2.m_density==504)
+		{f1.m_density = 504;f2.m_density = 504;}
+		// red and yellow
+		if (f1.m_density == 507 && f2.m_density==505)
+		{f1.m_density = 503;f2.m_density = 503;}
+		// red and orange
+		if (f1.m_density == 503 && f2.m_density==505)
+		{f1.m_density = 503;f2.m_density = 503;}
+		// red and black
+		if (f1.m_density == 500 && f2.m_density==505)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// red and green
+		if (f1.m_density == 502 && f2.m_density==505)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// red and white
+		if (f1.m_density == 506 && f2.m_density==505)
+		{f1.m_density = 505;f2.m_density = 505;}
+		
+		
+		// yellow and orange
+		if (f1.m_density == 503 && f2.m_density==507)
+		{f1.m_density = 503;f2.m_density = 503;}
 		// yellow and green
 		if (f1.m_density == 507 && f2.m_density==502)
-		{
-			f1.m_density = 502;
-			f2.m_density = 502;
-		}
-		// yellow and red
-		if (f1.m_density == 507 && f2.m_density==505)
-		{
-			f1.m_density = 503;
-			f2.m_density = 503;
-		}
-		// orange and red
-		if (f1.m_density == 503 && f2.m_density==505)
-		{
-			f1.m_density = 503;
-			f2.m_density = 503;
-		}
-		// orange and yellow
-		if (f1.m_density == 503 && f2.m_density==507)
-		{
-			f1.m_density = 503;
-			f2.m_density = 503;
-		}
+		{f1.m_density = 502;f2.m_density = 502;}
+		// yellow and black
+		if (f1.m_density == 500 && f2.m_density==507)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// yellow and purple
+		if (f1.m_density == 504 && f2.m_density==507)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// yellow and white
+		if (f1.m_density == 506 && f2.m_density==507)
+		{f1.m_density = 507;f2.m_density = 507;}
+		
+		
+		// black and green
+		if (f1.m_density == 500 && f2.m_density==502)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// black and orange
+		if (f1.m_density == 500 && f2.m_density==503)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// black and purple
+		if (f1.m_density == 500 && f2.m_density==504)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// black and white
+		if (f1.m_density == 500 && f2.m_density==506)
+		{f1.m_density = 500;f2.m_density = 500;}
+		
+		
+		// green and purple
+		if (f1.m_density == 502 && f2.m_density==504)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// green and orange
+		if (f1.m_density == 502 && f2.m_density==503)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// green and white
+		if (f1.m_density == 502 && f2.m_density==506)
+		{f1.m_density = 502;f2.m_density = 502;}
+		
+		
+		// orange and purple
+		if (f1.m_density == 503 && f2.m_density==504)
+		{f1.m_density = 500;f2.m_density = 500;}
+		// orange and white
+		if (f1.m_density == 503 && f2.m_density==506)
+		{f1.m_density = 503;f2.m_density = 503;}
+		
+		
+		// purple and white
+		if (f1.m_density == 504 && f2.m_density==506)
+		{f1.m_density = 504;f2.m_density = 504;}
 	}
 
 }
