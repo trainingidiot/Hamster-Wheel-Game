@@ -253,10 +253,10 @@ public class GameLevel extends BasicGameState {
 		backgroundImage = new Image("images/background/game_background.png");
 		
 		//Hamster Animation
-		Image [] movementLeft =  {new Image("images/hamster/Run_Left_1.png"), new Image("images/hamster/Run_Left_2.png"), new Image("images/hamster/Run_Left_3.png"), new Image("images/hamster/Run_Left_4.png"),new Image("images/hamster/Run_Left_5.png"), new Image("images/hamster/Run_Left_6.png"), new Image("images/hamster/Run_Left_7.png"), new Image("images/hamster/Run_Left_8.png")} ;
-        Image [] movementRight =  {new Image("images/hamster/Run_1.png"), new Image("images/hamster/Run_2.png"), new Image("images/hamster/Run_3.png"), new Image("images/hamster/Run_4.png"),new Image("images/hamster/Run_5.png"), new Image("images/hamster/Run_6.png"), new Image("images/hamster/Run_7.png"), new Image("images/hamster/Run_8.png")} ;
-        Image [] movementLeftStill =  {new Image("images/hamster/Idle_Left_1.png"), new Image("images/hamster/Idle_Left_2.png"),new Image("images/hamster/Idle_Left_3.png"), new Image("images/hamster/Idle_Left_4.png")};
-        Image [] movementRightStill =  {new Image("images/hamster/Idle_1.png"), new Image("images/hamster/Idle_2.png"),new Image("images/hamster/Idle_3.png"), new Image("images/hamster/Idle_4.png")};
+		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
+        Image [] movementRight =  {new Image("images/hamster/Run_final_01.png"), new Image("images/hamster/Run_final_02.png"), new Image("images/hamster/Run_final_03.png"), new Image("images/hamster/Run_final_04.png"),new Image("images/hamster/Run_final_05.png"), new Image("images/hamster/Run_final_06.png"), new Image("images/hamster/Run_final_07.png"), new Image("images/hamster/Run_final_08.png")} ;
+        Image [] movementLeftStill =  {new Image("images/hamster/Idle_left_final_01.png"), new Image("images/hamster/Idle_left_final_02.png"),new Image("images/hamster/Idle_left_final_03.png"), new Image("images/hamster/Idle_left_final_04.png")};
+        Image [] movementRightStill =  {new Image("images/hamster/Idle_final_01.png"), new Image("images/hamster/Idle_final_02.png"),new Image("images/hamster/Idle_final_03.png"), new Image("images/hamster/Idle_final_04.png")};
         int [] duration = {50, 50, 50, 50, 50, 50, 50, 50};  
         int [] durationStill = {200, 200, 200, 200};
         left = new Animation(movementLeft, duration, true);
@@ -313,7 +313,7 @@ public class GameLevel extends BasicGameState {
 		boardTop.draw(0, 0);
 		spigots.draw(161,27);
 		wheelPanel.draw(0,400);
-		sprite.draw(0,400);
+		sprite.draw(138,541); //hamster
          
          g.drawString(level, 10, 8);
          
