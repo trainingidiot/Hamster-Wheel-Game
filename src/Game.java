@@ -35,7 +35,6 @@ public class Game extends StateBasedGame
          this.addState(new GameLevel(1, dropletList));
          this.addState(new LevelSelector(levelSelector));
          this.addState(new GameLevel(2, dropletList));
-         this.addState(new GameLevel(3, dropletList));
      }
 
  	public void initStatesList(GameContainer gc) throws SlickException {
