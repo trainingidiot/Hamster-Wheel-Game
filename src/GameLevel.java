@@ -38,7 +38,7 @@ public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
 	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
-	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
+	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select, star;
 	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
@@ -64,6 +64,7 @@ public class GameLevel extends BasicGameState {
     
     private LevelListStorage dropletList; //holds the list of what droplets each level has
 	private int state;
+	private int rating;
 	
 	public GameLevel(int state) {
 		this.state = state;
@@ -252,7 +253,7 @@ public class GameLevel extends BasicGameState {
 
                 
 		wheel = new Image("images/background/Wheel.png");
-		wheelPanel = new Image("images/background/Game_wheelbackpanel.png");
+		wheelPanel = new Image("images/background/Game_wheelbackpanel_FINAL.png");
         
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
@@ -269,7 +270,7 @@ public class GameLevel extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
-		backgroundImage = new Image("images/background/game_background.png");
+		backgroundImage = new Image("images/background/Game_background_final.png");
 		
 		//Hamster Animation
 		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
@@ -284,9 +285,9 @@ public class GameLevel extends BasicGameState {
         rightStill = new Animation(movementRightStill, durationStill, true);
         sprite = rightStill;
         
-		 boardTop = new Image("images/background/game_toppanel.png");
-	     spigots = new Image("images/background/game_spigots.png");
-	     bottomBlock = new Image("images/background/game_bottomblock.png");
+		 boardTop = new Image("images/background/Game_Panel_final.png");
+	     spigots = new Image("images/background/Game_spigots_final.png");
+	     bottomBlock = new Image("images/background/Game_bottomblock_final.png");
          green = new Image("images/droplets/Droplet_green.png");
          black = new Image("images/droplets/Droplet_black.png");
          blue = new Image("images/droplets/Droplet_blue.png");
@@ -295,7 +296,7 @@ public class GameLevel extends BasicGameState {
          red = new Image("images/droplets/Droplet_red.png");
          white = new Image("images/droplets/Droplet_white.png");
          yellow = new Image("images/droplets/Droplet_yellow.png");
-
+         star = new Image("images/Stars.png");
         
         velocityIterations = 10;
         positionIterations = 10;
@@ -303,7 +304,7 @@ public class GameLevel extends BasicGameState {
         
         
         //background for pause screen
-        pauseBg = new Image("images/background/Paused.png");
+        pauseBg = new Image("images/background/Paused_second.png");
         
         //Background for victory and failure screens
         victoryScreen = new Image("images/background/Victory.png");
@@ -430,7 +431,7 @@ public class GameLevel extends BasicGameState {
          }
          
          wheel.draw(-1,400);
-         bottomBlock.draw(0,400);
+         bottomBlock.draw(0,500);
          
          //Pause screen
          g.drawImage(pauseBg,0,220);
