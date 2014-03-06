@@ -1,4 +1,8 @@
 
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -44,8 +48,18 @@ public class GameLevel extends BasicGameState {
     int positionIterations;
     float pixelsPerMeter;
     Body wheelArmA, wheelArmB, groundB, polygonGround;
-
-
+    
+    //Timer and listener for droplets
+	int delay = 2550; //milliseconds
+	ActionListener taskPerformer = new ActionListener() 
+	{
+		public void actionPerformed(ActionEvent evt) 
+		{
+			drawDropletRight(507);
+	  	}
+	};
+	Timer timer = new Timer(delay, taskPerformer);
+    
     private LevelListStorage dropletList; //holds the list of what droplets each level has
 	private int state;
 	
@@ -306,6 +320,9 @@ public class GameLevel extends BasicGameState {
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
         menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
         
+        //Initiate falling of droplets
+        timer.start();
+        
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
@@ -509,6 +526,28 @@ public class GameLevel extends BasicGameState {
         	 sprite = rightStill;
          }
          
+         //Timer controls, the droplet flow still spontaneously stops if the timer is paused at any point
+         //The timer can temporarily be restarted but will eventually stop again
+         
+         //Stop the Timer
+         if (input.isKeyDown(Input.KEY_X)==true && container.isPaused() == false)
+         {
+        	 timer.stop();
+         }
+         
+         //Start the Timer
+         if (input.isKeyDown(Input.KEY_Z)==true && container.isPaused() == false)
+         {
+        	 timer.stop();
+        	 timer.start();
+         }
+         
+         //Stops the Timer at any sort of menu
+         if(container.isPaused() == true || isVictory== true || isFail== true)
+         {
+        	 timer.stop();
+         }
+         
          if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
          {
         	 drawDropletLeft(501);
@@ -538,6 +577,7 @@ public class GameLevel extends BasicGameState {
         		 resumeBttn.setAlpha(0);
         		 menuBttn.setAlpha(0);
         		 container.resume();
+        		 timer.start();
         	 }
         	 isMouseOverPlay = true;
          }
