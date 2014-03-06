@@ -718,6 +718,17 @@ public class GameLevel extends BasicGameState {
 			{
 				drawDropletLeft(503);
 			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("bl"))
+			{
+				drawDropletLeft(500);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("w"))
+			{
+				drawDropletLeft(506);
+			}
+			
 			leftListCount++;
 		}
 		
@@ -752,6 +763,17 @@ public class GameLevel extends BasicGameState {
 			{
 				drawDropletRight(503);
 			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("bl"))
+			{
+				drawDropletRight(500);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("w"))
+			{
+				drawDropletRight(506);
+			}
+			
 			rightListCount++;
 		}
 	}
