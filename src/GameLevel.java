@@ -628,6 +628,8 @@ public class GameLevel extends BasicGameState {
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
  					sbg.enterState(this.getID() + 1); //enter next level
+ 	 				leftListCount = 0;
+ 	 				rightListCount = 0;
  				}
  			}
  			isMouseOverNext = true;
@@ -653,6 +655,8 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
+ 				leftListCount = 0;
+ 				rightListCount = 0;
  			}
  			isMouseOverReplay = true;
  		}
