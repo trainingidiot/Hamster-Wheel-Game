@@ -41,7 +41,7 @@ public class GameLevel extends BasicGameState {
 
 	Animation sprite, left, right, leftStill, rightStill;
 	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
-	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select;
+	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select, star;
 	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
@@ -54,17 +54,20 @@ public class GameLevel extends BasicGameState {
     
     //Timer and listener for droplets
 	int delay = 2550; //milliseconds
+	int rightListCount = 0;
+	int leftListCount = 0;
 	ActionListener taskPerformer = new ActionListener() 
 	{
 		public void actionPerformed(ActionEvent evt) 
 		{
-			drawDropletRight(507);
+			parseList();
 	  	}
 	};
 	Timer timer = new Timer(delay, taskPerformer);
     
     private LevelListStorage dropletList; //holds the list of what droplets each level has
 	private int state;
+	private int rating;
 	
 	public GameLevel(int state) {
 		this.state = state;
@@ -253,7 +256,7 @@ public class GameLevel extends BasicGameState {
 
                 
 		wheel = new Image("images/background/Wheel.png");
-		wheelPanel = new Image("images/background/Game_wheelbackpanel.png");
+		wheelPanel = new Image("images/background/Game_wheelbackpanel_FINAL.png");
         
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
@@ -263,11 +266,14 @@ public class GameLevel extends BasicGameState {
 	        
         isVictory = false;
         isFail = false;
+        
+        //Initiate falling of droplets
+        timer.start();
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
-		backgroundImage = new Image("images/background/game_background.png");
+		backgroundImage = new Image("images/background/Game_background_final.png");
 		
 		//Hamster Animation
 		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
@@ -282,9 +288,9 @@ public class GameLevel extends BasicGameState {
         rightStill = new Animation(movementRightStill, durationStill, true);
         sprite = rightStill;
         
-		 boardTop = new Image("images/background/game_toppanel.png");
-	     spigots = new Image("images/background/game_spigots.png");
-	     bottomBlock = new Image("images/background/game_bottomblock.png");
+		 boardTop = new Image("images/background/Game_Panel_final.png");
+	     spigots = new Image("images/background/Game_spigots_final.png");
+	     bottomBlock = new Image("images/background/Game_bottomblock_final.png");
          green = new Image("images/droplets/Droplet_green.png");
          black = new Image("images/droplets/Droplet_black.png");
          blue = new Image("images/droplets/Droplet_blue.png");
@@ -293,7 +299,7 @@ public class GameLevel extends BasicGameState {
          red = new Image("images/droplets/Droplet_red.png");
          white = new Image("images/droplets/Droplet_white.png");
          yellow = new Image("images/droplets/Droplet_yellow.png");
-
+         star = new Image("images/Stars.png");
         
         velocityIterations = 10;
         positionIterations = 10;
@@ -301,7 +307,7 @@ public class GameLevel extends BasicGameState {
         
         
         //background for pause screen
-        pauseBg = new Image("images/background/Paused.png");
+        pauseBg = new Image("images/background/Paused_second.png");
         
         //Background for victory and failure screens
         victoryScreen = new Image("images/background/Victory.png");
@@ -322,9 +328,7 @@ public class GameLevel extends BasicGameState {
         replayBttnSelect = new Image("images/buttons/Button_Restart_Depressed.png");
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
         menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
-        
-        //Initiate falling of droplets
-        timer.start();
+
         
 	}
 	
@@ -474,7 +478,7 @@ public class GameLevel extends BasicGameState {
          }
          
          wheel.draw(-1,400);
-         bottomBlock.draw(0,400);
+         bottomBlock.draw(0,500);
          
          //Pause screen
          g.drawImage(pauseBg,0,220);
@@ -655,6 +659,8 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
+ 				leftListCount = 0;
+ 				rightListCount = 0;
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -673,6 +679,8 @@ public class GameLevel extends BasicGameState {
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
  					sbg.enterState(this.getID() + 1); //enter next level
+ 	 				leftListCount = 0;
+ 	 				rightListCount = 0;
  				}
  			}
  			isMouseOverNext = true;
@@ -698,6 +706,8 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
+ 				leftListCount = 0;
+ 				rightListCount = 0;
  			}
  			isMouseOverReplay = true;
  		}
@@ -724,6 +734,99 @@ public class GameLevel extends BasicGameState {
 	public int getID() 
 	{	
 		return state;
+	}
+	
+	private void parseList()
+	{
+		if(leftListCount < dropletList.getList(this.state).getCurrentLeftList().size())
+		{
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("r"))
+			{
+				drawDropletLeft(505);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("b"))
+			{
+				drawDropletLeft(501);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("y"))
+			{
+				drawDropletLeft(507);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("p"))
+			{
+				drawDropletLeft(504);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("g"))
+			{
+				drawDropletLeft(502);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("o"))
+			{
+				drawDropletLeft(503);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("bl"))
+			{
+				drawDropletLeft(500);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("w"))
+			{
+				drawDropletLeft(506);
+			}
+			
+			leftListCount++;
+		}
+		
+		if(rightListCount < dropletList.getList(this.state).getCurrentRightList().size())
+		{
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("r"))
+			{
+				drawDropletRight(505);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("b"))
+			{
+				drawDropletRight(501);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("y"))
+			{
+				drawDropletRight(507);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("p"))
+			{
+				drawDropletRight(504);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("g"))
+			{
+				drawDropletRight(502);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("o"))
+			{
+				drawDropletRight(503);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("bl"))
+			{
+				drawDropletRight(500);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("w"))
+			{
+				drawDropletRight(506);
+			}
+			
+			rightListCount++;
+		}
 	}
 	
 	private void drawDropletLeft(int num)
