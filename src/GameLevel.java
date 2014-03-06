@@ -2,7 +2,10 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
+
 import javax.swing.Timer;
+
 import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
@@ -43,7 +46,7 @@ public class GameLevel extends BasicGameState {
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
 	
-    private static final World world = new World(new Vec2(0, -200f));
+    private static final World world = new World(new Vec2(0, -2000f));
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
@@ -337,8 +340,11 @@ public class GameLevel extends BasicGameState {
          
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
+         
+         
          while(current != null)
          {
+        	 
              Vec2 pos = current.getPosition();
              g.pushTransform();
              g.translate(-pos.x * pixelsPerMeter + (0.5f * gc.getWidth()), 
@@ -363,51 +369,92 @@ public class GameLevel extends BasicGameState {
                          p.setCenterY(center.y);
                          p = (Polygon)p.transform(Transform.createRotateTransform(current.getAngle() + MathUtils.PI, center.x, center.y));
                          p = (Polygon)p.transform(Transform.createScaleTransform(pixelsPerMeter, pixelsPerMeter));
-                         //g.draw(p);
                          break;
                      }
                      case CIRCLE:
                      {
+                    	 
+                    	 Vec2 currentVel = current.getLinearVelocity();
+                    	 float x = currentVel.x;
+                    	 float y = currentVel.y;
+                    	 
+                    	 
+                    	 float minX = -2.0f;
+                    	 float maxX = 2.0f;
+
+                    	 Random rand = new Random();
+                    	 
+                    	 float randomFloat = rand.nextFloat() * (maxX - minX) + minX;
+                    	 if (x<0.1f&&x>-0.1f)
+                    	 {
+                    		 current.setLinearVelocity(new Vec2( x+randomFloat, y+10 ));
+                    	 }
+                    	 
+                    	 
                     	 switch ((int)f.m_density)
                     	 {
 	                    	 case 500:
 	                    	 {
-	                    		 g.drawImage(black, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.black);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break; 
 	                    	 }
 	                    	 case 501:
 	                    	 {
-	                    		 g.drawImage(blue, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.blue);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break;  
 	                    	 }
 	                    	 case 502:
 	                    	 {
-	                    		 g.drawImage(green, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.green);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break; 
 	                    	 }
 	                    	 case 503:
 	                    	 {
-	                    		 g.drawImage(orange, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.orange);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break;  
 	                    	 }
 	                    	 case 504:
 	                    	 {
-	                    		 g.drawImage(purple, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.magenta);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break; 
 	                    	 }
 	                    	 case 505:
 	                    	 {
-	                    		 g.drawImage(red, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.red);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break;  
 	                    	 }
 	                    	 case 506:
 	                    	 {
-	                    		 g.drawImage(white, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.white);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break; 
 	                    	 }
 	                    	 case 507:
 	                    	 {
-	                    		 g.drawImage(yellow, -10, -10);
+	                    		 Circle circle = new Circle(0,0,10);
+	                    		 g.setColor(Color.yellow);
+	                    		 g.draw(circle);
+	                    		 g.fill(circle);
 	                             break;  
 	                    	 }
                     	 }
@@ -495,7 +542,10 @@ public class GameLevel extends BasicGameState {
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
        
-		world.step((float)delta/5000f, velocityIterations, positionIterations);
+		world.step((float)delta/25000f, velocityIterations, positionIterations);
+		
+		
+		
 		
 
 		Input input = container.getInput();

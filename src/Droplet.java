@@ -36,8 +36,16 @@ public class Droplet {
 		}
         bd.type = BodyType.DYNAMIC;
         Body body = world.createBody(bd);
-        body.setAngularVelocity(0.1f);
-        body.setLinearVelocity(new Vec2( 0, -5 ));
+        body.setAngularVelocity(0f);
+        if (initPos.equals("left"))
+		{
+        	body.setLinearVelocity(new Vec2( 10, -5 ));
+		}
+        else
+        {
+        	body.setLinearVelocity(new Vec2( -10, -5 ));
+        }
+        
         CircleShape sd = new CircleShape();
         sd.m_radius = (.18f);
         
@@ -47,7 +55,9 @@ public class Droplet {
         fd.friction = 1;        
         fd.restitution = 0;
         
+        
         body.createFixture(fd);
+        
 	}
 	
 }
