@@ -51,11 +51,13 @@ public class GameLevel extends BasicGameState {
     
     //Timer and listener for droplets
 	int delay = 2550; //milliseconds
+	int rightListCount = 0;
+	int leftListCount = 0;
 	ActionListener taskPerformer = new ActionListener() 
 	{
 		public void actionPerformed(ActionEvent evt) 
 		{
-			drawDropletRight(507);
+			parseList();
 	  	}
 	};
 	Timer timer = new Timer(delay, taskPerformer);
@@ -260,6 +262,9 @@ public class GameLevel extends BasicGameState {
 	        
         isVictory = false;
         isFail = false;
+        
+        //Initiate falling of droplets
+        timer.start();
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
@@ -319,9 +324,7 @@ public class GameLevel extends BasicGameState {
         replayBttnSelect = new Image("images/buttons/Button_Restart_Depressed.png");
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
         menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
-        
-        //Initiate falling of droplets
-        timer.start();
+
         
 	}
 	
@@ -605,6 +608,8 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
+ 				leftListCount = 0;
+ 				rightListCount = 0;
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -674,6 +679,77 @@ public class GameLevel extends BasicGameState {
 	public int getID() 
 	{	
 		return state;
+	}
+	
+	private void parseList()
+	{
+		if(leftListCount < dropletList.getList(this.state).getCurrentLeftList().size())
+		{
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("r"))
+			{
+				drawDropletLeft(505);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("b"))
+			{
+				drawDropletLeft(501);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("y"))
+			{
+				drawDropletLeft(507);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("p"))
+			{
+				drawDropletLeft(504);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("g"))
+			{
+				drawDropletLeft(502);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("o"))
+			{
+				drawDropletLeft(503);
+			}
+			leftListCount++;
+		}
+		
+		if(rightListCount < dropletList.getList(this.state).getCurrentRightList().size())
+		{
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("r"))
+			{
+				drawDropletRight(505);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("b"))
+			{
+				drawDropletRight(501);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("y"))
+			{
+				drawDropletRight(507);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("p"))
+			{
+				drawDropletRight(504);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("g"))
+			{
+				drawDropletRight(502);
+			}
+			
+			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("o"))
+			{
+				drawDropletRight(503);
+			}
+			rightListCount++;
+		}
 	}
 	
 	private void drawDropletLeft(int num)
