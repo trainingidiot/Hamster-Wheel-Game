@@ -280,8 +280,6 @@ public class GameLevel extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
-		
-		
 		backgroundImage = new Image("images/background/Game_background_final.png");
 		
 		//Hamster Animation
