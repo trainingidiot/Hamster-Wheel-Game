@@ -300,6 +300,7 @@ public class GameLevel extends BasicGameState {
 		 boardTop = new Image("images/background/Game_Panel_final.png");
 	     spigots = new Image("images/background/Game_spigots_final.png");
 	     bottomBlock = new Image("images/background/Game_bottomblock_final.png");
+	     
          green = new Image("images/droplets/Droplet_green.png");
          black = new Image("images/droplets/Droplet_black.png");
          blue = new Image("images/droplets/Droplet_blue.png");
@@ -345,12 +346,30 @@ public class GameLevel extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		backgroundImage.draw(0,53); 
 		boardTop.draw(0, 0);
-		spigots.draw(161,27);
+		spigots.draw(154,27);
+		//spigots.draw(161,27);
 		wheelPanel.draw(0,400);
 		sprite.draw(138,541); //hamster
          
          g.drawString(level, 10, 8);
          
+         // droplets drawing size=22
+         g.drawImage(red, 6, 29);
+         g.drawImage(green, 28, 29);
+         g.drawImage(blue, 50, 29);
+         g.drawImage(orange, 72, 29);
+         g.drawImage(purple, 94, 29);
+         g.drawImage(white, 116, 29);
+         g.drawImage(yellow, 138, 29);
+         
+         g.drawImage(red, 373, 29);
+         g.drawImage(green, 351, 29);
+         g.drawImage(blue, 329, 29);
+         g.drawImage(orange, 307, 29);
+         g.drawImage(purple, 285, 29);
+         g.drawImage(white, 263, 29);
+         g.drawImage(yellow, 241, 29);
+
          
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
