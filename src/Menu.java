@@ -29,6 +29,10 @@ public class Menu extends BasicGameState{
 		Image lvlsBttn = new Image("images/buttons/Button_Levels_Neutral.png");
 		Image lvlsBttnHover = new Image("images/buttons/Button_Levels_Selected.png");
 		
+		Image menuBackGrd = new Image("images/background/menu_background.png");
+		
+		g.drawImage(menuBackGrd, 0, 0);
+		
 		if(isMouseOverStartBttn)
 			g.drawImage(startBttnHover, 100, 650);
 		else
