@@ -530,7 +530,7 @@ public class GameLevel extends BasicGameState {
          }
          
          
-         //Victory/Fail screens
+         //Victory
          if(isVictory){
         	 g.drawImage(victoryScreen,0,220);
         	 if(isMouseOverNext)
@@ -547,8 +547,24 @@ public class GameLevel extends BasicGameState {
         		 g.drawImage(replayBttnSelect, 294,396);
         	 else
         		 g.drawImage(replayBttn,294,396);
+        	 
+        	 switch(getRating()){
+     	 	case 1:
+     	 		g.drawImage(star,25,296);
+     	 		break;
+     	 	case 2:
+     	 		g.drawImage(star,25,296);
+     	 		g.drawImage(star,140,296);
+     	 		break;
+     	 	case 3:
+     	 		g.drawImage(star,25,296);
+     	 		g.drawImage(star,140,296);
+     	 		g.drawImage(star,254,296);
+     	 	default:
+     	 			break;
+     	 }
          }
-         
+         //Fail
          if(isFail){
         	 g.drawImage(failureScreen, 0,220);
         	 if(isMouseOverMenu)
@@ -698,6 +714,7 @@ public class GameLevel extends BasicGameState {
  			isFail = false;
  			victoryScreen.setAlpha(100);
  			sound.stop();
+ 			setRating(3); //set the player's rating for number of stars they get
  		}
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
@@ -988,6 +1005,13 @@ public class GameLevel extends BasicGameState {
 		// purple and white
 		if (f1.m_density == 504 && f2.m_density==506)
 		{f1.m_density = 504;f2.m_density = 504;}
+	}
+	
+	private void setRating(int r){
+		rating = r;
+	}
+	private int getRating(){
+		return rating;
 	}
 
 }
