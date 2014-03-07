@@ -9,7 +9,6 @@ public class Menu extends BasicGameState{
 	private boolean isMouseOverStartBttn,isMouseOverLvls;
 	
 	private Music music;
-	private Sound sound;
 	
 	public Menu(int state) {
 		this.state = state;
@@ -18,9 +17,8 @@ public class Menu extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
 		music = new Music("resources/MenuMusic.wav");
-		sound = new Sound("resources/Water Drop.wav");
-		music.loop();
 	}
+	
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		g.drawString(mouse, 50, 50);
@@ -50,6 +48,10 @@ public class Menu extends BasicGameState{
 		int xpos = Mouse.getX();
 		int ypos = Mouse.getY();
 		
+		if(music.playing() == false)
+		{
+			music.play();
+		}
 		
 		mouse = "Mouse Position x: " + xpos + "   y: " + ypos;
 		
@@ -59,7 +61,6 @@ public class Menu extends BasicGameState{
 			isMouseOverStartBttn = true;
 			if(input.isMouseButtonDown(0)){ //0 means left click, 1 means right click
 				music.stop();
-				sound.loop();
 				sbg.enterState(1); //enters state with id 1 which is gameLevel
 			}
 		}
@@ -73,7 +74,7 @@ public class Menu extends BasicGameState{
 			isMouseOverLvls = true;
 			
 			if(input.isMouseButtonDown(0)){
-				//music.stop();
+				music.stop();
 				sbg.enterState(-1); //enters level selector screen
 			}
 			

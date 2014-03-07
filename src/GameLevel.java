@@ -27,6 +27,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.BasicGameState;
@@ -45,6 +46,9 @@ public class GameLevel extends BasicGameState {
 	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
+	
+	//music
+	private Sound sound;
 	
     private static final World world = new World(new Vec2(0, -2000f));
     int velocityIterations;
@@ -96,6 +100,9 @@ public class GameLevel extends BasicGameState {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
         
+		sound = new Sound("resources/Water Drop.wav");
+		sound.loop();
+		
 		//need to destory previous droplets whenever we enter the game level
 		Body current = world.getBodyList();
 			while(current != null){
@@ -273,6 +280,8 @@ public class GameLevel extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
+		
+		
 		backgroundImage = new Image("images/background/Game_background_final.png");
 		
 		//Hamster Animation
@@ -329,6 +338,7 @@ public class GameLevel extends BasicGameState {
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
         menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
 
+		
         
 	}
 	
@@ -548,10 +558,6 @@ public class GameLevel extends BasicGameState {
        
 		world.step((float)delta/25000f, velocityIterations, positionIterations);
 		
-		
-		
-		
-
 		Input input = container.getInput();
 		int xpos = input.getMouseX();
 	    int ypos = input.getMouseY();
@@ -623,6 +629,8 @@ public class GameLevel extends BasicGameState {
         	 resumeBttn.setAlpha(100);
         	 menuBttn.setAlpha(100);
         	 container.pause();
+        	 sound.stop();
+        	 
          }
          //Resume button
          if(container.isPaused() && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
@@ -632,6 +640,7 @@ public class GameLevel extends BasicGameState {
         		 menuBttn.setAlpha(0);
         		 container.resume();
         		 timer.start();
+        		 sound.loop();
         	 }
         	 isMouseOverPlay = true;
          }
@@ -671,6 +680,7 @@ public class GameLevel extends BasicGameState {
  			isVictory = true;
  			isFail = false;
  			victoryScreen.setAlpha(100);
+ 			sound.stop();
  		}
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
@@ -718,6 +728,7 @@ public class GameLevel extends BasicGameState {
  			isFail = true;
  			isVictory = false;
  			failureScreen.setAlpha(100);
+ 			sound.stop();
  		}
  		//menu button from fail screen
  		if(isFail && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
