@@ -40,7 +40,7 @@ import org.newdawn.slick.geom.Transform;
 
 public class GameLevel extends BasicGameState {
 
-	Animation sprite, left, right, leftStill, rightStill;
+	Animation sprite, left, right, leftStill, rightStill, rest;
 	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select, star;
 	Image backgroundImage;
@@ -287,12 +287,14 @@ public class GameLevel extends BasicGameState {
         Image [] movementRight =  {new Image("images/hamster/Run_final_01.png"), new Image("images/hamster/Run_final_02.png"), new Image("images/hamster/Run_final_03.png"), new Image("images/hamster/Run_final_04.png"),new Image("images/hamster/Run_final_05.png"), new Image("images/hamster/Run_final_06.png"), new Image("images/hamster/Run_final_07.png"), new Image("images/hamster/Run_final_08.png")} ;
         Image [] movementLeftStill =  {new Image("images/hamster/Idle_left_final_01.png"), new Image("images/hamster/Idle_left_final_02.png"),new Image("images/hamster/Idle_left_final_03.png"), new Image("images/hamster/Idle_left_final_04.png")};
         Image [] movementRightStill =  {new Image("images/hamster/Idle_final_01.png"), new Image("images/hamster/Idle_final_02.png"),new Image("images/hamster/Idle_final_03.png"), new Image("images/hamster/Idle_final_04.png")};
+        Image [] movementRest = {new Image("images/hamster/Rest_final_01.png"), new Image("images/hamster/Rest_final_02.png"), new Image("images/hamster/Rest_final_03.png"), new Image("images/hamster/Rest_final_04.png")};
         int [] duration = {50, 50, 50, 50, 50, 50, 50, 50};  
         int [] durationStill = {200, 200, 200, 200};
         left = new Animation(movementLeft, duration, true);
         right = new Animation(movementRight, duration, true);
         leftStill = new Animation(movementLeftStill, durationStill, true);
         rightStill = new Animation(movementRightStill, durationStill, true);
+        rest = new Animation(movementRest, durationStill, true);
         sprite = rightStill;
         
 		 boardTop = new Image("images/background/Game_Panel_final.png");
@@ -663,6 +665,7 @@ public class GameLevel extends BasicGameState {
         	 menuBttn.setAlpha(100);
         	 container.pause();
         	 sound.stop();
+        	 sprite = rest;
         	 
          }
          //Resume button
