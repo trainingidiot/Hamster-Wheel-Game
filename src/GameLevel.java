@@ -99,9 +99,8 @@ public class GameLevel extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        
-		sound = new Sound("resources/Water Drop.wav");
-		sound.loop();
+		leftListCount = 0;
+		rightListCount = 0;
 		
 		//need to destory previous droplets whenever we enter the game level
 		Body current = world.getBodyList();
@@ -281,6 +280,7 @@ public class GameLevel extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
 		backgroundImage = new Image("images/background/Game_background_final.png");
+		sound = new Sound("resources/Water Drop.wav");
 		
 		//Hamster Animation
 		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
@@ -673,7 +673,6 @@ public class GameLevel extends BasicGameState {
         		 menuBttn.setAlpha(0);
         		 container.resume();
         		 timer.start();
-        		 sound.loop();
         	 }
         	 isMouseOverPlay = true;
          }
@@ -701,8 +700,6 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
- 				leftListCount = 0;
- 				rightListCount = 0;
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -723,8 +720,6 @@ public class GameLevel extends BasicGameState {
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
  					sbg.enterState(this.getID() + 1); //enter next level
- 	 				leftListCount = 0;
- 	 				rightListCount = 0;
  				}
  			}
  			isMouseOverNext = true;
@@ -750,8 +745,6 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
- 				leftListCount = 0;
- 				rightListCount = 0;
  			}
  			isMouseOverReplay = true;
  		}
@@ -785,6 +778,7 @@ public class GameLevel extends BasicGameState {
 	{
 		if(leftListCount < dropletList.getList(this.state).getCurrentLeftList().size())
 		{
+			sound.play();
 			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("r"))
 			{
 				drawDropletLeft(505);
@@ -830,6 +824,7 @@ public class GameLevel extends BasicGameState {
 		
 		if(rightListCount < dropletList.getList(this.state).getCurrentRightList().size())
 		{
+			sound.play();
 			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("r"))
 			{
 				drawDropletRight(505);
@@ -872,6 +867,7 @@ public class GameLevel extends BasicGameState {
 			
 			rightListCount++;
 		}
+		sound.stop();
 	}
 	
 	private void drawDropletLeft(int num)
