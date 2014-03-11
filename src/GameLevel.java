@@ -25,6 +25,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.BasicGameState;
@@ -37,12 +38,15 @@ import org.newdawn.slick.geom.Transform;
 
 public class GameLevel extends BasicGameState {
 
-	Animation sprite, left, right, leftStill, rightStill;
+	Animation sprite, left, right, leftStill, rightStill, rest;
 	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select, star;
 	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
+	
+	//music
+	private Sound sound;
 	
     private static final World world = new World(new Vec2(0, -2000f));
     int velocityIterations;
@@ -93,7 +97,9 @@ public class GameLevel extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-        
+		leftListCount = 0;
+		rightListCount = 0;
+		
 		//need to destory previous droplets whenever we enter the game level
 		Body current = world.getBodyList();
 			while(current != null){
@@ -272,23 +278,27 @@ public class GameLevel extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		gc.setShowFPS(false);
 		backgroundImage = new Image("images/background/Game_background_final.png");
+		sound = new Sound("resources/Water Drop.wav");
 		
 		//Hamster Animation
 		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
         Image [] movementRight =  {new Image("images/hamster/Run_final_01.png"), new Image("images/hamster/Run_final_02.png"), new Image("images/hamster/Run_final_03.png"), new Image("images/hamster/Run_final_04.png"),new Image("images/hamster/Run_final_05.png"), new Image("images/hamster/Run_final_06.png"), new Image("images/hamster/Run_final_07.png"), new Image("images/hamster/Run_final_08.png")} ;
         Image [] movementLeftStill =  {new Image("images/hamster/Idle_left_final_01.png"), new Image("images/hamster/Idle_left_final_02.png"),new Image("images/hamster/Idle_left_final_03.png"), new Image("images/hamster/Idle_left_final_04.png")};
         Image [] movementRightStill =  {new Image("images/hamster/Idle_final_01.png"), new Image("images/hamster/Idle_final_02.png"),new Image("images/hamster/Idle_final_03.png"), new Image("images/hamster/Idle_final_04.png")};
+        Image [] movementRest = {new Image("images/hamster/Rest_final_01.png"), new Image("images/hamster/Rest_final_02.png"), new Image("images/hamster/Rest_final_03.png"), new Image("images/hamster/Rest_final_04.png")};
         int [] duration = {50, 50, 50, 50, 50, 50, 50, 50};  
         int [] durationStill = {200, 200, 200, 200};
         left = new Animation(movementLeft, duration, true);
         right = new Animation(movementRight, duration, true);
         leftStill = new Animation(movementLeftStill, durationStill, true);
         rightStill = new Animation(movementRightStill, durationStill, true);
+        rest = new Animation(movementRest, durationStill, true);
         sprite = rightStill;
         
 		 boardTop = new Image("images/background/Game_Panel_final.png");
 	     spigots = new Image("images/background/Game_spigots_final.png");
 	     bottomBlock = new Image("images/background/Game_bottomblock_final.png");
+	     
          green = new Image("images/droplets/Droplet_green.png");
          black = new Image("images/droplets/Droplet_black.png");
          blue = new Image("images/droplets/Droplet_blue.png");
@@ -327,18 +337,37 @@ public class GameLevel extends BasicGameState {
         menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
         menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
 
+		
         
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		backgroundImage.draw(0,53); 
 		boardTop.draw(0, 0);
-		spigots.draw(161,27);
+		spigots.draw(154,27);
+		//spigots.draw(161,27);
 		wheelPanel.draw(0,400);
 		sprite.draw(138,541); //hamster
          
          g.drawString(level, 10, 8);
          
+         // droplets drawing size=22
+         g.drawImage(red, 6, 29);
+         g.drawImage(green, 28, 29);
+         g.drawImage(blue, 50, 29);
+         g.drawImage(orange, 72, 29);
+         g.drawImage(purple, 94, 29);
+         g.drawImage(white, 116, 29);
+         g.drawImage(yellow, 138, 29);
+         
+         g.drawImage(red, 373, 29);
+         g.drawImage(green, 351, 29);
+         g.drawImage(blue, 329, 29);
+         g.drawImage(orange, 307, 29);
+         g.drawImage(purple, 285, 29);
+         g.drawImage(white, 263, 29);
+         g.drawImage(yellow, 241, 29);
+
          
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
@@ -502,7 +531,7 @@ public class GameLevel extends BasicGameState {
          }
          
          
-         //Victory/Fail screens
+         //Victory
          if(isVictory){
         	 g.drawImage(victoryScreen,0,220);
         	 if(isMouseOverNext)
@@ -519,8 +548,24 @@ public class GameLevel extends BasicGameState {
         		 g.drawImage(replayBttnSelect, 294,396);
         	 else
         		 g.drawImage(replayBttn,294,396);
+        	 
+        	 switch(getRating()){
+     	 	case 1:
+     	 		g.drawImage(star,25,296);
+     	 		break;
+     	 	case 2:
+     	 		g.drawImage(star,25,296);
+     	 		g.drawImage(star,140,296);
+     	 		break;
+     	 	case 3:
+     	 		g.drawImage(star,25,296);
+     	 		g.drawImage(star,140,296);
+     	 		g.drawImage(star,254,296);
+     	 	default:
+     	 			break;
+     	 }
          }
-         
+         //Fail
          if(isFail){
         	 g.drawImage(failureScreen, 0,220);
         	 if(isMouseOverMenu)
@@ -547,10 +592,6 @@ public class GameLevel extends BasicGameState {
        
 		world.step((float)delta/25000f, velocityIterations, positionIterations);
 		
-		
-		
-		
-
 		Input input = container.getInput();
 		int xpos = input.getMouseX();
 	    int ypos = input.getMouseY();
@@ -622,6 +663,9 @@ public class GameLevel extends BasicGameState {
         	 resumeBttn.setAlpha(100);
         	 menuBttn.setAlpha(100);
         	 container.pause();
+        	 sound.stop();
+        	 sprite = rest;
+        	 
          }
          //Resume button
          if(container.isPaused() && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
@@ -658,8 +702,6 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
- 				leftListCount = 0;
- 				rightListCount = 0;
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -670,16 +712,16 @@ public class GameLevel extends BasicGameState {
  			isVictory = true;
  			isFail = false;
  			victoryScreen.setAlpha(100);
+ 			sound.stop();
+ 			setRating(3); //set the player's rating for number of stars they get
  		}
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
- 				if(this.getID() < sbg.getStateCount()-3){
+ 				if(this.getID() < sbg.getStateCount()-2){
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
  					sbg.enterState(this.getID() + 1); //enter next level
- 	 				leftListCount = 0;
- 	 				rightListCount = 0;
  				}
  			}
  			isMouseOverNext = true;
@@ -705,8 +747,6 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
- 				leftListCount = 0;
- 				rightListCount = 0;
  			}
  			isMouseOverReplay = true;
  		}
@@ -717,6 +757,7 @@ public class GameLevel extends BasicGameState {
  			isFail = true;
  			isVictory = false;
  			failureScreen.setAlpha(100);
+ 			sound.stop();
  		}
  		//menu button from fail screen
  		if(isFail && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
@@ -739,6 +780,7 @@ public class GameLevel extends BasicGameState {
 	{
 		if(leftListCount < dropletList.getList(this.state).getCurrentLeftList().size())
 		{
+			sound.play();
 			if (dropletList.getList(this.state).getCurrentLeftList().get(leftListCount).equals("r"))
 			{
 				drawDropletLeft(505);
@@ -784,6 +826,7 @@ public class GameLevel extends BasicGameState {
 		
 		if(rightListCount < dropletList.getList(this.state).getCurrentRightList().size())
 		{
+			sound.play();
 			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("r"))
 			{
 				drawDropletRight(505);
@@ -826,6 +869,7 @@ public class GameLevel extends BasicGameState {
 			
 			rightListCount++;
 		}
+		sound.stop();
 	}
 	
 	private void drawDropletLeft(int num)
@@ -959,6 +1003,13 @@ public class GameLevel extends BasicGameState {
 		// purple and white
 		if (f1.m_density == 504 && f2.m_density==506)
 		{f1.m_density = 504;f2.m_density = 504;}
+	}
+	
+	private void setRating(int r){
+		rating = r;
+	}
+	private int getRating(){
+		return rating;
 	}
 
 }

@@ -3,7 +3,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,6 +16,8 @@ public class LevelSelector extends BasicGameState {
 	private int state;
 	private Image lvl1, lvl1Select, lvl2, lvl3, lvl2Select, lvl3Select;
 	private boolean isMouseOver_lvl1, isMouseOver_lvl2, isMouseOver_lvl3;
+	
+	private Music music;
 	
 	LevelSelector(int state){
 		this.state = state;
@@ -30,6 +34,9 @@ public class LevelSelector extends BasicGameState {
 		lvl2Select = new Image("images/buttons/Button_Level_Selected.png");
 		lvl3 = new Image("images/buttons/Button_Level_Neutral.png");
 		lvl3Select = new Image("images/buttons/Button_Level_Selected.png");
+		
+		music = new Music("resources/MenuMusic.wav");
+		
 	}
 
 	@Override
@@ -68,10 +75,16 @@ public class LevelSelector extends BasicGameState {
 		int xpos = input.getMouseX();
 		int ypos = input.getMouseY();
 		
+		if(music.playing() == false)
+		{
+			music.play();
+		}
+		
 		mouse = "Mouse position x: " + xpos + " ypos: " + ypos;
 		
 		if((xpos>23 && xpos<69) && (ypos>33 && ypos<81)){
 			if(input.isMouseButtonDown(0)){
+				music.stop();
 				sbg.enterState(0); //return to menu screen
 			}
 		}
@@ -80,6 +93,7 @@ public class LevelSelector extends BasicGameState {
 				if((xpos>30 && xpos<110) && (ypos>124 && ypos<203)){
 					isMouseOver_lvl1 = true;
 					if(input.isMousePressed(0)){
+						music.stop();
 						sbg.enterState(1); //enter level 1 
 					}
 				}
@@ -91,6 +105,7 @@ public class LevelSelector extends BasicGameState {
 				if((xpos>161 && xpos<239) && (ypos>124 && ypos<203)){
 					isMouseOver_lvl2 = true;
 					if(input.isMousePressed(0)){
+						music.stop();
 						sbg.enterState(2); //enter level 2 
 					}
 				}
@@ -102,6 +117,7 @@ public class LevelSelector extends BasicGameState {
 				if((xpos>271 && xpos<350) && (ypos>124 && ypos<203)){
 					isMouseOver_lvl3 = true;
 					if(input.isMousePressed(0)){
+						music.stop();
 						sbg.enterState(3); //enter level 3
 					}
 				}
