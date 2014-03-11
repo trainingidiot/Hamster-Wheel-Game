@@ -315,27 +315,27 @@ public class GameLevel extends BasicGameState {
         
         
         //background for pause screen
-        pauseBg = new Image("images/background/Paused_second.png");
+        pauseBg = new Image("images/background/Paused_final.png");
         
         //Background for victory and failure screens
-        victoryScreen = new Image("images/background/Victory.png");
-        failureScreen = new Image("images/background/Failure.png");
+        victoryScreen = new Image("images/background/Victory_final.png");
+        failureScreen = new Image("images/background/Failure_final.png");
        
         //Play and level select buttons
-        resumeBttn = new Image("images/buttons/Button_Play_Neutral.png");
-        resumeBttnSelect = new Image("images/buttons/Button_Play_Depressed.png");
-        menuBttn = new Image("images/buttons/Button_Menu_Neutral.png"); 
-        menuBttnSelect = new Image("images/buttons/Button_Menu_Depressed.png");
+        resumeBttn = new Image("images/buttons/Play_neutral_final.png");
+        resumeBttnSelect = new Image("images/buttons/Play_pressed_final.png");
+        menuBttn = new Image("images/buttons/Menu_neutral_final.png"); 
+        menuBttnSelect = new Image("images/buttons/Menu_pressed_final.png");
        
         //Victory and Fail screens
-        nextBttn = new Image("images/buttons/Button_Play_Neutral.png"); //use play button image for now
-        nextBttnSelect = new Image("images/buttons/Button_Play_Depressed.png");
-        levelBttn = new Image("images/buttons/Button_Levels_Neutral.png");
-        levelBttnSelect = new Image("images/buttons/Button_Levels_Depressed.png");
-        replayBttn = new Image("images/buttons/Button_Restart_Neutral.png");
-        replayBttnSelect = new Image("images/buttons/Button_Restart_Depressed.png");
-        menuBttn2 = new Image("images/buttons/Button_Menu_Neutral.png");
-        menuBttn2Select = new Image("images/buttons/Button_Menu_Depressed.png");
+        nextBttn = new Image("images/buttons/Play_neutral_final.png"); 
+        nextBttnSelect = new Image("images/buttons/Play_pressed_final.png");
+        levelBttn = new Image("images/buttons/Levels_neutral_final.png");
+        levelBttnSelect = new Image("images/buttons/Levels_pressed_final.png");
+        replayBttn = new Image("images/buttons/Retry_neutral_final.png");
+        replayBttnSelect = new Image("images/buttons/Retry_pressed_final.png");
+        menuBttn2 = new Image("images/buttons/Menu_neutral_final.png");
+        menuBttn2Select = new Image("images/buttons/Menu_pressed_final.png");
 
 		
         
@@ -602,7 +602,7 @@ public class GameLevel extends BasicGameState {
          bottomBlock.draw(0,500);
          
          //Pause screen
-         g.drawImage(pauseBg,0,220);
+         g.drawImage(pauseBg,0,205);
          if(isMouseOverPlay)
          {
         	 g.drawImage(resumeBttnSelect, 25, 396);
@@ -626,7 +626,7 @@ public class GameLevel extends BasicGameState {
          
          //Victory
          if(isVictory){
-        	 g.drawImage(victoryScreen,0,220);
+        	 g.drawImage(victoryScreen,0,205);
         	 if(isMouseOverNext)
         		 g.drawImage(nextBttnSelect, 25,396);
         	 else
@@ -643,24 +643,24 @@ public class GameLevel extends BasicGameState {
         		 g.drawImage(replayBttn,294,396);
         	 
         	 switch(getRating()){
-     	 	case 1:
-     	 		g.drawImage(star,25,296);
-     	 		break;
-     	 	case 2:
-     	 		g.drawImage(star,25,296);
-     	 		g.drawImage(star,140,296);
-     	 		break;
-     	 	case 3:
-     	 		g.drawImage(star,25,296);
-     	 		g.drawImage(star,140,296);
-     	 		g.drawImage(star,254,296);
-     	 	default:
+	        	 case 1:
+	      	 		g.drawImage(star,25,318);
+	      	 		break;
+	      	 	case 2:
+	      	 		g.drawImage(star,25,318);
+	      	 		g.drawImage(star,140,318);
+	      	 		break;
+	      	 	case 3:
+	      	 		g.drawImage(star,45,318);
+	      	 		g.drawImage(star,140,318);
+	      	 		g.drawImage(star,234,318);
+	      	 	default:
      	 			break;
-     	 }
+        	}
          }
          //Fail
          if(isFail){
-        	 g.drawImage(failureScreen, 0,220);
+        	 g.drawImage(failureScreen, 0,205);
         	 if(isMouseOverMenu)
         		 g.drawImage(menuBttn2Select,25,396);
         	 else
