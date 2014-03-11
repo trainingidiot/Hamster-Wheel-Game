@@ -352,21 +352,114 @@ public class GameLevel extends BasicGameState {
          g.drawString(level, 10, 8);
          
          // droplets drawing size=22
-         g.drawImage(red, 6, 29);
-         g.drawImage(green, 28, 29);
-         g.drawImage(blue, 50, 29);
-         g.drawImage(orange, 72, 29);
-         g.drawImage(purple, 94, 29);
-         g.drawImage(white, 116, 29);
-         g.drawImage(yellow, 138, 29);
+//         g.drawImage(red, 6, 29);
+//         g.drawImage(green, 28, 29);
+//         g.drawImage(blue, 50, 29);
+//         g.drawImage(orange, 72, 29);
+//         g.drawImage(purple, 94, 29);
+//         g.drawImage(white, 116, 29);
+//         g.drawImage(yellow, 138, 29);
+//         
+//         g.drawImage(red, 373, 29);
+//         g.drawImage(green, 351, 29);
+//         g.drawImage(blue, 329, 29);
+//         g.drawImage(orange, 307, 29);
+//         g.drawImage(purple, 285, 29);
+//         g.drawImage(white, 263, 29);
+//         g.drawImage(yellow, 241, 29);
+
          
-         g.drawImage(red, 373, 29);
-         g.drawImage(green, 351, 29);
-         g.drawImage(blue, 329, 29);
-         g.drawImage(orange, 307, 29);
-         g.drawImage(purple, 285, 29);
-         g.drawImage(white, 263, 29);
-         g.drawImage(yellow, 241, 29);
+         int leftCount = 138;
+         for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++)
+         {
+        	 if (dropletList.getList(state).getCurrentLeftList().get(i).equals("r"))
+ 			{
+        		 g.drawImage(red, leftCount, 29);
+        		 leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("b"))
+ 			{
+ 				g.drawImage(blue, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("y"))
+ 			{
+ 				g.drawImage(yellow, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("p"))
+ 			{
+ 				g.drawImage(purple, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("g"))
+ 			{
+ 				g.drawImage(green, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("o"))
+ 			{
+ 				g.drawImage(orange, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("bl"))
+ 			{
+ 				g.drawImage(black, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("w"))
+ 			{
+ 				g.drawImage(white, leftCount, 29);
+ 				leftCount = leftCount-22;
+ 			}
+ 		}
+         
+         //leftCount = 138;
+        
+         int rightCount = 241;
+         for(int i = 0; i < dropletList.getList(state).getCurrentRightList().size(); i++)
+         {
+        	 if (dropletList.getList(state).getCurrentRightList().get(i).equals("r"))
+ 			{
+        		 g.drawImage(red, rightCount, 29);
+        		 rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("b"))
+ 			{
+ 				g.drawImage(blue, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("y"))
+ 			{
+ 				g.drawImage(yellow, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("p"))
+ 			{
+ 				g.drawImage(purple, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("g"))
+ 			{
+ 				g.drawImage(green, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("o"))
+ 			{
+ 				g.drawImage(orange, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("bl"))
+ 			{
+ 				g.drawImage(black, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("x"))
+ 			{
+ 				g.drawImage(white, rightCount, 29);
+ 				rightCount = rightCount +22;
+ 			}
+ 		}
 
          
          Body current = world.getBodyList();
