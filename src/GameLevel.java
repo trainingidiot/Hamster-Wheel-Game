@@ -18,6 +18,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
+import org.jbox2d.dynamics.joints.RevoluteJointDef;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -44,6 +45,10 @@ public class GameLevel extends BasicGameState {
 	Image backgroundImage;
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
+	private int leftCount = 0;	
+	private int rightCount = 0;	
+	private int leftColor = 0;	
+	private int rightColor = 0;	
 	
 	//music
 	private Sound sound;
@@ -138,6 +143,35 @@ public class GameLevel extends BasicGameState {
             PolygonShape bar = new PolygonShape();
             bar.setAsBox(.2f, 7f);
             wheelArmB.createFixture(bar, 0);
+        }
+		
+		{
+            BodyDef sensor1 = new BodyDef();
+            
+            Vec2[] vertices = {
+	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, 0f),
+	                new Vec2(-6.7f, 0f),
+	                new Vec2(-6.7f, -6.7f)
+	                
+	        };
+            
+            ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 0.5f;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+	        //fixtureDef.isSensor = true;
+
+	        polygonGround = world.createBody(sensor1);
+	        polygonGround.createFixture(fixtureDef);
+	        
+	        Vec2 localAnchor = new Vec2(0f, -6.7f);
+	        RevoluteJointDef anchor = new RevoluteJointDef();
+	        anchor.localAnchorA = localAnchor;
         }
 		
 		
@@ -236,6 +270,8 @@ public class GameLevel extends BasicGameState {
 
 	        polygonGround = world.createBody(polygon);
 	        polygonGround.createFixture(fixtureDef);
+	        
+	        
 		}
 		
 		
@@ -768,6 +804,18 @@ public class GameLevel extends BasicGameState {
  			}
  			isMouseOverMenu = true;
  		}
+ 		
+ 		if(leftCount>0)
+ 		{
+ 			new Droplet (world, "left", leftColor);
+ 			leftCount = leftCount-1;
+ 		}
+ 		
+ 		if(rightCount>0)
+ 		{
+ 			new Droplet (world, "right", rightColor);
+ 			rightCount = rightCount-1;
+ 		}
          
 	}
 
@@ -874,12 +922,17 @@ public class GameLevel extends BasicGameState {
 	
 	private void drawDropletLeft(int num)
 	{
-        new Droplet (world, "left", num);  	   
+		leftColor = num;
+		leftCount = 7;
+
 	}
 	
 	private void drawDropletRight(int num)
 	{
-        new Droplet (world, "right", num);  	        
+		
+		rightColor = num;
+		rightCount = 7; 
+		
 	}
 	
 	private void checkContacts()
