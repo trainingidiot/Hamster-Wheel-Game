@@ -16,7 +16,8 @@ public class ListStorage {
 	
 	public void addToLeftList(String lstringToAdd)
 	{
-		leftList.add(lstringToAdd);
+		leftList.add(0, lstringToAdd);
+		//leftList.add(lstringToAdd);
 	}
 	
 	public void addToRightList(String rstringToAdd)

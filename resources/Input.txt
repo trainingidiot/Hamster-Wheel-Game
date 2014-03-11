@@ -1,23 +1,18 @@
 1
-r b y g o p w bl x r+ g- p^ y+ p^ b-
-Right r b y g o p w bl x r+ g- p^ o- x w^
+r y r 
+Right x x b 
 
 #
 2
-w g^ o+ p- p+ r^ p^ g+
-Right r y+ p x o g g g
+y b b r
+Right y b r y
 
 #
 3
-y+ p o b- y- r-
-Right y^ b^ o- g o^ bl
+y r y r
+Right b b r b
 
 #
 4
-r+ r- p+ y- p w x x x p^ b+ g^
-Right o+ r- y- g g+ o- b p- w b- p+ y+
-
-#
-5
-p r^ o- p^ y b+ o+ g^ p- x b bl- w g- o b r- p+ b^ r+
-Right o g o- y b g+ g- p p^ o^ o+ x p- r- g^ bl- r^ y+ w b+
+b b o p
+Right r p y- b
