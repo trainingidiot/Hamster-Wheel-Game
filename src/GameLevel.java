@@ -514,18 +514,18 @@ public class GameLevel extends BasicGameState {
         rest = new Animation(movementRest, durationStill, true);
         sprite = rightStill;
         
-		 boardTop = new Image("images/background/Game_Panel_final.png");
+		 boardTop = new Image("images/background/Game_Panel_final_2.png");
 	     spigots = new Image("images/background/Game_spigots_final.png");
 	     bottomBlock = new Image("images/background/Game_bottomblock_final.png");
 	     
-         green = new Image("images/droplets/Droplet_green.png");
-         black = new Image("images/droplets/Droplet_black.png");
-         blue = new Image("images/droplets/Droplet_blue.png");
-         orange = new Image("images/droplets/Droplet_orange.png");
-         purple = new Image("images/droplets/Droplet_purple.png");
-         red = new Image("images/droplets/Droplet_red.png");
-         white = new Image("images/droplets/Droplet_white.png");
-         yellow = new Image("images/droplets/Droplet_yellow.png");
+         green = new Image("images/droplets/Droplet2_green.png");
+         black = new Image("images/droplets/Droplet2_black.png");
+         blue = new Image("images/droplets/Droplet2_blue.png");
+         orange = new Image("images/droplets/Droplet2_orange.png");
+         purple = new Image("images/droplets/Droplet2_purple.png");
+         red = new Image("images/droplets/Droplet2_red.png");
+         white = new Image("images/droplets/Droplet2_empty.png");
+         yellow = new Image("images/droplets/Droplet2_yellow.png");
          star = new Image("images/Stars.png");
         
         velocityIterations = 10;
@@ -571,7 +571,8 @@ public class GameLevel extends BasicGameState {
          g.drawString(level, 10, 8);
          
          // droplets drawing size=22
-//         g.drawImage(red, 6, 29);
+         //g.drawImage(red, 6, 29);
+         //g.drawImage(white, 6,29);
 //         g.drawImage(green, 28, 29);
 //         g.drawImage(blue, 50, 29);
 //         g.drawImage(orange, 72, 29);
@@ -587,48 +588,48 @@ public class GameLevel extends BasicGameState {
 //         g.drawImage(white, 263, 29);
 //         g.drawImage(yellow, 241, 29);
 
-         
+       
          int leftCount = 138;
          for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++)
          {
         	 if (dropletList.getList(state).getCurrentLeftList().get(i).equals("r"))
  			{
-        		 g.drawImage(red, leftCount, 29);
+        		 g.drawImage(red, leftCount, 31);
         		 leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("b"))
  			{
- 				g.drawImage(blue, leftCount, 29);
+ 				g.drawImage(blue, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("y"))
  			{
- 				g.drawImage(yellow, leftCount, 29);
+ 				g.drawImage(yellow, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("p"))
  			{
- 				g.drawImage(purple, leftCount, 29);
+ 				g.drawImage(purple, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("g"))
  			{
- 				g.drawImage(green, leftCount, 29);
+ 				g.drawImage(green, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("o"))
  			{
- 				g.drawImage(orange, leftCount, 29);
+ 				g.drawImage(orange, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("bl"))
  			{
- 				g.drawImage(black, leftCount, 29);
+ 				g.drawImage(black, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("w"))
  			{
- 				g.drawImage(white, leftCount, 29);
+ 				g.drawImage(white, leftCount, 31);
  				leftCount = leftCount-22;
  			}
  		}
@@ -640,42 +641,42 @@ public class GameLevel extends BasicGameState {
          {
         	 if (dropletList.getList(state).getCurrentRightList().get(i).equals("r"))
  			{
-        		 g.drawImage(red, rightCount, 29);
+        		 g.drawImage(red, rightCount, 31);
         		 rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("b"))
  			{
- 				g.drawImage(blue, rightCount, 29);
+ 				g.drawImage(blue, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("y"))
  			{
- 				g.drawImage(yellow, rightCount, 29);
+ 				g.drawImage(yellow, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("p"))
  			{
- 				g.drawImage(purple, rightCount, 29);
+ 				g.drawImage(purple, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("g"))
  			{
- 				g.drawImage(green, rightCount, 29);
+ 				g.drawImage(green, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("o"))
  			{
- 				g.drawImage(orange, rightCount, 29);
+ 				g.drawImage(orange, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("bl"))
  			{
- 				g.drawImage(black, rightCount, 29);
+ 				g.drawImage(black, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  			if (dropletList.getList(state).getCurrentRightList().get(i).equals("x"))
  			{
- 				g.drawImage(white, rightCount, 29);
+ 				g.drawImage(white, rightCount, 31);
  				rightCount = rightCount +22;
  			}
  		}
