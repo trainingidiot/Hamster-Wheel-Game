@@ -43,12 +43,26 @@ public class GameLevel extends BasicGameState {
 	Image  boardTop, spigots, bottomBlock, wheelPanel, wheel, pauseBg, resumeBttn, resumeBttnSelect, menuBttn, menuBttnSelect, black, blue, green, orange, purple, red, white, yellow;
 	Image victoryScreen, failureScreen, nextBttn, nextBttnSelect, replayBttn, replayBttnSelect, levelBttn, levelBttnSelect, menuBttn2, menuBttn2Select, star;
 	Image backgroundImage;
+	Image progressInd;
+	Image black1, black2, black3, black4;
+	Image blue1, blue2, blue3, blue4;
+	Image green1, green2, green3, green4;
+	Image orange1, orange2, orange3, orange4;
+	Image purple1, purple2, purple3, purple4;
+	Image red1, red2, red3, red4;
+	Image white1, white2, white3, white4;
+	Image yellow1, yellow2, yellow3, yellow4;
+	
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
 	private int leftCount = 0;	
 	private int rightCount = 0;	
 	private int leftColor = 0;	
 	private int rightColor = 0;	
+	private int S1 = 0;
+	private int S2 = 0;
+	private int S3 = 0;
+	private int S4 = 0;
 	
 	//music
 	private Sound sound;
@@ -57,7 +71,7 @@ public class GameLevel extends BasicGameState {
     int velocityIterations;
     int positionIterations;
     float pixelsPerMeter;
-    Body wheelArmA, wheelArmB, groundB, polygonGround;
+    Body wheelArmA, wheelArmB, groundB, polygonGround, sensor1, sensor2, sensor3, sensor4, noMix;
     
     //Timer and listener for droplets
 	int delay = 2550; //milliseconds
@@ -145,6 +159,44 @@ public class GameLevel extends BasicGameState {
             wheelArmB.createFixture(bar, 0);
         }
 		
+		// bar to not mix
+		{
+            BodyDef wheelArm1 = new BodyDef();
+            wheelArm1.active = true;
+            wheelArm1.position = new Vec2(0.f, 8f);
+            wheelArm1.type = BodyType.STATIC;
+            noMix = world.createBody(wheelArm1);
+            PolygonShape bar = new PolygonShape();
+            bar.setAsBox(.6f, 4f);
+            noMix.createFixture(bar, 0);
+        }
+		
+		{
+            BodyDef sensor11 = new BodyDef();
+            
+            Vec2[] vertices = {
+	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, 0f),
+	                new Vec2(6.7f, 0f),
+	                new Vec2(6.7f, -6.7f)
+	                
+	        };
+            
+            ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 51;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+	        fixtureDef.isSensor = true;
+
+	        sensor1 = world.createBody(sensor11);
+	        sensor1.createFixture(fixtureDef);
+	        
+        }
+		
 		{
             BodyDef sensor1 = new BodyDef();
             
@@ -161,17 +213,66 @@ public class GameLevel extends BasicGameState {
 	        
 	        FixtureDef fixtureDef = new FixtureDef();
 	        fixtureDef.shape = shape;
-	        fixtureDef.density = 0.5f;
+	        fixtureDef.density = 52;
 	        fixtureDef.friction = 0.3f;
 	        fixtureDef.restitution = 0.5f;
 	        fixtureDef.isSensor = true;
 
-	        polygonGround = world.createBody(sensor1);
-	        polygonGround.createFixture(fixtureDef);
+	        sensor2 = world.createBody(sensor1);
+	        sensor2.createFixture(fixtureDef);
 	        
-	        Vec2 localAnchor = new Vec2(0f, -6.7f);
-	        RevoluteJointDef anchor = new RevoluteJointDef();
-	        anchor.localAnchorA = localAnchor;
+        }
+		
+		{
+            BodyDef sensor1 = new BodyDef();
+            
+            Vec2[] vertices = {
+	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -13.4f),
+	                new Vec2(6.7f, -13.4f),
+	                new Vec2(6.7f, -6.7f)
+	                
+	        };
+            
+            ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 53;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+	        fixtureDef.isSensor = true;
+
+	        sensor3 = world.createBody(sensor1);
+	        sensor3.createFixture(fixtureDef);
+	        
+        }
+		
+		{
+            BodyDef sensor1 = new BodyDef();
+            
+            Vec2[] vertices = {
+	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -13.4f),
+	                new Vec2(-6.7f, -13.4f),
+	                new Vec2(-6.7f, -6.7f)
+	                
+	        };
+            
+            ChainShape shape = new ChainShape();
+	        shape.createLoop(vertices, vertices.length);
+	        
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = 54;
+	        fixtureDef.friction = 0.3f;
+	        fixtureDef.restitution = 0.5f;
+	        fixtureDef.isSensor = true;
+
+	        sensor4 = world.createBody(sensor1);
+	        sensor4.createFixture(fixtureDef);
+	        
         }
 		
 		
@@ -297,6 +398,49 @@ public class GameLevel extends BasicGameState {
                 
 		wheel = new Image("images/background/Wheel.png");
 		wheelPanel = new Image("images/background/Game_wheelbackpanel_FINAL.png");
+		
+		progressInd = new Image("images/progressImages/grey.png");
+		
+		
+		black1 = new Image("images/progressImages/black1.png");
+		black2 = new Image("images/progressImages/black2.png");
+		black3 = new Image("images/progressImages/black3.png");
+		black4 = new Image("images/progressImages/black4.png");
+		
+		blue1 = new Image("images/progressImages/blue1.png");
+		blue2 = new Image("images/progressImages/blue2.png");
+		blue3 = new Image("images/progressImages/blue3.png");
+		blue4 = new Image("images/progressImages/blue4.png");
+
+		green1 = new Image("images/progressImages/green1.png");
+		green2 = new Image("images/progressImages/green2.png");
+		green3 = new Image("images/progressImages/green3.png");
+		green4 = new Image("images/progressImages/green4.png");
+
+		orange1 = new Image("images/progressImages/orange1.png");
+		orange2 = new Image("images/progressImages/orange2.png");
+		orange3 = new Image("images/progressImages/orange3.png");
+		orange4 = new Image("images/progressImages/orange4.png");
+
+		purple1 = new Image("images/progressImages/purple1.png");
+		purple2 = new Image("images/progressImages/purple2.png");
+		purple3 = new Image("images/progressImages/purple3.png");
+		purple4 = new Image("images/progressImages/purple4.png");
+
+		red1 = new Image("images/progressImages/red1.png");
+		red2 = new Image("images/progressImages/red2.png");
+		red3 = new Image("images/progressImages/red3.png");
+		red4 = new Image("images/progressImages/red4.png");
+
+		white1 = new Image("images/progressImages/white1.png");
+		white2 = new Image("images/progressImages/white2.png");
+		white3 = new Image("images/progressImages/white3.png");
+		white4 = new Image("images/progressImages/white4.png");
+
+		yellow1 = new Image("images/progressImages/yellow1.png");
+		yellow2 = new Image("images/progressImages/yellow2.png");
+		yellow3 = new Image("images/progressImages/yellow3.png");
+		yellow4 = new Image("images/progressImages/yellow4.png");
         
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
@@ -589,7 +733,7 @@ public class GameLevel extends BasicGameState {
 	                    	 case 504:
 	                    	 {
 	                    		 Circle circle = new Circle(0,0,10);
-	                    		 g.setColor(Color.magenta);
+	                    		 g.setColor(new Color(160, 32, 240));
 	                    		 g.draw(circle);
 	                    		 g.fill(circle);
 	                             break; 
@@ -636,6 +780,54 @@ public class GameLevel extends BasicGameState {
          
          wheel.draw(-1,400);
          bottomBlock.draw(0,500);
+         
+         progressInd.draw(340,740);
+         
+         switch (S1)
+    	 {
+        	 case 500:{g.drawImage(black1, 340,740);break; }
+        	 case 501:{g.drawImage(blue1, 340,740);break; }
+        	 case 502:{g.drawImage(green1, 340,740);break; }
+        	 case 503:{g.drawImage(orange1, 340,740);break; }
+        	 case 504:{g.drawImage(purple1, 340,740);break; }
+        	 case 505:{g.drawImage(red1, 340,740);break; }
+        	 case 506:{g.drawImage(white1, 340,740);break; }
+        	 case 507:{g.drawImage(yellow1, 340,740);break; }
+    	 }
+         switch (S2)
+    	 {
+        	 case 500:{g.drawImage(black2, 365,740);break; }
+        	 case 501:{g.drawImage(blue2, 365,740);break; }
+        	 case 502:{g.drawImage(green2, 365,740);break; }
+        	 case 503:{g.drawImage(orange2, 365,740);break; }
+        	 case 504:{g.drawImage(purple2, 365,740);break; }
+        	 case 505:{g.drawImage(red2, 365,740);break; }
+        	 case 506:{g.drawImage(white2, 365,740);break; }
+        	 case 507:{g.drawImage(yellow2, 365,740);break; }
+    	 }
+         switch (S3)
+    	 {
+        	 case 500:{g.drawImage(black3, 340,765);break; }
+        	 case 501:{g.drawImage(blue3, 340,765);break; }
+        	 case 502:{g.drawImage(green3, 340,765);break; }
+        	 case 503:{g.drawImage(orange3, 340,765);break; }
+        	 case 504:{g.drawImage(purple3, 340,765);break; }
+        	 case 505:{g.drawImage(red3, 340,765);break; }
+        	 case 506:{g.drawImage(white3, 340,765);break; }
+        	 case 507:{g.drawImage(yellow3, 340,765);break; }
+    	 }
+         switch (S4)
+    	 {
+        	 case 500:{g.drawImage(black4, 365,765);break; }
+        	 case 501:{g.drawImage(blue4, 365,765);break; }
+        	 case 502:{g.drawImage(green4, 365,765);break; }
+        	 case 503:{g.drawImage(orange4, 365,765);break; }
+        	 case 504:{g.drawImage(purple4, 365,765);break; }
+        	 case 505:{g.drawImage(red4, 365,765);break; }
+        	 case 506:{g.drawImage(white4, 365,765);break; }
+        	 case 507:{g.drawImage(yellow4, 365,765);break; }
+    	 }
+         
          
          //Pause screen
          g.drawImage(pauseBg,0,205);
@@ -745,9 +937,56 @@ public class GameLevel extends BasicGameState {
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
         	 sprite = right;
          }
+         
          if(sprite == right && input.isKeyDown(Input.KEY_RIGHT)==false){
         	 sprite = rightStill;
          }
+         
+         if (input.isKeyDown(Input.KEY_L)==true && container.isPaused() == false)
+         {
+        	 float rotation = wheel.getRotation();
+        	 if(rotation<0)
+        	 {
+        		 rotation = rotation*(-1)+45;
+        	 }
+        	 if(rotation!=0){if(rotation!=90){if(rotation!=180){if(rotation!=270)
+        	 {
+        		 if(rotation>=0&&rotation<=45)
+        		 {
+	        		 rotateLeft();
+        		 }
+        		 if(rotation>=90&&rotation<=135)
+        		 {
+	        		 rotateLeft();
+        		 }
+        		 if(rotation>=180&&rotation<=225)
+        		 {
+	        		 rotateLeft();
+        		 }
+        		 if(rotation>=270&&rotation<=315)
+        		 {
+	        		 rotateLeft();
+        		 }
+        		 if(rotation>=45&&rotation<=90)
+        		 {
+	        		 rotateRight();
+        		 }
+        		 if(rotation>=135&&rotation<=180)
+        		 {
+	        		 rotateRight();
+        		 }
+        		 if(rotation>=225&&rotation<=270)
+        		 {
+	        		 rotateRight();
+        		 }
+        		 if(rotation>=315&&rotation<=360)
+        		 {
+	        		 rotateRight();
+        		 }
+        	 }}}}
+        	 
+         }
+                 
          
          //Timer controls, the droplet flow still spontaneously stops if the timer is paused at any point
          //The timer can temporarily be restarted but will eventually stop again
@@ -770,7 +1009,7 @@ public class GameLevel extends BasicGameState {
          {
         	 timer.stop();
          }
-         
+         /*
          if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
          {
         	 drawDropletLeft(501);
@@ -783,7 +1022,7 @@ public class GameLevel extends BasicGameState {
          {
         	 drawDropletRight(507);
          }
-         
+         */
          
        //Pause the game
          if(input.isKeyDown(Input.KEY_ESCAPE)==true && isVictory==false && isFail==false)
@@ -1044,6 +1283,11 @@ public class GameLevel extends BasicGameState {
 					changeColors(f2, f1);
 				}
 			}
+			if(f1.m_density >= 50 && f1.m_density <= 55 && f2.m_density >= 500)
+			{
+				atSensor(f1, f2);
+			}
+			
 			
 		edge = edge.getNext();
 		}
@@ -1151,11 +1395,62 @@ public class GameLevel extends BasicGameState {
 		{f1.m_density = 504;f2.m_density = 504;}
 	}
 	
+	private void atSensor(Fixture sensor, Fixture color)
+	{
+		if (sensor.m_density == 51)
+		{
+			if(S1!=color.m_density)
+			{
+				S1=(int) color.m_density;
+			}
+		}
+		if (sensor.m_density == 52)
+		{
+			if(S2!=color.m_density)
+			{
+				S2=(int) color.m_density;
+			}
+		}
+		if (sensor.m_density == 53)
+		{
+			if(S3!=color.m_density)
+			{
+				S3=(int) color.m_density;
+			}
+		}
+		if (sensor.m_density == 54)
+		{
+			if(S4!=color.m_density)
+			{
+				S4=(int) color.m_density;
+			}
+		}
+	}
+	
+	
 	private void setRating(int r){
 		rating = r;
 	}
 	private int getRating(){
 		return rating;
+	}
+	
+	private void rotateRight()
+	{
+		wheel.setRotation(wheel.getRotation()+1);
+   	 	wheelPanel.setRotation(wheelPanel.getRotation()+1);
+   	 	wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
+   	 	wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
+   	 	sprite = right;
+	}
+	
+	private void rotateLeft()
+	{
+		wheel.setRotation(wheel.getRotation()-1);
+		 wheelPanel.setRotation(wheelPanel.getRotation()-1);
+		 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
+		 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
+		 sprite = left;
 	}
 
 }
