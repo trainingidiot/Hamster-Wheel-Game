@@ -2,6 +2,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.Timer;
@@ -52,6 +53,7 @@ public class GameLevel extends BasicGameState {
 	Image red1, red2, red3, red4;
 	Image white1, white2, white3, white4;
 	Image yellow1, yellow2, yellow3, yellow4;
+	Image grey1, grey2, grey3, grey4;
 	
 	String mouse, level;
 	private boolean isMouseOverPlay, isMouseOverMenu, isVictory, isFail, isMouseOverReplay, isMouseOverLevels, isMouseOverNext;
@@ -63,6 +65,11 @@ public class GameLevel extends BasicGameState {
 	private int S2 = 0;
 	private int S3 = 0;
 	private int S4 = 0;
+	private int I1 = 0;
+	private int I2 = 0;
+	private int I3 = 0;
+	private int I4 = 0;
+	private Boolean drawIndi = false;
 	
 	//music
 	private Sound sound;
@@ -99,6 +106,32 @@ public class GameLevel extends BasicGameState {
 		this.state = state;
 		level = "Level " + state;
 		dropletList = list;
+		ArrayList<String> goal = dropletList.getList(state).goalState;
+		for (int i=0; i<4; i++)
+		{
+			String color = goal.get(i);
+			int colorInt = 0;
+			if (color.equals("bl")){colorInt = 500;}
+			if (color.equals("b")){colorInt = 501;}
+			if (color.equals("g")){colorInt = 502;}
+			if (color.equals("o")){colorInt = 503;}
+			if (color.equals("p")){colorInt = 504;}
+			if (color.equals("r")){colorInt = 505;}
+			if (color.equals("w")){colorInt = 506;}
+			if (color.equals("y")){colorInt = 507;}
+			
+			if(i==0){I1=colorInt;}
+			if(i==1){I2=colorInt;}
+			if(i==2){I3=colorInt;}
+			if(i==3){I4=colorInt;}
+       	 }
+		
+		
+			
+		
+			
+		
+		
 //		testList();
 	}
 	
@@ -175,10 +208,10 @@ public class GameLevel extends BasicGameState {
             BodyDef sensor11 = new BodyDef();
             
             Vec2[] vertices = {
-	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -6f),
 	                new Vec2(0f, 0f),
 	                new Vec2(6.7f, 0f),
-	                new Vec2(6.7f, -6.7f)
+	                new Vec2(6.7f, -6f)
 	                
 	        };
             
@@ -201,10 +234,10 @@ public class GameLevel extends BasicGameState {
             BodyDef sensor1 = new BodyDef();
             
             Vec2[] vertices = {
-	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -6f),
 	                new Vec2(0f, 0f),
 	                new Vec2(-6.7f, 0f),
-	                new Vec2(-6.7f, -6.7f)
+	                new Vec2(-6.7f, -6f)
 	                
 	        };
             
@@ -227,10 +260,10 @@ public class GameLevel extends BasicGameState {
             BodyDef sensor1 = new BodyDef();
             
             Vec2[] vertices = {
-	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -10f),
 	                new Vec2(0f, -13.4f),
 	                new Vec2(6.7f, -13.4f),
-	                new Vec2(6.7f, -6.7f)
+	                new Vec2(6.7f, -10f)
 	                
 	        };
             
@@ -253,10 +286,10 @@ public class GameLevel extends BasicGameState {
             BodyDef sensor1 = new BodyDef();
             
             Vec2[] vertices = {
-	                new Vec2(0f, -6.7f),
+	                new Vec2(0f, -10f),
 	                new Vec2(0f, -13.4f),
 	                new Vec2(-6.7f, -13.4f),
-	                new Vec2(-6.7f, -6.7f)
+	                new Vec2(-6.7f, -10f)
 	                
 	        };
             
@@ -442,6 +475,12 @@ public class GameLevel extends BasicGameState {
 		yellow3 = new Image("images/progressImages/yellow3.png");
 		yellow4 = new Image("images/progressImages/yellow4.png");
         
+		grey1 = new Image("images/progressImages/grey1.png");
+		grey2 = new Image("images/progressImages/grey2.png");
+		grey3 = new Image("images/progressImages/grey3.png");
+		grey4 = new Image("images/progressImages/grey4.png");
+
+	
         
 	  //pause screen, set alpha to zero so it doesn't show up when the level starts          
         pauseBg.setAlpha(0);
@@ -783,51 +822,100 @@ public class GameLevel extends BasicGameState {
          
          progressInd.draw(340,740);
          
-         switch (S1)
-    	 {
-        	 case 500:{g.drawImage(black1, 340,740);break; }
-        	 case 501:{g.drawImage(blue1, 340,740);break; }
-        	 case 502:{g.drawImage(green1, 340,740);break; }
-        	 case 503:{g.drawImage(orange1, 340,740);break; }
-        	 case 504:{g.drawImage(purple1, 340,740);break; }
-        	 case 505:{g.drawImage(red1, 340,740);break; }
-        	 case 506:{g.drawImage(white1, 340,740);break; }
-        	 case 507:{g.drawImage(yellow1, 340,740);break; }
-    	 }
-         switch (S2)
-    	 {
-        	 case 500:{g.drawImage(black2, 365,740);break; }
-        	 case 501:{g.drawImage(blue2, 365,740);break; }
-        	 case 502:{g.drawImage(green2, 365,740);break; }
-        	 case 503:{g.drawImage(orange2, 365,740);break; }
-        	 case 504:{g.drawImage(purple2, 365,740);break; }
-        	 case 505:{g.drawImage(red2, 365,740);break; }
-        	 case 506:{g.drawImage(white2, 365,740);break; }
-        	 case 507:{g.drawImage(yellow2, 365,740);break; }
-    	 }
-         switch (S3)
-    	 {
-        	 case 500:{g.drawImage(black3, 340,765);break; }
-        	 case 501:{g.drawImage(blue3, 340,765);break; }
-        	 case 502:{g.drawImage(green3, 340,765);break; }
-        	 case 503:{g.drawImage(orange3, 340,765);break; }
-        	 case 504:{g.drawImage(purple3, 340,765);break; }
-        	 case 505:{g.drawImage(red3, 340,765);break; }
-        	 case 506:{g.drawImage(white3, 340,765);break; }
-        	 case 507:{g.drawImage(yellow3, 340,765);break; }
-    	 }
-         switch (S4)
-    	 {
-        	 case 500:{g.drawImage(black4, 365,765);break; }
-        	 case 501:{g.drawImage(blue4, 365,765);break; }
-        	 case 502:{g.drawImage(green4, 365,765);break; }
-        	 case 503:{g.drawImage(orange4, 365,765);break; }
-        	 case 504:{g.drawImage(purple4, 365,765);break; }
-        	 case 505:{g.drawImage(red4, 365,765);break; }
-        	 case 506:{g.drawImage(white4, 365,765);break; }
-        	 case 507:{g.drawImage(yellow4, 365,765);break; }
-    	 }
+         if(drawIndi == true)
+         {
+             switch (S1)
+        	 {
+            	 case 500:{g.drawImage(black1, 340,740);break; }
+            	 case 501:{g.drawImage(blue1, 340,740);break; }
+            	 case 502:{g.drawImage(green1, 340,740);break; }
+            	 case 503:{g.drawImage(orange1, 340,740);break; }
+            	 case 504:{g.drawImage(purple1, 340,740);break; }
+            	 case 505:{g.drawImage(red1, 340,740);break; }
+            	 case 506:{g.drawImage(white1, 340,740);break; }
+            	 case 507:{g.drawImage(yellow1, 340,740);break; }
+        	 }
+             switch (S2)
+        	 {
+            	 case 500:{g.drawImage(black2, 365,740);break; }
+            	 case 501:{g.drawImage(blue2, 365,740);break; }
+            	 case 502:{g.drawImage(green2, 365,740);break; }
+            	 case 503:{g.drawImage(orange2, 365,740);break; }
+            	 case 504:{g.drawImage(purple2, 365,740);break; }
+            	 case 505:{g.drawImage(red2, 365,740);break; }
+            	 case 506:{g.drawImage(white2, 365,740);break; }
+            	 case 507:{g.drawImage(yellow2, 365,740);break; }
+        	 }
+             switch (S3)
+        	 {
+            	 case 500:{g.drawImage(black3, 340,765);break; }
+            	 case 501:{g.drawImage(blue3, 340,765);break; }
+            	 case 502:{g.drawImage(green3, 340,765);break; }
+            	 case 503:{g.drawImage(orange3, 340,765);break; }
+            	 case 504:{g.drawImage(purple3, 340,765);break; }
+            	 case 505:{g.drawImage(red3, 340,765);break; }
+            	 case 506:{g.drawImage(white3, 340,765);break; }
+            	 case 507:{g.drawImage(yellow3, 340,765);break; }
+        	 }
+             switch (S4)
+        	 {
+            	 case 500:{g.drawImage(black4, 365,765);break; }
+            	 case 501:{g.drawImage(blue4, 365,765);break; }
+            	 case 502:{g.drawImage(green4, 365,765);break; }
+            	 case 503:{g.drawImage(orange4, 365,765);break; }
+            	 case 504:{g.drawImage(purple4, 365,765);break; }
+            	 case 505:{g.drawImage(red4, 365,765);break; }
+            	 case 506:{g.drawImage(white4, 365,765);break; }
+            	 case 507:{g.drawImage(yellow4, 365,765);break; }
+        	 }
+         }
          
+         progressInd.draw(10,740);
+         
+         switch (I1)
+    	 {
+        	 case 500:{g.drawImage(black1, 10,740);break; }
+        	 case 501:{g.drawImage(blue1, 10,740);break; }
+        	 case 502:{g.drawImage(green1, 10,740);break; }
+        	 case 503:{g.drawImage(orange1, 10,740);break; }
+        	 case 504:{g.drawImage(purple1, 10,740);break; }
+        	 case 505:{g.drawImage(red1, 10,740);break; }
+        	 case 506:{g.drawImage(grey1, 10,740);break; }
+        	 case 507:{g.drawImage(yellow1, 10,740);break; }
+    	 }
+         switch (I2)
+    	 {
+        	 case 500:{g.drawImage(black2, 35,740);break; }
+        	 case 501:{g.drawImage(blue2, 35,740);break; }
+        	 case 502:{g.drawImage(green2, 35,740);break; }
+        	 case 503:{g.drawImage(orange2, 35,740);break; }
+        	 case 504:{g.drawImage(purple2, 35,740);break; }
+        	 case 505:{g.drawImage(red2, 35,740);break; }
+        	 case 506:{g.drawImage(grey2, 35,740);break; }
+        	 case 507:{g.drawImage(yellow2, 35,740);break; }
+    	 }
+         switch (I3)
+    	 {
+        	 case 500:{g.drawImage(black3, 10,765);break; }
+        	 case 501:{g.drawImage(blue3, 10,765);break; }
+        	 case 502:{g.drawImage(green3, 10,765);break; }
+        	 case 503:{g.drawImage(orange3, 10,765);break; }
+        	 case 504:{g.drawImage(purple3, 10,765);break; }
+        	 case 505:{g.drawImage(red3, 10,765);break; }
+        	 case 506:{g.drawImage(grey3, 10,765);break; }
+        	 case 507:{g.drawImage(yellow3, 10,765);break; }
+    	 }
+         switch (I4)
+    	 {
+        	 case 500:{g.drawImage(black4, 35,765);break; }
+        	 case 501:{g.drawImage(blue4, 35,765);break; }
+        	 case 502:{g.drawImage(green4, 35,765);break; }
+        	 case 503:{g.drawImage(orange4, 35,765);break; }
+        	 case 504:{g.drawImage(purple4, 35,765);break; }
+        	 case 505:{g.drawImage(red4, 35,765);break; }
+        	 case 506:{g.drawImage(grey4, 35,765);break; }
+        	 case 507:{g.drawImage(yellow4, 35,765);break; }
+    	 }
          
          //Pause screen
          g.drawImage(pauseBg,0,205);
@@ -925,6 +1013,7 @@ public class GameLevel extends BasicGameState {
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
         	 sprite = left;
+        	 drawIndi = false;
          }
          if(sprite == left && input.isKeyDown(Input.KEY_LEFT)==false){
         	 sprite = leftStill;
@@ -936,6 +1025,8 @@ public class GameLevel extends BasicGameState {
         	 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()+0.0174532925f);
         	 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()+0.0174532925f);
         	 sprite = right;
+        	 drawIndi = false;
+
          }
          
          if(sprite == right && input.isKeyDown(Input.KEY_RIGHT)==false){
@@ -945,9 +1036,9 @@ public class GameLevel extends BasicGameState {
          if (input.isKeyDown(Input.KEY_L)==true && container.isPaused() == false)
          {
         	 float rotation = wheel.getRotation();
-        	 if(rotation<0)
+        	 while(rotation<0)
         	 {
-        		 rotation = rotation*(-1)+45;
+        		 rotation = rotation+360;
         	 }
         	 if(rotation!=0){if(rotation!=90){if(rotation!=180){if(rotation!=270)
         	 {
@@ -984,6 +1075,13 @@ public class GameLevel extends BasicGameState {
 	        		 rotateRight();
         		 }
         	 }}}}
+        	 
+        	 if(rotation==0||rotation!=90||rotation!=180||rotation!=270)
+        	 {
+     
+        		 drawIndi = true;
+        		 
+        	 }
         	 
          }
                  
@@ -1269,6 +1367,10 @@ public class GameLevel extends BasicGameState {
 	
 	private void checkContacts()
 	{
+		Boolean flagS1 = false;
+		Boolean flagS2 = false;
+		Boolean flagS3 = false;
+		Boolean flagS4 = false;
 		Contact edge = world.getContactList();
 		while (edge != null)
 		{
@@ -1287,10 +1389,21 @@ public class GameLevel extends BasicGameState {
 			{
 				atSensor(f1, f2);
 			}
+			if(f1.m_density == 51){flagS1 = true;}
+			if(f1.m_density == 52){flagS2 = true;}
+			if(f1.m_density == 53){flagS3 = true;}
+			if(f1.m_density == 54){flagS4 = true;}
+			
+			
 			
 			
 		edge = edge.getNext();
 		}
+		
+		if (flagS1==false){S1=0;}
+		if (flagS2==false){S2=0;}
+		if (flagS3==false){S3=0;}
+		if (flagS4==false){S4=0;}
 		
 	}
 	

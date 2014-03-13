@@ -7,11 +7,17 @@ public class ListStorage {
 	public ArrayList<String> leftList;
 	public ArrayList<String> rightList;
 	public int levelIndex;
+	public ArrayList<String> goalState;
 	
 	public ListStorage()
 	{
 		leftList = new ArrayList<String>();
 		rightList = new ArrayList<String>();
+		goalState = new ArrayList<String>();
+		goalState.add("b");
+		goalState.add("g");
+		goalState.add("w");
+		goalState.add("y");
 	}
 	
 	public void addToLeftList(String lstringToAdd)
