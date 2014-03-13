@@ -14,8 +14,8 @@ public class LevelSelector extends BasicGameState {
 
 	String mouse;
 	private int state;
-	private Image lvl1, lvl1Select, lvl2, lvl3, lvl2Select, lvl3Select;
-	private boolean isMouseOver_lvl1, isMouseOver_lvl2, isMouseOver_lvl3;
+	private Image backBttn,backBttnSelect, lvl1, lvl1Select, lvl2, lvl3, lvl2Select, lvl3Select;
+	private boolean isMouseOver_Back, isMouseOver_lvl1, isMouseOver_lvl2, isMouseOver_lvl3;
 	
 	private Music music;
 	
@@ -34,6 +34,8 @@ public class LevelSelector extends BasicGameState {
 		lvl2Select = new Image("images/buttons/Button_Level_Selected.png");
 		lvl3 = new Image("images/buttons/Button_Level_Neutral.png");
 		lvl3Select = new Image("images/buttons/Button_Level_Selected.png");
+		backBttn = new Image("images/buttons/Back_neutral_final.png");
+		backBttnSelect = new Image("images/buttons/Back_pressed_final.png");
 		
 		music = new Music("resources/MenuMusic.wav");
 		
@@ -42,11 +44,13 @@ public class LevelSelector extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.drawString(mouse, 100, 50);
-		
-		Image backBttn = new Image("images/back-button.png");
-		g.drawImage(backBttn, 20, 30);
-		
 		g.setBackground(Color.lightGray);
+		
+		if(isMouseOver_Back){
+			g.drawImage(backBttnSelect, 20, 30);
+		}else{
+			g.drawImage(backBttn, 20, 30);
+		}
 		
 		if(isMouseOver_lvl1){
 			g.drawImage(lvl1Select,50,121);
@@ -68,8 +72,7 @@ public class LevelSelector extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-			throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
 		int xpos = input.getMouseX();
@@ -82,48 +85,53 @@ public class LevelSelector extends BasicGameState {
 		
 		mouse = "Mouse position x: " + xpos + " ypos: " + ypos;
 		
+		//back button
 		if((xpos>23 && xpos<69) && (ypos>33 && ypos<81)){
 			if(input.isMouseButtonDown(0)){
 				music.stop();
+				
 				sbg.enterState(0); //return to menu screen
 			}
+			isMouseOver_Back = true;
+		}else{
+			isMouseOver_Back = false;
 		}
 		
 		//Level1
-				if((xpos>30 && xpos<110) && (ypos>124 && ypos<203)){
-					isMouseOver_lvl1 = true;
-					if(input.isMousePressed(0)){
-						music.stop();
-						sbg.enterState(1); //enter level 1 
-					}
-				}
-				else{
-					isMouseOver_lvl1 = false;
-				}
+		if((xpos>30 && xpos<110) && (ypos>124 && ypos<203)){
+			isMouseOver_lvl1 = true;
+			if(input.isMousePressed(0)){
+				music.stop();
+				sbg.enterState(1); //enter level 1 
+			}
+		}
+		else{
+			isMouseOver_lvl1 = false;
+		}
 				
-				//Level2
-				if((xpos>161 && xpos<239) && (ypos>124 && ypos<203)){
-					isMouseOver_lvl2 = true;
-					if(input.isMousePressed(0)){
-						music.stop();
-						sbg.enterState(2); //enter level 2 
-					}
-				}
-				else{
-					isMouseOver_lvl2 = false;
-				}
-				
-				//Level3
-				if((xpos>271 && xpos<350) && (ypos>124 && ypos<203)){
-					isMouseOver_lvl3 = true;
-					if(input.isMousePressed(0)){
-						music.stop();
-						sbg.enterState(3); //enter level 3
-					}
-				}
-				else{
-					isMouseOver_lvl3 = false;
-				}
+		//Level2
+		if((xpos>161 && xpos<239) && (ypos>124 && ypos<203)){
+			isMouseOver_lvl2 = true;
+			if(input.isMousePressed(0)){
+				music.stop();
+				sbg.enterState(2); //enter level 2 
+			}
+		}
+		else{
+			isMouseOver_lvl2 = false;
+		}
+		
+		//Level3
+		if((xpos>271 && xpos<350) && (ypos>124 && ypos<203)){
+			isMouseOver_lvl3 = true;
+			if(input.isMousePressed(0)){
+				music.stop();
+				sbg.enterState(3); //enter level 3
+			}
+		}
+		else{
+			isMouseOver_lvl3 = false;
+		}
 		
 	}
 
