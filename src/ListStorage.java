@@ -14,10 +14,10 @@ public class ListStorage {
 		leftList = new ArrayList<String>();
 		rightList = new ArrayList<String>();
 		goalState = new ArrayList<String>();
+		goalState.add("r");
 		goalState.add("b");
-		goalState.add("g");
-		goalState.add("w");
 		goalState.add("y");
+		goalState.add("r");
 	}
 	
 	public void addToLeftList(String lstringToAdd)

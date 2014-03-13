@@ -1081,6 +1081,7 @@ public class GameLevel extends BasicGameState {
         	 {
      
         		 drawIndi = true;
+        		 testWin();
         		 
         	 }
         	 
@@ -1565,6 +1566,27 @@ public class GameLevel extends BasicGameState {
 		 wheelArmA.setTransform(wheelArmA.getPosition(), wheelArmA.getAngle()-0.0174532925f);
 		 wheelArmB.setTransform(wheelArmB.getPosition(), wheelArmB.getAngle()-0.0174532925f);
 		 sprite = left;
+	}
+	
+	private void testWin()
+	{
+		if (I1==S1)
+		{
+			if(I2==S2)
+			{
+				if(I3==S3)
+				{
+					if(I4==S4)
+					{
+						isVictory = true;
+			 			isFail = false;
+			 			victoryScreen.setAlpha(100);
+			 			sound.stop();
+			 			setRating(3); //set the player's rating for number of stars they get
+					}
+				}
+			}
+		}
 	}
 
 }
