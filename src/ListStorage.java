@@ -14,10 +14,10 @@ public class ListStorage {
 		leftList = new ArrayList<String>();
 		rightList = new ArrayList<String>();
 		goalState = new ArrayList<String>();
-		goalState.add("r");
-		goalState.add("b");
-		goalState.add("y");
-		goalState.add("r");
+//		goalState.add("r");
+//		goalState.add("b");
+//		goalState.add("y");
+//		goalState.add("r");
 	}
 	
 	public void addToLeftList(String lstringToAdd)
@@ -34,6 +34,19 @@ public class ListStorage {
 	public void addLevelInfo(int index)
 	{
 		levelIndex = index;
+	}
+	
+	public void setGoalState(String[] goalList)
+	{
+		for(int i = 0; i < goalList.length; i++)
+		{
+			goalState.add(goalList[i]);
+		}
+	}
+	
+	public ArrayList<String> getGoalState()
+	{
+		return goalState;
 	}
 	
 	public int getLevelInfo()

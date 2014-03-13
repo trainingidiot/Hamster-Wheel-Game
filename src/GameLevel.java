@@ -106,7 +106,13 @@ public class GameLevel extends BasicGameState {
 		this.state = state;
 		level = "Level " + state;
 		dropletList = list;
-		ArrayList<String> goal = dropletList.getList(state).goalState;
+		ArrayList<String> goal = dropletList.getList(state).getGoalState();
+		
+		for(int i = 0; i < goal.size(); i++)
+		{
+			System.out.print(goal.get(i));
+		}
+		System.out.println();
 		for (int i=0; i<4; i++)
 		{
 			String color = goal.get(i);

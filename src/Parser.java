@@ -21,7 +21,14 @@ public class Parser {
   	  		ListStorage storage = new ListStorage();
   			storage.addLevelInfo(scanner.nextInt());
   	  		String currToken = scanner.next();
-	  		while(!currToken.equals("Right"))
+  	  		String goalList[] = new String[4]; 
+  	  		for(int i = 0; i < goalList.length; i++)
+  	  		{
+  	  			goalList[i] = currToken;
+  	  			currToken = scanner.next();
+  	  		}
+  	  		storage.setGoalState(goalList);
+  	  		while(!currToken.equals("Right"))
 	  		{
 	  			storage.addToLeftList(currToken);
 	  			currToken = scanner.next();
@@ -33,10 +40,11 @@ public class Parser {
 	  			currToken = scanner.next();
 	  		}
 	  		levelStorage.addLevelList(storage);
+	  		
   		}
   		
   		scanner.close();
-  		
+ /* 		
   		//parser test
   		System.out.println("Beginning of parser test");
   		System.out.println("levelListStrage size: "+ levelStorage.size());
@@ -63,7 +71,8 @@ public class Parser {
  		System.out.println("End of parser test");
  		System.out.println();
  		System.out.println();
- 		
+*/
+  		
 	}
 	
 	public LevelListStorage getList(){

@@ -1,18 +1,24 @@
-1
-r y r 
+1 r y b r
+r y r
 Right x x b 
 
 #
-2
+2 p g o g
 y b b r
 Right y b r y
 
 #
-3
-y r y r
-Right b b r b
+3 g r r g
+y r r y
+Right r b b r
 
 #
-4
-b b o p
-Right r p y- b
+4 g p p o
+y r b g w r
+Right w y b y b r
+
+#
+5 p o o p
+r y o b r
+Right y r b p r
+
