@@ -4,11 +4,11 @@ import org.lwjgl.input.Mouse;
 
 public class Menu extends BasicGameState{
 	
-	Animation sprite, right;
+	//Animation sprite, right;
 	private String mouse ="";
 	private int state;
 	private boolean isMouseOverStartBttn,isMouseOverLvls;
-	private Image background, bottomBlock;
+	private Image background; //, bottomBlock;
 	
 	private Music music;
 	
@@ -20,20 +20,21 @@ public class Menu extends BasicGameState{
 		gc.setShowFPS(false);
 		music = new Music("resources/MenuMusic.wav");
 		
-		background = new Image("images/background/game_background.png");
-		bottomBlock = new Image("images/background/game_bottomblock.png");
+		background = new Image("images/background/menu_background_final.png");
+		/*bottomBlock = new Image("images/background/game_bottomblock.png");
 		Image [] movementRight =  {new Image("images/hamster/Run_1.png"), new Image("images/hamster/Run_2.png"), new Image("images/hamster/Run_3.png"), new Image("images/hamster/Run_4.png"),new Image("images/hamster/Run_5.png"), new Image("images/hamster/Run_6.png"), new Image("images/hamster/Run_7.png"), new Image("images/hamster/Run_8.png")} ;
 		int [] duration = {50, 50, 50, 50, 50, 50, 50, 50}; 
 		right = new Animation(movementRight, duration, true);
 		sprite = right;
+		*/
 	}
 	
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		background.draw(0,0);
 		g.drawString(mouse, 50, 50);
-		sprite.draw(0,400);
-		bottomBlock.draw(0,400);
+		//sprite.draw(0,400);
+		//bottomBlock.draw(0,400);
 		
 		
 		//Buttons
