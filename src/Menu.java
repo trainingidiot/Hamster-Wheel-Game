@@ -42,17 +42,19 @@ public class Menu extends BasicGameState{
 		Image startBttnHover = new Image("images/buttons/Play_pressed_final.png");
 		Image lvlsBttn = new Image("images/buttons/Levels_neutral_final.png");
 		Image lvlsBttnHover = new Image("images/buttons/Levels_pressed_final.png");
-
+		Image creditsBttn = new Image("images/Stars.png"); //star is place holder art for now
 		
 		if(isMouseOverStartBttn)
-			g.drawImage(startBttnHover, 100, 350);
+			g.drawImage(startBttnHover, 70, 350);
 		else
-			g.drawImage(startBttn, 100,350);
+			g.drawImage(startBttn, 70,350);
 		
 		if(isMouseOverLvls)
-			g.drawImage(lvlsBttnHover, 220, 350);
+			g.drawImage(lvlsBttnHover, 190, 350);
 		else
-			g.drawImage(lvlsBttn, 220,350);
+			g.drawImage(lvlsBttn, 190,350);
+		
+		g.drawImage(creditsBttn, 290, 350);
 		
 		g.setBackground(Color.lightGray);
 	}
@@ -71,7 +73,7 @@ public class Menu extends BasicGameState{
 		mouse = "Mouse Position x: " + xpos + "   y: " + ypos;
 		
 		//Start button
-		if((xpos>101 && xpos <180) && (ypos>367 && ypos<447))
+		if((xpos>71 && xpos <150) && (ypos>367 && ypos<447))
 		{
 			isMouseOverStartBttn = true;
 			if(input.isMouseButtonDown(0)){ //0 means left click, 1 means right click
@@ -84,7 +86,7 @@ public class Menu extends BasicGameState{
 			}
 		
 		//Levels button
-		if((xpos>221 && xpos<300) && (ypos>367 && ypos<447 ))
+		if((xpos>191 && xpos<270) && (ypos>367 && ypos<447 ))
 		{
 			isMouseOverLvls = true;
 			
@@ -95,6 +97,13 @@ public class Menu extends BasicGameState{
 			
 		} else{
 			isMouseOverLvls = false;
+		}
+		
+		//credits button
+		if((xpos>302 && xpos<360) && (ypos>388 && ypos<433)){
+			if(input.isMouseButtonDown(0)){
+				sbg.enterState(-2); //enter the credits screen
+			}
 		}
 		
 	}
