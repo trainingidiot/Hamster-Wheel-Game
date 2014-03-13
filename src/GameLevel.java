@@ -164,7 +164,7 @@ public class GameLevel extends BasicGameState {
 	        fixtureDef.density = 0.5f;
 	        fixtureDef.friction = 0.3f;
 	        fixtureDef.restitution = 0.5f;
-	        //fixtureDef.isSensor = true;
+	        fixtureDef.isSensor = true;
 
 	        polygonGround = world.createBody(sensor1);
 	        polygonGround.createFixture(fixtureDef);
