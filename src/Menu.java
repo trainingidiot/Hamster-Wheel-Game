@@ -37,10 +37,10 @@ public class Menu extends BasicGameState{
 		
 		
 		//Buttons
-		Image startBttn = new Image("images/buttons/Button_Play_Neutral.png");
-		Image startBttnHover = new Image("images/buttons/Button_Play_Selected.png");
-		Image lvlsBttn = new Image("images/buttons/Button_Levels_Neutral.png");
-		Image lvlsBttnHover = new Image("images/buttons/Button_Levels_Selected.png");
+		Image startBttn = new Image("images/buttons/Play_neutral_final.png");
+		Image startBttnHover = new Image("images/buttons/Play_pressed_final.png");
+		Image lvlsBttn = new Image("images/buttons/Levels_neutral_final.png");
+		Image lvlsBttnHover = new Image("images/buttons/Levels_pressed_final.png");
 
 		
 		if(isMouseOverStartBttn)
