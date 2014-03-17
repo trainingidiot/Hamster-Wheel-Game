@@ -8,17 +8,17 @@ y b b r
 Right y b r y
 
 #
-3 g r r g
-y r r y
-Right r b b r
+3 o g p p
+y r y r
+Right b b r b
 
 #
 4 g p p o
-y r b g w r
-Right w y b y b r
+y r b g x r
+Right x y b y b r
 
 #
 5 p o o p
 r y o b r
 Right y r b p r
-
+#
