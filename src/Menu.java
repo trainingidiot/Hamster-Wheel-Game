@@ -8,7 +8,7 @@ public class Menu extends BasicGameState{
 	private String mouse ="";
 	private int state;
 	private boolean isMouseOverStartBttn,isMouseOverLvls;
-	private Image background,startBttn,startBttnHover,lvlsBttn,lvlsBttnHover,creditsBttn;; //, bottomBlock;
+	private Image background, logo, startBttn,startBttnHover,lvlsBttn,lvlsBttnHover,creditsBttn;; //, bottomBlock;
 	
 	private Music music;
 	
@@ -20,7 +20,9 @@ public class Menu extends BasicGameState{
 		gc.setShowFPS(false);
 		music = new Music("resources/MenuMusic.wav");
 		
-		background = new Image("images/background/menu_background_final.png");
+		background = new Image("images/background/menu_bg_final.png");
+		logo = new Image("images/background/Logo.png");
+		
 		/*bottomBlock = new Image("images/background/game_bottomblock.png");
 		Image [] movementRight =  {new Image("images/hamster/Run_1.png"), new Image("images/hamster/Run_2.png"), new Image("images/hamster/Run_3.png"), new Image("images/hamster/Run_4.png"),new Image("images/hamster/Run_5.png"), new Image("images/hamster/Run_6.png"), new Image("images/hamster/Run_7.png"), new Image("images/hamster/Run_8.png")} ;
 		int [] duration = {50, 50, 50, 50, 50, 50, 50, 50}; 
@@ -38,8 +40,9 @@ public class Menu extends BasicGameState{
 	
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
-		background.draw(0,0);
-		g.drawString(mouse, 50, 50);
+		g.drawImage(background, 0,0);
+		g.drawImage(logo, 18,0);
+//		g.drawString(mouse, 50, 50);
 		//sprite.draw(0,400);
 		//bottomBlock.draw(0,400);
 		
