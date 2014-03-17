@@ -70,6 +70,9 @@ public class GameLevel extends BasicGameState {
 	private int I3 = 0;
 	private int I4 = 0;
 	private Boolean drawIndi = false;
+	private Boolean started = false;
+	private float points = 500;
+	Boolean timedown = true;
 	
 	//music
 	private Sound sound;
@@ -79,6 +82,7 @@ public class GameLevel extends BasicGameState {
 	private ArrayList<String> leftList;
 	private ArrayList<String> rightList;
 	private int count;
+	
 	
 	
     private static final World world = new World(new Vec2(0, -2000f));
@@ -91,15 +95,26 @@ public class GameLevel extends BasicGameState {
 	int delay = 2550; //milliseconds
 	int rightListCount = 0;
 	int leftListCount = 0;
+	
 	ActionListener taskPerformer = new ActionListener() 
 	{
+		
 		public void actionPerformed(ActionEvent evt) 
 		{
+			if(started==true)
+			{
 			parseList();
 			//dropletsAnimation();
+			}
+			else
+			{
+				timer = new Timer(delay, taskPerformer);
+			}
 
-	  	}
+		}
+	
 	};
+	
 	Timer timer = new Timer(delay, taskPerformer);
     
     private LevelListStorage dropletList; //holds the list of what droplets each level has
@@ -593,7 +608,10 @@ public class GameLevel extends BasicGameState {
 		//spigots.draw(161,27);
 		wheelPanel.draw(0,400);
 		sprite.draw(138,541); //hamster
+		g.setColor(Color.white);
          g.drawString(level, 10, 8);
+         int points2 = (int)points;
+         g.drawString("Points: " + Integer.toString(points2), 280, 8);
          
 
          // droplets drawing size=22
@@ -962,6 +980,7 @@ public class GameLevel extends BasicGameState {
         	 g.drawImage(menuBttn, 160, 396);
          }
          if(gc.isPaused()){
+
         	 if(isMouseOverReplay){
         		 g.drawImage(replayBttnSelect, 294,396);
         	 }
@@ -1029,6 +1048,16 @@ public class GameLevel extends BasicGameState {
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
        //System.out.println("update");
+		if(timedown == true)
+		{
+		points = points-.05f;
+		}
+		if(points<=0)
+		{
+			isVictory = false;
+ 			isFail = true;
+ 			sound.stop();
+		}
 		world.step((float)delta/25000f, velocityIterations, positionIterations);
 		
 		Input input = container.getInput();
@@ -1064,7 +1093,7 @@ public class GameLevel extends BasicGameState {
         	 sprite = rightStill;
          }
          
-         if (input.isKeyDown(Input.KEY_L)==true && container.isPaused() == false)
+         if (input.isKeyDown(Input.KEY_SPACE)==true && container.isPaused() == false)
          {
         	 float rotation = wheel.getRotation();
         	 while(rotation<0)
@@ -1137,7 +1166,9 @@ public class GameLevel extends BasicGameState {
          //Stops the Timer at any sort of menu
          if(container.isPaused() == true || isVictory== true || isFail== true)
          {
+             timedown = false;
         	 timer.stop();
+
          }
          /*
          if (input.isKeyDown(Input.KEY_A)==true && container.isPaused() == false)
@@ -1163,6 +1194,7 @@ public class GameLevel extends BasicGameState {
         	 container.pause();
         	 sound.stop();
         	 sprite = rest;
+             timedown = false;
         	 
          }
          //Resume button
@@ -1173,6 +1205,8 @@ public class GameLevel extends BasicGameState {
         		 menuBttn.setAlpha(0);
         		 container.resume();
         		 timer.start();
+                 timedown = true;
+
         	 }
         	 isMouseOverPlay = true;
          }
@@ -1200,6 +1234,10 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
+  				started = false;
+  				points = 500;
+  		        timedown = true;
+
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -1213,6 +1251,12 @@ public class GameLevel extends BasicGameState {
  			sound.stop();
  			setRating(3); //set the player's rating for number of stars they get
  		}
+ 		
+ 		if(input.isKeyPressed(Input.KEY_ENTER))
+ 		{
+ 			started=true;
+ 		}
+ 		
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
@@ -1245,8 +1289,12 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
+ 				started = false;
+ 				points = 500;
+ 				timedown = true;
  			}
  			isMouseOverReplay = true;
+ 			
  		}
  		
  		
@@ -1622,6 +1670,7 @@ public class GameLevel extends BasicGameState {
 				{
 					if(I4==S4)
 					{
+				        timedown = false;
 						isVictory = true;
 			 			isFail = false;
 			 			victoryScreen.setAlpha(100);
