@@ -74,6 +74,13 @@ public class GameLevel extends BasicGameState {
 	//music
 	private Sound sound;
 	
+	// droplet animation
+	private boolean dropAnim = false;
+	private ArrayList<String> leftList;
+	private ArrayList<String> rightList;
+	private int count;
+	
+	
     private static final World world = new World(new Vec2(0, -2000f));
     int velocityIterations;
     int positionIterations;
@@ -89,6 +96,8 @@ public class GameLevel extends BasicGameState {
 		public void actionPerformed(ActionEvent evt) 
 		{
 			parseList();
+			//dropletsAnimation();
+
 	  	}
 	};
 	Timer timer = new Timer(delay, taskPerformer);
@@ -155,8 +164,16 @@ public class GameLevel extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
+		System.out.println("enter");
 		leftListCount = 0;
 		rightListCount = 0;
+		
+		leftList = new ArrayList<String>();
+		rightList = new ArrayList<String>();
+		//droplet animation
+		leftList = dropletList.getList(state).getCurrentLeftList();
+		rightList = dropletList.getList(state).getCurrentRightList();
+		count = 0;
 		
 		//need to destory previous droplets whenever we enter the game level
 		Body current = world.getBodyList();
@@ -501,9 +518,11 @@ public class GameLevel extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
+		System.out.println("init");
 		gc.setShowFPS(false);
 		backgroundImage = new Image("images/background/Game_background_final.png");
 		sound = new Sound("resources/Water Drop.wav");
+		
 		
 		//Hamster Animation
 		Image [] movementLeft =  {new Image("images/hamster/Run_left_final_01.png"), new Image("images/hamster/Run_left_final_02.png"), new Image("images/hamster/Run_left_final_03.png"), new Image("images/hamster/Run_left_final_04.png"),new Image("images/hamster/Run_left_final_05.png"), new Image("images/hamster/Run_left_final_06.png"), new Image("images/hamster/Run_left_final_07.png"), new Image("images/hamster/Run_left_final_08.png")} ;
@@ -567,127 +586,131 @@ public class GameLevel extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
+		//System.out.println("render");
 		backgroundImage.draw(0,53); 
 		boardTop.draw(0, 0);
 		spigots.draw(154,27);
 		//spigots.draw(161,27);
 		wheelPanel.draw(0,400);
 		sprite.draw(138,541); //hamster
-         
          g.drawString(level, 10, 8);
          
+
          // droplets drawing size=22
-         //g.drawImage(red, 6, 29);
-         //g.drawImage(white, 6,29);
-//         g.drawImage(green, 28, 29);
-//         g.drawImage(blue, 50, 29);
-//         g.drawImage(orange, 72, 29);
-//         g.drawImage(purple, 94, 29);
-//         g.drawImage(white, 116, 29);
-//         g.drawImage(yellow, 138, 29);
-//         
-//         g.drawImage(red, 373, 29);
-//         g.drawImage(green, 351, 29);
-//         g.drawImage(blue, 329, 29);
-//         g.drawImage(orange, 307, 29);
-//         g.drawImage(purple, 285, 29);
-//         g.drawImage(white, 263, 29);
-//         g.drawImage(yellow, 241, 29);
-
-       
-         int leftCount = 138;
-         for(int i = 0; i < dropletList.getList(state).getCurrentLeftList().size(); i++)
-         {
-        	 if (dropletList.getList(state).getCurrentLeftList().get(i).equals("r"))
- 			{
-        		 g.drawImage(red, leftCount, 31);
-        		 leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("b"))
- 			{
- 				g.drawImage(blue, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("y"))
- 			{
- 				g.drawImage(yellow, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("p"))
- 			{
- 				g.drawImage(purple, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("g"))
- 			{
- 				g.drawImage(green, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("o"))
- 			{
- 				g.drawImage(orange, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("bl"))
- 			{
- 				g.drawImage(black, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 			if (dropletList.getList(state).getCurrentLeftList().get(i).equals("w"))
- 			{
- 				g.drawImage(white, leftCount, 31);
- 				leftCount = leftCount-22;
- 			}
- 		}
+/*         g.drawImage(red, 6, 29);
+         g.drawImage(green, 28, 29);
+         g.drawImage(blue, 50, 29);
+         g.drawImage(orange, 72, 29);
+         g.drawImage(purple, 94, 29);
+         g.drawImage(white, 116, 29);
+         g.drawImage(yellow, 138, 29);
          
-         //leftCount = 138;
+         g.drawImage(red, 373, 29);
+         g.drawImage(green, 351, 29);
+         g.drawImage(blue, 329, 29);
+         g.drawImage(orange, 307, 29);
+         g.drawImage(purple, 285, 29);
+         g.drawImage(white, 263, 29);
+         g.drawImage(yellow, 241, 29);
+*/
+  
+         //System.out.println("count: "+rightCount + " " + leftCount);
+         if(dropAnim == true)
+         {
+             System.out.println("droplet: "+dropAnim);
+             if(leftList.size()>0 && rightList.size()>0)
+             {
+            	 //leftList.remove(0);
+            	 //rightList.remove(0);
+            	 count++;
+             }
+        	 dropAnim = false;
+         }
         
-         int rightCount = 241;
-         for(int i = 0; i < dropletList.getList(state).getCurrentRightList().size(); i++)
-         {
-        	 if (dropletList.getList(state).getCurrentRightList().get(i).equals("r"))
- 			{
-        		 g.drawImage(red, rightCount, 31);
-        		 rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("b"))
- 			{
- 				g.drawImage(blue, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("y"))
- 			{
- 				g.drawImage(yellow, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("p"))
- 			{
- 				g.drawImage(purple, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("g"))
- 			{
- 				g.drawImage(green, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("o"))
- 			{
- 				g.drawImage(orange, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("bl"))
- 			{
- 				g.drawImage(black, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 			if (dropletList.getList(state).getCurrentRightList().get(i).equals("x"))
- 			{
- 				g.drawImage(white, rightCount, 31);
- 				rightCount = rightCount +22;
- 			}
- 		}
-
+        	 int leftCount = 138;
+             for(int i = count; i < leftList.size(); i++)
+             {
+            	 if (leftList.get(i).equals("r"))
+     			{
+            		 g.drawImage(red, leftCount, 31);
+            		 leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("b"))
+     			{
+     				g.drawImage(blue, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("y"))
+     			{
+     				g.drawImage(yellow, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("p"))
+     			{
+     				g.drawImage(purple, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("g"))
+     			{
+     				g.drawImage(green, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("o"))
+     			{
+     				g.drawImage(orange, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     			if (leftList.get(i).equals("x"))
+     			{
+     				g.drawImage(white, leftCount, 31);
+     				leftCount = leftCount-22;
+     			}
+     		}
+             
+             //leftCount = 138;
+            
+             int rightCount = 241;
+             for(int i = count; i < dropletList.getList(state).getCurrentRightList().size(); i++)
+             {
+            	 if (rightList.get(i).equals("r"))
+     			{
+            		 g.drawImage(red, rightCount, 31);
+            		 rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("b"))
+     			{
+     				g.drawImage(blue, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("y"))
+     			{
+     				g.drawImage(yellow, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("p"))
+     			{
+     				g.drawImage(purple, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("g"))
+     			{
+     				g.drawImage(green, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("o"))
+     			{
+     				g.drawImage(orange, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     			if (rightList.get(i).equals("x"))
+     			{
+     				g.drawImage(white, rightCount, 31);
+     				rightCount = rightCount +22;
+     			}
+     		}
          
+        
+        
          Body current = world.getBodyList();
          Vec2 center = current.getLocalCenter();
          
@@ -1005,13 +1028,14 @@ public class GameLevel extends BasicGameState {
 	
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
-       
+       //System.out.println("update");
 		world.step((float)delta/25000f, velocityIterations, positionIterations);
 		
 		Input input = container.getInput();
 		int xpos = input.getMouseX();
 	    int ypos = input.getMouseY();
 	    mouse = "Mouse Position x: " + xpos + "  y: " + ypos;
+
 
          if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
@@ -1262,8 +1286,19 @@ public class GameLevel extends BasicGameState {
 		return state;
 	}
 	
+//	private void dropletsAnimation()
+//	{
+//		if(leftList.size() != 0 || rightList.size() != 0)
+//		{
+//			dropAnim = true;
+//		}
+//	}
+	
 	private void parseList()
 	{
+		
+		dropAnim = true;
+		
 		if(leftListCount < dropletList.getList(this.state).getCurrentLeftList().size())
 		{
 			sound.play();
@@ -1313,6 +1348,7 @@ public class GameLevel extends BasicGameState {
 		if(rightListCount < dropletList.getList(this.state).getCurrentRightList().size())
 		{
 			sound.play();
+			
 			if (dropletList.getList(this.state).getCurrentRightList().get(rightListCount).equals("r"))
 			{
 				drawDropletRight(505);
@@ -1372,6 +1408,8 @@ public class GameLevel extends BasicGameState {
 		rightCount = 7; 
 		
 	}
+	
+
 	
 	private void checkContacts()
 	{
