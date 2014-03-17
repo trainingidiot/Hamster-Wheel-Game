@@ -14,8 +14,8 @@ public class LevelSelector extends BasicGameState {
 
 	String mouse;
 	private int state;
-	private Image backBttn,backBttnSelect, lvl1, lvl1Select, lvl2, lvl3, lvl2Select, lvl3Select;
-	private boolean isMouseOver_Back, isMouseOver_lvl1, isMouseOver_lvl2, isMouseOver_lvl3;
+	private Image backBttn,backBttnSelect, lvl1, lvl1Select, lvl2, lvl3, lvl2Select, lvl3Select, lvl4, lvl4Select, lvl5, lvl5Select;
+	private boolean isMouseOver_Back, isMouseOver_lvl1, isMouseOver_lvl2, isMouseOver_lvl3, isMouseOver_lvl4, isMouseOver_lvl5;
 	
 	private Music music;
 	
@@ -34,6 +34,10 @@ public class LevelSelector extends BasicGameState {
 		lvl2Select = new Image("images/buttons/Button_Level_Selected.png");
 		lvl3 = new Image("images/buttons/Button_Level_Neutral.png");
 		lvl3Select = new Image("images/buttons/Button_Level_Selected.png");
+		lvl4 = new Image("images/buttons/Button_Level_Neutral.png");
+		lvl4Select = new Image("images/buttons/Button_Level_Selected.png");
+		lvl5 = new Image("images/buttons/Button_Level_Neutral.png");
+		lvl5Select = new Image("images/buttons/Button_Level_Selected.png");
 		backBttn = new Image("images/buttons/Back_neutral_final.png");
 		backBttnSelect = new Image("images/buttons/Back_pressed_final.png");
 		
@@ -68,6 +72,18 @@ public class LevelSelector extends BasicGameState {
 			g.drawImage(lvl3Select,270,121);
 		}else{
 			g.drawImage(lvl3,270,121);
+		}
+		
+		if(isMouseOver_lvl4){
+			g.drawImage(lvl4Select,50,251);
+		}else{
+			g.drawImage(lvl4,50,251);
+		}
+		
+		if(isMouseOver_lvl5){
+			g.drawImage(lvl5Select,160,251);
+		}else{
+			g.drawImage(lvl5,160,251);
 		}
 	}
 
@@ -131,6 +147,30 @@ public class LevelSelector extends BasicGameState {
 		}
 		else{
 			isMouseOver_lvl3 = false;
+		}
+		
+		//Level4
+		if((xpos>30 && xpos<110) && (ypos>254 && ypos<334)){
+			isMouseOver_lvl4 = true;
+			if(input.isMousePressed(0)){
+				music.stop();
+				sbg.enterState(4);
+			}
+		}
+		else{
+			isMouseOver_lvl4 = false;
+		}
+		
+		//Level5
+		if((xpos>161 && xpos<239) && (ypos>254 && ypos<334)){
+			isMouseOver_lvl5 = true;
+			if(input.isMousePressed(0)){
+				music.stop();
+				sbg.enterState(5);
+			}
+		}
+		else{
+			isMouseOver_lvl5 = false;
 		}
 		
 	}

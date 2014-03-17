@@ -1216,7 +1216,7 @@ public class GameLevel extends BasicGameState {
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
- 				if(this.getID() < sbg.getStateCount()-2){
+ 				if(this.getID() < sbg.getStateCount()-3){
  					world.destroyBody(wheelArmA);
  					world.destroyBody(wheelArmB);
  					sbg.enterState(this.getID() + 1); //enter next level
