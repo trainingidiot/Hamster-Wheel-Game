@@ -177,7 +177,7 @@ public class GameLevel extends BasicGameState {
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		System.out.println("enter");
 		
-		started = true;
+		started = false;
 		points = 500;
 		timedown = false;
 		
