@@ -92,7 +92,7 @@ public class GameLevel extends BasicGameState {
     Body wheelArmA, wheelArmB, groundB, polygonGround, sensor1, sensor2, sensor3, sensor4, noMix;
     
     //Timer and listener for droplets
-	int delay = 3550; //milliseconds
+	int delay = 3000; //milliseconds
 	int rightListCount = 0;
 	int leftListCount = 0;
 	
