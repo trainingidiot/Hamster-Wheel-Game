@@ -605,7 +605,7 @@ public class GameLevel extends BasicGameState {
 		g.setColor(Color.white);
          g.drawString(level, 10, 8);
          int points2 = (int)points;
-         g.drawString("Points: " + Integer.toString(points2), 280, 8);
+         g.drawString("Time Left: " + Integer.toString(points2), 260, 8);
          
 
          // droplets drawing size=22
