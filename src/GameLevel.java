@@ -128,11 +128,7 @@ public class GameLevel extends BasicGameState {
 		dropletList = list;
 		ArrayList<String> goal = dropletList.getList(state).getGoalState();
 		
-		for(int i = 0; i < goal.size(); i++)
-		{
-			System.out.print(goal.get(i));
-		}
-		System.out.println();
+
 		for (int i=0; i<4; i++)
 		{
 			String color = goal.get(i);
@@ -175,7 +171,6 @@ public class GameLevel extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		System.out.println("enter");
 		
 		started = false;
 		points = 500;
@@ -534,7 +529,6 @@ public class GameLevel extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		System.out.println("init");
 		gc.setShowFPS(false);
 		backgroundImage = new Image("images/background/Game_background_final.png");
 		sound = new Sound("resources/Water Drop.wav");
@@ -602,7 +596,6 @@ public class GameLevel extends BasicGameState {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
-		//System.out.println("render");
 		backgroundImage.draw(0,53); 
 		boardTop.draw(0, 0);
 		spigots.draw(154,27);
@@ -636,11 +629,8 @@ public class GameLevel extends BasicGameState {
          //System.out.println("count: "+rightCount + " " + leftCount);
          if(dropAnim == true)
          {
-             System.out.println("droplet: "+dropAnim);
              if(leftList.size()>0 && rightList.size()>0)
              {
-            	 //leftList.remove(0);
-            	 //rightList.remove(0);
             	 count++;
              }
         	 dropAnim = false;
@@ -685,9 +675,7 @@ public class GameLevel extends BasicGameState {
      				leftCount = leftCount-22;
      			}
      		}
-             
-             //leftCount = 138;
-            
+                         
              int rightCount = 241;
              for(int i = count; i < dropletList.getList(state).getCurrentRightList().size(); i++)
              {
@@ -1048,7 +1036,6 @@ public class GameLevel extends BasicGameState {
 	
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
-       //System.out.println("update");
 		if(timedown == true)
 		{
 		points = points-.05f;
