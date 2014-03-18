@@ -72,7 +72,7 @@ public class GameLevel extends BasicGameState {
 	private Boolean drawIndi = false;
 	private Boolean started = false;
 	private float points = 500;
-	Boolean timedown = true;
+	Boolean timedown = false;
 	
 	//music
 	private Sound sound;
@@ -103,12 +103,8 @@ public class GameLevel extends BasicGameState {
 		{
 			if(started==true)
 			{
-			parseList();
-			//dropletsAnimation();
-			}
-			else
-			{
-				timer = new Timer(delay, taskPerformer);
+				parseList();
+				//dropletsAnimation();
 			}
 
 		}
@@ -180,6 +176,11 @@ public class GameLevel extends BasicGameState {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		System.out.println("enter");
+		
+		started = false;
+		points = 500;
+		timedown = false;
+		
 		leftListCount = 0;
 		rightListCount = 0;
 		
@@ -1065,7 +1066,12 @@ public class GameLevel extends BasicGameState {
 	    int ypos = input.getMouseY();
 	    mouse = "Mouse Position x: " + xpos + "  y: " + ypos;
 
-
+	    if(input.isKeyPressed(Input.KEY_ENTER))
+ 		{
+ 			started=true;
+ 			timedown = true;
+ 		}
+	    
          if (input.isKeyDown(Input.KEY_LEFT)==true && container.isPaused() == false)
          {
         	 wheel.setRotation(wheel.getRotation()-1);
@@ -1206,6 +1212,7 @@ public class GameLevel extends BasicGameState {
         		 container.resume();
         		 timer.start();
                  timedown = true;
+                 started = true;
 
         	 }
         	 isMouseOverPlay = true;
@@ -1234,10 +1241,6 @@ public class GameLevel extends BasicGameState {
   				world.destroyBody(wheelArmB);
   				container.resume();
   				sbg.enterState(this.getID()); //enter level selection screen
-  				started = false;
-  				points = 500;
-  		        timedown = true;
-
   			}
   		}else{
   			isMouseOverReplay = false;
@@ -1251,12 +1254,6 @@ public class GameLevel extends BasicGameState {
  			sound.stop();
  			setRating(3); //set the player's rating for number of stars they get
  		}
- 		
- 		if(input.isKeyPressed(Input.KEY_ENTER))
- 		{
- 			started=true;
- 		}
- 		
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
@@ -1289,9 +1286,6 @@ public class GameLevel extends BasicGameState {
  				world.destroyBody(wheelArmA);
  				world.destroyBody(wheelArmB);
  				sbg.enterState(this.getID()); //re-enter game level state
- 				started = false;
- 				points = 500;
- 				timedown = true;
  			}
  			isMouseOverReplay = true;
  			
