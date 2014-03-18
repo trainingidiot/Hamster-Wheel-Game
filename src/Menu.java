@@ -7,8 +7,8 @@ public class Menu extends BasicGameState{
 	//Animation sprite, right;
 	private String mouse ="";
 	private int state;
-	private boolean isMouseOverStartBttn,isMouseOverLvls;
-	private Image background, logo, startBttn,startBttnHover,lvlsBttn,lvlsBttnHover,creditsBttn;; //, bottomBlock;
+	private boolean isMouseOverStartBttn,isMouseOverLvls, isMouseOverCredits;
+	private Image background, logo, startBttn,startBttnHover,lvlsBttn,lvlsBttnHover,creditsBttn,creditsBttnHover; //, bottomBlock;
 	
 	private Music music;
 	
@@ -35,13 +35,14 @@ public class Menu extends BasicGameState{
 		startBttnHover = new Image("images/buttons/Play_pressed_final.png");
 		lvlsBttn = new Image("images/buttons/Levels_neutral_final.png");
 		lvlsBttnHover = new Image("images/buttons/Levels_pressed_final.png");
-		creditsBttn = new Image("images/Stars.png"); //star is place holder art for now
+		creditsBttn = new Image("images/buttons/Credits_neutral_final.png");
+		creditsBttnHover = new Image("images/buttons/Credits_pressed_final.png");
 	}
 	
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		g.drawImage(background, 0,0);
-		g.drawImage(logo, 18,0);
+		g.drawImage(logo, 15,-20);
 //		g.drawString(mouse, 50, 50);
 		//sprite.draw(0,400);
 		//bottomBlock.draw(0,400);
@@ -56,7 +57,10 @@ public class Menu extends BasicGameState{
 		else
 			g.drawImage(lvlsBttn, 160,700);
 		
-		g.drawImage(creditsBttn, 270, 700);
+		if(isMouseOverCredits)
+			g.drawImage(creditsBttnHover, 270, 700);
+		else
+			g.drawImage(creditsBttn, 270, 700);
 		
 		g.setBackground(Color.lightGray);
 	}
@@ -102,10 +106,13 @@ public class Menu extends BasicGameState{
 		}
 		
 		//credits button
-		if((xpos>287 && xpos<334) && (ypos>34 && ypos<80)){
+		if((xpos>287 && xpos<334) && (ypos>21 && ypos<96)){
+			isMouseOverCredits = true;
 			if(input.isMouseButtonDown(0)){
 				sbg.enterState(-2); //enter the credits screen
 			}
+		}else{
+			isMouseOverCredits = false;
 		}
 		
 	}

@@ -14,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Credits extends BasicGameState{
 
 	private int state;
-	private Image backBttn, backBttnSelect;
+	private Image background, backBttn, backBttnSelect, logo;
 	private boolean isMouseOverBack;
 	private Font font, font2;
 	private TrueTypeFont ttf;
@@ -29,32 +29,35 @@ public class Credits extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		gc.setShowFPS(false);
 		
+		background = new Image("images/background/credits_background_final.png");
 		backBttn = new Image("images/buttons/Back_neutral_final.png");
 		backBttnSelect = new Image("images/buttons/Back_pressed_final.png");
+		logo = new Image("images/background/Logo_small.png");
 		
-		font = new Font("Serif", Font.BOLD, 21);
+		font = new Font("Serif", Font.BOLD, 20);
 		ttf = new TrueTypeFont(font, true);
-		font2 = new Font("Serif", Font.BOLD, 18);
+		font2 = new Font("Serif", Font.BOLD, 20);
 		
-		team = "- Jesse Huff \n- Brian Jeon \n- Calvin Liu \n- Kelly Yin \n- Yvonne Zhang";
+		team = "- Jesse Huff, Programmer \n- Brian Jeon, Artist \n- Calvin Liu, Project Manager \n- Kelly Yin, Programmer \n- Yvonne Zhang, Programmer";
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbc, Graphics graphics) throws SlickException {
 //		 graphics.drawString(mouse, 100, 50);
-		 graphics.drawString("Credits", 150, 40);
-		 ttf.drawString(45f, 110f, "Taste The Rainbow by PandaWolves",Color.orange);
+		 graphics.drawImage(background, 0,0);
+		 graphics.drawImage(logo, 60,50);
+		 ttf.drawString(170f, 250f, "by PandaWolves",Color.yellow);
 		 ttf = new TrueTypeFont(font2,true);
-		 ttf.drawString(100f,180f,"Team Members:", Color.red);
-		 graphics.drawString(team, 110, 210);
-		 ttf.drawString(100f, 350f, "Artwork created by:", Color.blue);
-		 graphics.drawString("Brian Jeon", 125, 380);
+		 ttf.drawString(130f,310f,"Team Members:", Color.red);
+		 graphics.drawString(team, 90, 340);
+		 ttf.drawString(125f, 490f, "Artwork Created By:", Color.blue);
+		 graphics.drawString("Brian Jeon", 155, 510);
 		
 		 if(isMouseOverBack){
-			 backBttnSelect.draw(10,10);
+			 backBttnSelect.draw(160,650);
 		 }else
-			 backBttn.draw(10,10);
+			 backBttn.draw(160,650);
 			
 		 
 		
@@ -67,7 +70,7 @@ public class Credits extends BasicGameState{
 		int xpos = gc.getInput().getMouseX();
 		int ypos = gc.getInput().getMouseY();
 		
-		if((xpos>10 && xpos<75) && (ypos>12  && ypos<78)){
+		if((xpos>160 && xpos<219) && (ypos>653  && ypos<711)){
 			isMouseOverBack = true;
 			if(gc.getInput().isMousePressed(0)){
 				sbg.enterState(0); // go back to main menu
