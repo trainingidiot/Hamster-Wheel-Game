@@ -173,8 +173,12 @@ public class GameLevel extends BasicGameState {
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		
 		started = false;
-		points = 500;
 		timedown = false;
+		if(this.state == 2)
+			points = 300;
+		else
+			points = 400;
+		
 		
 		leftListCount = 0;
 		rightListCount = 0;
@@ -1234,13 +1238,13 @@ public class GameLevel extends BasicGameState {
   		}
          
          //Victory
- 		if(input.isKeyPressed(Input.KEY_V)){
- 			isVictory = true;
- 			isFail = false;
- 			victoryScreen.setAlpha(100);
- 			sound.stop();
- 			setRating(3); //set the player's rating for number of stars they get
- 		}
+// 		if(input.isKeyPressed(Input.KEY_V)){
+// 			isVictory = true;
+// 			isFail = false;
+// 			victoryScreen.setAlpha(100);
+// 			sound.stop();
+// 			setRating(3); //set the player's rating for number of stars they get
+// 		}
  		//next button, from victory screen
  		if(isVictory && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){
@@ -1282,12 +1286,12 @@ public class GameLevel extends BasicGameState {
  		
  		
  		//Fail
- 		if(input.isKeyPressed(Input.KEY_F)){
- 			isFail = true;
- 			isVictory = false;
- 			failureScreen.setAlpha(100);
- 			sound.stop();
- 		}
+// 		if(input.isKeyPressed(Input.KEY_F)){
+// 			isFail = true;
+// 			isVictory = false;
+// 			failureScreen.setAlpha(100);
+// 			sound.stop();
+// 		}
  		//menu button from fail screen
  		if(isFail && (xpos>25 && xpos<105) && (ypos>400 && ypos<478)){
  			if(input.isMousePressed(0)){	
