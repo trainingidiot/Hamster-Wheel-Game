@@ -174,8 +174,10 @@ public class GameLevel extends BasicGameState {
 		
 		started = false;
 		timedown = false;
-		if(this.state == 2)
-			points = 300;
+		if(this.state ==1)
+			points = 200;
+		else if(this.state == 2 || this.state ==3)
+			points = 250;
 		else
 			points = 400;
 		
@@ -1649,6 +1651,12 @@ public class GameLevel extends BasicGameState {
 	
 	private void testWin()
 	{
+		if(S1 == 500 || S2 == 500 || S3 == 500 || S4 == 500){
+			timedown = false;
+			isVictory = false;
+			isFail = true;
+			sound.stop();
+		}
 		if (I1==S1)
 		{
 			if(I2==S2)
